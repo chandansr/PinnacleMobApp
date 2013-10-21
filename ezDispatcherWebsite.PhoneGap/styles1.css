@@ -1,0 +1,108 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+@font-face
+{
+    font-family: 'Conv_Oswald-Regular';
+    src: url('fonts/Oswald-Regular.eot');
+    src: local('☺'), url('fonts/Oswald-Regular.woff') format('woff'), url('fonts/Oswald-Regular.ttf') format('truetype'), url('fonts/Oswald-Regular.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+.ui-icon-myapp-mob {
+    background: url(images/mobileicon.png) 50% 50% no-repeat;
+    background-size: 30px 30px;
+    margin-top: -10px !important;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.ui-icon-status-dispatched
+{    
+    background: url(images/Statuses/Dispatch.png) 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+.ui-icon-status-enroute {    
+    background: url(images/Statuses/enroute.png) 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+.ui-icon-status-onscene {    
+    background: url(images/Statuses/On-Scene.png) 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+.ui-icon-status-contact {    
+    background: url("images/Statuses/Pt Contact.png") 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+.ui-icon-status-transport {    
+    background: url(images/Statuses/transporting.png) 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+.ui-icon-status-arrived {    
+    background: url("images/Statuses/At Destination.png") 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+.ui-icon-status-clear {    
+    background: url(images/Statuses/clear.png) 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+
+
+.ui-icon-status-dispatched-w
+{    
+    background: url(images/Statuses/Dispatch_w.png) 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+.ui-icon-status-enroute-w {    
+    background: url(images/Statuses/enroute_w.png) 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+.ui-icon-status-onscene-w {    
+    background: url(images/Statuses/On-Scene_w.png) 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+.ui-icon-status-contact-w {    
+    background: url("images/Statuses/Pt Contact_w.png") 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+.ui-icon-status-transport-w {    
+    background: url(images/Statuses/transporting_w.png) 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+.ui-icon-status-arrived-w {    
+    background: url("images/Statuses/At Destination_w.png") 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+.ui-icon-status-clear-w {    
+    background: url(images/Statuses/clear_w.png) 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+
+.ui-icon-status-location {    
+    background: url(images/location.png) 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+.ui-icon-status-location-w {    
+    background: url(images/location_w.png) 50% 50% no-repeat;
+    background-size: 18px 18px;    
+}
+
+
+/*------------Css By Me--------------------*/

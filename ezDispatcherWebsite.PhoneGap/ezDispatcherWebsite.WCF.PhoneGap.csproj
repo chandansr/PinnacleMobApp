@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F935462D-43A6-48C6-8F5F-542D5DE1FE14}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ezDispatcherWebsite.PhoneGap</RootNamespace>
+    <AssemblyName>ezDispatcherWebsite.PhoneGap</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CallDetails.html" />
+    <Content Include="css\jqm-docs.css" />
+    <Content Include="css\themes\default\images\ajax-loader.gif" />
+    <Content Include="css\themes\default\images\icons-18-black.png" />
+    <Content Include="css\themes\default\images\icons-18-white.png" />
+    <Content Include="css\themes\default\images\icons-36-black.png" />
+    <Content Include="css\themes\default\images\icons-36-white.png" />
+    <Content Include="css\themes\default\jquery.mobile-1.2.0.css" />
+    <Content Include="css\themes\default\jquery.mobile-1.2.0.min.css" />
+    <Content Include="css\themes\default\jquery.mobile.structure-1.2.0.css" />
+    <Content Include="css\themes\default\jquery.mobile.structure-1.2.0.min.css" />
+    <Content Include="css\themes\default\jquery.mobile.theme-1.2.0.css" />
+    <Content Include="css\themes\default\jquery.mobile.theme-1.2.0.min.css" />
+    <Content Include="currencall.html" />
+    <Content Include="dashboard.html" />
+    <Content Include="DispatcherCallList.html" />
+    <Content Include="ezDispatcherCallDetail.html" />
+    <Content Include="fonts\Oswald-Regular.svg" />
+    <Content Include="HTMLPage1.htm" />
+    <Content Include="images\arrowRit.png" />
+    <Content Include="images\bdr.png" />
+    <Content Include="images\bg-noise.png" />
+    <Content Include="images\blank.png" />
+    <Content Include="images\blueHeader.png" />
+    <Content Include="images\blue_hdng_bar.png" />
+    <Content Include="images\bodytopbg.gif" />
+    <Content Include="images\body_bg.gif" />
+    <Content Include="images\bottmlnkBg.jpg" />
+    <Content Include="images\call01.png" />
+    <Content Include="images\currentcall.png" />
+    <Content Include="images\dark_bluttab_bg.png" />
+    <Content Include="images\details.png" />
+    <Content Include="images\dvdr.jpg" />
+    <Content Include="images\grayBg.jpg" />
+    <Content Include="images\grayline.jpg" />
+    <Content Include="images\gry_bar.png" />
+    <Content Include="images\icon_arrowup.png" />
+    <Content Include="images\icon_arrowuph.png" />
+    <Content Include="images\icon_blank.png" />
+    <Content Include="images\icon_blankh.png" />
+    <Content Include="images\icon_list.png" />
+    <Content Include="images\icon_listh.png" />
+    <Content Include="images\icon_logout.png" />
+    <Content Include="images\icon_logouth.png" />
+    <Content Include="images\icon_mobile.png" />
+    <Content Include="images\icon_mobileh.png" />
+    <Content Include="images\icon_van.png" />
+    <Content Include="images\images.jpg" />
+    <Content Include="images\liBg.png" />
+    <Content Include="images\Listimages\album-af.jpg" />
+    <Content Include="images\Listimages\album-ag.jpg" />
+    <Content Include="images\Listimages\album-bb.jpg" />
+    <Content Include="images\Listimages\album-bk.jpg" />
+    <Content Include="images\Listimages\album-hc.jpg" />
+    <Content Include="images\Listimages\album-k.jpg" />
+    <Content Include="images\Listimages\album-mg.jpg" />
+    <Content Include="images\Listimages\album-ok.jpg" />
+    <Content Include="images\Listimages\album-p.jpg" />
+    <Content Include="images\Listimages\album-rh.jpg" />
+    <Content Include="images\Listimages\album-ws.jpg" />
+    <Content Include="images\Listimages\album-xx.jpg" />
+    <Content Include="images\Listimages\ambulance.jpg" />
+    <Content Include="images\Listimages\de.png" />
+    <Content Include="images\Listimages\fi.png" />
+    <Content Include="images\Listimages\gb.png" />
+    <Content Include="images\Listimages\gf.png" />
+    <Content Include="images\Listimages\sj.png" />
+    <Content Include="images\Listimages\us.png" />
+    <Content Include="images\inp_bg.png" />
+    <Content Include="images\logo.gif" />
+    <Content Include="images\logo.png" />
+    <Content Include="images\navigatin.png" />
+    <Content Include="images\navigation.png" />
+    <Content Include="images\nav_bg.png" />
+    <Content Include="images\slidebg2.jpg" />
+    <Content Include="images\slidebg3.jpg" />
+    <Content Include="images\slide_bg.jpg" />
+    <Content Include="images\spacer.gif" />
+    <Content Include="Index.html" />
+    <Content Include="Location.htm" />
+    <Content Include="Location1.html" />
+    <Content Include="Location2.html" />
+    <Content Include="maps.html" />
+    <Content Include="Maps\map-intro.htm" />
+    <Content Include="Maps\map-intro.html" />
+    <Content Include="Maps\map.htm" />
+    <Content Include="Maps\map.html" />
+    <Content Include="Maps\maps.js" />
+    <Content Include="Scripts\ezPathMapping.js" />
+    <Content Include="Scripts\EzScripts\CallInfo.js" />
+    <Content Include="Scripts\EzScripts\DispatcherCallDetails.js" />
+    <Content Include="Scripts\EzScripts\DispatcherCalllist.js" />
+    <Content Include="Scripts\EzScripts\TimeStampsInfo.js" />
+    <Content Include="Scripts\geo.js" />
+    <Content Include="Scripts\GoogleApi.js" />
+    <Content Include="mobile_styles.css" />
+    <Content Include="Scripts\ezDispatcher.js" />
+    <Content Include="Scripts\ezDispatcherWCF.js" />
+    <Content Include="Scripts\GMap.js" />
+    <Content Include="Scripts\GoogleMap\backbone-0.5.3\backbone.min.js" />
+    <Content Include="Scripts\GoogleMap\demo.js" />
+    <Content Include="Scripts\GoogleMap\jquery-1.7.1\jquery.min.js" />
+    <Content Include="Scripts\GoogleMap\jquery-mobile-1.0\jquery.mobile.min.js" />
+    <Content Include="Scripts\GoogleMap\jquery.ui-1.8.15\jquery.ui.autocomplete.min.js" />
+    <Content Include="Scripts\GoogleMap\LiveGoogleMapApi.js" />
+    <Content Include="Scripts\GoogleMap\marker-with-label-1.1.5\marker.with.label.min.js" />
+    <Content Include="Scripts\GoogleMap\markerclustererplus-2.0.6\markerclusterer.min.js" />
+    <Content Include="Scripts\GoogleMap\modernizr-2.0.6\modernizr.min.js" />
+    <Content Include="Scripts\GoogleMap\prettify\prettify.min.js" />
+    <Content Include="Scripts\GoogleMap\ui\jquery.ui.map.extensions.js" />
+    <Content Include="Scripts\GoogleMap\ui\jquery.ui.map.js" />
+    <Content Include="Scripts\GoogleMap\ui\jquery.ui.map.microdata.js" />
+    <Content Include="Scripts\GoogleMap\ui\jquery.ui.map.microformat.js" />
+    <Content Include="Scripts\GoogleMap\ui\jquery.ui.map.overlays.js" />
+    <Content Include="Scripts\GoogleMap\ui\jquery.ui.map.rdfa.js" />
+    <Content Include="Scripts\GoogleMap\ui\jquery.ui.map.services.js" />
+    <Content Include="Scripts\GoogleMap\ui\min\jquery.ui.map.full.min.js" />
+    <Content Include="Scripts\GoogleMap\ui\min\jquery.ui.map.microdata.min.js" />
+    <Content Include="Scripts\GoogleMap\ui\min\jquery.ui.map.microformat.min.js" />
+    <Content Include="Scripts\GoogleMap\ui\min\jquery.ui.map.min.js" />
+    <Content Include="Scripts\GoogleMap\ui\min\jquery.ui.map.overlays.min.js" />
+    <Content Include="Scripts\GoogleMap\ui\min\jquery.ui.map.rdfa.min.js" />
+    <Content Include="Scripts\GoogleMap\ui\min\jquery.ui.map.services.min.js" />
+    <Content Include="Scripts\GoogleMap\underscore-1.2.2\underscore.min.js" />
+    <Content Include="Scripts\gps.jquery.js" />
+    <Content Include="Scripts\jqm-docs.js" />
+    <Content Include="Scripts\jquery-1.4.4.min.js" />
+    <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\jquery.js" />
+    <Content Include="Scripts\jquery.mobile-1.2.0.js" />
+    <Content Include="Scripts\jquery.mobile-1.2.0.min.js" />
+    <Content Include="Scripts\jquery.mobile.fastButtons.js" />
+    <Content Include="Scripts\jquery.tmpl.min.js" />
+    <Content Include="Scripts\jquery.url.js" />
+    <Content Include="Scripts\NumberTrack.js" />
+    <Content Include="Scripts\purl.js" />
+    <Content Include="styles.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fonts\Oswald-Regular.eot" />
+    <None Include="fonts\Oswald-Regular.ttf" />
+    <Content Include="TimeStamps.html" />
+    <Content Include="ToFromMaps.html" />
+    <Content Include="web.config" />
+    <Content Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </Content>
+    <Content Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>52014</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

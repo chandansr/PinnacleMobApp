@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ezdispatcher</title>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-icon" href="mobify-icon_2.png" />
+    <link rel="canonical" href="#" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" href="styles.css" type="text/css" media="screen" title="main" charset="utf-8" />
+    <link rel="stylesheet" href="mobile_styles.css" type="text/css" media="only screen and (max-device-width: 480px) and (min-device-width: 320px)" title="main" charset="utf-8" />
+
+    <link href="css/jquery.mobile-1.3.1.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/jqm-docs.css" />
+
+    <!--Register Script-->
+    <script src="Scripts/jquery.js" type="text/javascript"></script>
+    <script src="Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="Scripts/jqm-docs.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.mobile-1.3.1.js"></script>
+
+    <script src="Scripts/purl.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="css/jqm-docs.css" />
+    <script src="http://code.google.com/apis/gears/gears_init.js" type="text/javascript"
+        charset="utf-8"></script>
+
+
+    <script type="text/javascript" src="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog2.js"></script>
+    <script type="text/javascript" src="http://dev.jtsage.com/jQM-SimpleDialog/demos2/extras.js"></script>
+    <link type="text/css" href="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog.min.css" rel="stylesheet" />
+
+
+    <script src="Scripts/ezDispatcher.js" type="text/javascript"></script>
+    <script src="Scripts/ezDispatcherWCF.js" type="text/javascript"></script>
+    <script src="Scripts/EzScripts/TimeStampsInfo.js" type="text/javascript"></script>
+
+    <script type="application/x-javascript">
+	if (navigator.userAgent.indexOf('iPhone') != -1) {
+	addEventListener("load", function() {
+	setTimeout(hideURLbar, 0);
+	}, false);
+	}
+	
+	function hideURLbar() {
+		window.scrollTo(0, 1);
+	}            
+    </script>
+
+</head>
+
+<body class="body_bg">
+
+
+    <div data-role="page" class="footer_wrapper" id="AddRequestPatientAddressNotes" data-mypage="AddRequestPatientAddressNotes" data-position="fixed">
+
+        <!--wrapper start-->
+        <div class="wrapper">
+            <div data-role="header" class="header" style="width: 100%">
+                <table style="width: 100%">
+                    <tr>
+                        <td></td>
+                        <td>
+                            <p class="logo">
+                                <!--<img src="images/logo.png" alt="" class="logo">-->
+                            </p>
+                        </td>
+                        <td>
+                            <div class="clear">
+                                <img src="images/spacer.gif" width="1" height="1" alt="">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="spacer10"></div>
+                <div data-role="navbar" id="navbar">
+                    <ul>
+                        <li><a data-iconpos="top" data-icon="back" data-rel="back" href="#">Back</a></li>
+                        <li><span onclick="javascript:GetUrl(_SiteUrl.detail);"><a data-iconpos="top" data-icon="home">Home</a></span></li>                        
+                        <li class="SuperVisorOptionTab" style="display: none;" data-theme="b">
+                                <a href="#PanelForSupV" data-iconpos="top" data-icon="gear">Units</a></li>
+                        <li class="ui-CallListAlert-container"><span id="CallListAlertSpan"></span>
+                            <span onclick="javascript:GetUrl(_SiteUrl.CallList);"><a data-iconpos="top" data-icon="bars">Calls</a></span></li>                        
+                        <li><a data-iconpos="top" data-icon="info" href="index.html" data-transition="slide">Logout</a></li>
+                    </ul>
+                </div>
+                <!-- /navbar -->
+            </div>
+            <!--header end-->
+            <!--content start-->
+            <section class="content2">
+                <div class="clear"></div>
+
+                <article class="artical2">
+                    <div class="blu_row clearfix">
+                        <span class="right SpanUnitName" id="SpanAddNoteUnit">UNIT : ALPHA</span> <span class="left SpanTripName" id="SpanTripAddNote">TRIP : EZ-57023 </span>
+                        <label class="left">
+                            <img src="images/spacer.gif" width="1" height="1" alt=""></label>
+                    </div>
+                    <div class="row_cont">
+                        <div class="gray_row clearfix">
+                            <div class="infoPannl">
+                                <div>
+                                    <h1 id="StatusHeadAddNote">Status: Transport</h1>
+
+                                    <div class="spacer10"></div>
+
+                                    <div class="spacer5"></div>
+                                    <h5>Patient Address Note to Dispatcher</h5>
+
+                                    <div class="spacer10"></div>
+                                    <h5>First Name <span style="color: red;">*</span></h5>
+                                    <input type="text" name="FirstName" id="txtFName" value="" required="required" placeholder="Put Patient First Name here" maxlength="50" style="width: 100%" />
+
+                                    <div class="spacer10"></div>
+                                    <h5>Last Name</h5>
+                                    <input type="text" name="LastName" id="txtLName" value="" placeholder="Put Patient Last Name here" maxlength="50" style="width: 100%" />
+
+                                    <div class="spacer10"></div>
+                                    <h5>Date of Birth</h5>
+                                    <input name="DOB" id="txtDOB" type="date" style="width: 100%" />
+
+                                    <div class="spacer10"></div>
+                                    <h5>Gender</h5>
+                                    <select name="PatientGender" id="flpGender" data-role="slider" data-theme="a">
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+                                    </select>
+
+                                    <div class="spacer10"></div>
+                                    <h5>SSN  <span style="color: red;">*</span></h5>
+                                    <input type="tel" name="SSN" id="txtSSN" value="" placeholder="Put SSN here" maxlength="15" style="width: 100%" />
+
+                                    <div class="spacer10"></div>
+                                    <h5>Phone</h5>
+                                    <input type="tel" name="Phone" id="txtPhone" value="" placeholder="999-999-9999" pattern="\d{3}[-\s]\d{3}[-\s]\d{4}.*?$" maxlength="11" style="width: 100%" />
+
+
+                                    <div class="spacer10"></div>
+                                    <h5>Patient Weight</h5>
+                                    <input type="number" name="PatientWeight" pattern="[0-9]*" id="txtPatientWeight" value="" placeholder="Put Patient Weight here" maxlength="5" style="width: 100%" />
+
+                                    <div class="spacer10"></div>
+                                    <h5>Patient Height</h5>
+                                    <input type="number" name="PatientHeight" pattern="[0-9]*" id="txtPatientHeight" value="" placeholder="Put Patient Height here" maxlength="5" style="width: 100%" />
+
+                                    <div class="spacer10"></div>
+                                    <h5>Street</h5>
+                                    <input type="text" name="Street" id="txtStreet" value="" placeholder="Put Street details here" style="width: 100%" />
+
+                                    <div class="spacer10"></div>
+                                    <h5>Apartment</h5>
+                                    <input type="text" name="Apartment" id="txtApartment" value="" placeholder="Put Apartment details here" style="width: 100%" />
+
+                                    <div class="spacer10"></div>
+                                    <h5>City  <span style="color: red;">*</span></h5>
+                                    <input type="text" name="City" id="txtCity" value="" placeholder="Put City name here" style="width: 100%" />
+
+                                    <div class="spacer10"></div>
+                                    <h5>State  <span style="color: red;">*</span></h5>
+                                    <div style="width: 94%;">
+                                        <select name="select-choice-b" id="selectState">
+                                            <option value="0">Select</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="spacer10"></div>
+                                    <h5>Zip</h5>
+                                    <input type="tel" name="ZIP" id="txtZIP" value="" placeholder="Put ZIP code here" maxlength="50" style="width: 100%" />
+
+                                    <div class="spacer10"></div>
+                                    <h5>Patient Alerts</h5>
+                                    <textarea cols="40" rows="10" name="PatientAlerts" id="txtPatientAlerts" placeholder="Put Patient Alerts here" style="width: 100%"></textarea>
+                                    <div class="spacer5"></div>
+
+                                    <input type="checkbox" name="checkbox-Pick" id="chkSameForPick" class="custom" />
+                                    <label for="chkSameForPick">Pick-up Address same as Drop-up Address</label>
+                                    <input type="checkbox" name="checkbox-Drop" id="chkSameForDrop" class="custom" />
+                                    <label for="chkSameForDrop">Drop-up Address same as Pick-up Address</label>
+                                    <input type="checkbox" name="checkbox-InsuranceInfo" id="chkInsuranceInfo" class="custom" />
+                                    <label for="chkInsuranceInfo">Insurances Information</label>
+
+
+
+                                    <div id="InsuranceInfoDiv" style="display: none;">
+                                        <div class="spacer10"></div>
+                                        <h5>Unknown</h5>
+                                        <select name="InsuranceUnknown" id="flpUnknown" instype="Unknown" insuranceproviderid="72" data-role="slider" class="InsuranceSwitchAll">
+                                            <option value="off">N</option>
+                                            <option value="on">Y</option>
+                                        </select>
+
+                                        <div class="spacer10"></div>
+                                        <h5>Self Pay</h5>
+                                        <select name="InsuranceSelfPay" id="flpSelfPay" instype="SelfPay" insuranceproviderid="73" data-role="slider" class="InsuranceSwitch InsuranceSwitchAll">
+                                            <option value="off">N</option>
+                                            <option value="on">Y</option>
+                                        </select>
+
+                                        <div class="spacer10"></div>
+                                        <h5>Medicare</h5>
+                                        <select name="InsuranceMedicare" id="flpMedicare" instype="Medicare" data-role="slider" insuranceproviderid="74" class="InsuranceSwitch InsuranceSwitchAll">
+                                            <option value="off">N</option>
+                                            <option value="on">Y</option>
+                                        </select>
+                                        <div id="InsuranceMedicareDiv" style="display: none;" class="InsuranceOtherInfoDiv">
+                                            <h5>Policy # <span style="color: red;">*</span></h5>
+                                            <input type="text" name="InsMedicarePolicy#" id="txtInsMedicarePolicy#" instype="PolicyNo" value="" required="required" placeholder="Policy Number" style="width: 100%" maxlength="20" />
+                                        </div>
+
+                                        <div class="spacer10"></div>
+                                        <h5>Managed Medicare</h5>
+                                        <select name="InsuranceMgdMedicare" id="flpMgdMedicare" data-role="slider" instype="ManagedMedicare" insuranceproviderid="75" class="InsuranceSwitch InsuranceSwitchAll">
+                                            <option value="off">N</option>
+                                            <option value="on">Y</option>
+                                        </select>
+                                        <div id="InsuranceMgdMedicareDiv" style="display: none;" class="InsuranceOtherInfoDiv">
+                                            <h5>Type or Provider <span style="color: red;">*</span></h5>
+                                            <input type="text" name="InsMgdMedicareTypeOrProvider" id="txtInsMgdMedicareTypeOrProvider" instype="TypeOrProvider" value="" required="required" placeholder="Type or Provider" style="width: 100%" maxlength="50" />
+                                            <h5>Policy #<span style="color: red;">*</span></h5>
+                                            <input type="text" name="InsMgdMedicarePolicy#" id="txtInsMgdMedicarePolicy#" value="" placeholder="Policy Number" instype="PolicyNo" style="width: 100%" required="required" maxlength="20" />
+                                            <h5>Authorization #</h5>
+                                            <input type="text" name="InsMgdMedicareAuthorization#" id="txtInsMgdMedicareAuthorization#" value="" placeholder="Authorization Number" instype="AuthorizationNo" style="width: 100%" maxlength="20" />
+                                        </div>
+
+
+                                        <div class="spacer10"></div>
+                                        <h5>Medicaid</h5>
+                                        <select name="InsuranceMedicaid" id="flpMedicaid" data-role="slider" class="InsuranceSwitch InsuranceSwitchAll" instype="Medicaid" insuranceproviderid="76">
+                                            <option value="off">N</option>
+                                            <option value="on">Y</option>
+                                        </select>
+                                        <div id="InsuranceMedicaidDiv" style="display: none;" class="InsuranceOtherInfoDiv">
+                                            <h5>Type or Provider <span style="color: red;">*</span></h5>
+                                            <input type="text" name="InsMedicaidTypeOrProvider" id="txtInsMedicaidTypeOrProvider" required="required" instype="TypeOrProvider" value="" placeholder="Type or Provider" style="width: 100%" maxlength="50" />
+                                            <h5>Policy #<span style="color: red;">*</span></h5>
+                                            <input type="text" name="InsMedicaidPolicy#" id="txtInsMedicaidPolicy#" value="" required="required" placeholder="Policy Number" instype="PolicyNo" style="width: 100%" maxlength="20" />
+                                        </div>
+
+
+                                        <div class="spacer10"></div>
+                                        <h5>Bill Facility</h5>
+                                        <select name="InsuranceBillFacility" id="flpBillFacility" data-role="slider" class="InsuranceSwitch InsuranceSwitchAll" instype="BillFacility" insuranceproviderid="77">
+                                            <option value="off">Y</option>
+                                            <option value="on">N</option>
+                                        </select>
+                                        <div id="InsuranceBillFacilityDiv" style="display: none;" class="InsuranceOtherInfoDiv">
+                                            <h5>Authorization Number</h5>
+                                            <input type="text" name="InsBillFacilityAuthorization#" id="txtInsBillFacilityAuthorization#" value="" instype="AuthorizationNo" placeholder="Authorization Number" style="width: 100%" maxlength="20" />
+                                            <h5>Approved By</h5>
+                                            <input type="text" name="InsBillFacilityApprovedBy" id="txtInsBillFacilityApprovedBy" value="" placeholder="Approved By" instype="ApprovedBy" style="width: 100%" />
+                                        </div>
+
+
+                                        <div class="spacer10"></div>
+                                        <h5>Other</h5>
+                                        <select name="InsuranceOther" id="flpOther" data-role="slider" class="InsuranceSwitch InsuranceSwitchAll" instype="Other" insuranceproviderid="78">
+                                            <option value="off">N</option>
+                                            <option value="on">Y</option>
+                                        </select>
+                                        <div id="InsuranceOtherDiv" style="display: none;" class="InsuranceOtherInfoDiv">
+                                            <div otherid="500" class="InsurenceProvidersothersDiv">
+                                                <h5>1.</h5>
+                                                <p>
+                                                    <input type="text" name="InsOther1TypeOrProvider" id="txtInsOther1TypeOrProvider" value="" instype="TypeOrProvider" placeholder="Type or Provider" style="width: 33%" maxlength="50" />
+                                                    <input type="text" name="InsOther1Policy#" id="txtInsOther1Policy#" value="" placeholder="Policy Number" style="width: 33%" instype="PolicyNo" maxlength="20" />
+                                                    <input type="text" name="InsOther1Authorization#" id="txtInsOther1Authorization#" value="" placeholder="Authorization Number" style="width: 33%" instype="AuthorizationNo" maxlength="20" />
+                                                </p>
+                                            </div>
+                                            <div otherid="501" class="InsurenceProvidersothersDiv">
+                                                <h5>2.</h5>
+                                                <p>
+                                                    <input type="text" name="InsOther2TypeOrProvider" id="txtInsOther2TypeOrProvider" value="" placeholder="Type or Provider" style="width: 33%" instype="TypeOrProvider" maxlength="50" />
+                                                    <input type="text" name="InsOther2Policy#" id="txtInsOther2Policy#" value="" placeholder="Policy Number" style="width: 33%" instype="PolicyNo" maxlength="20" />
+                                                    <input type="text" name="InsOther2Authorization#" id="txtInsOther2Authorization#" value="" placeholder="Authorization Number" style="width: 33%" instype="AuthorizationNo" maxlength="20" />
+                                                </p>
+                                            </div>
+                                            <div otherid="502" class="InsurenceProvidersothersDiv">
+                                                <h5>3.</h5>
+                                                <p>
+                                                    <input type="text" name="InsOther3TypeOrProvider" id="txtInsOther3TypeOrProvider" value="" placeholder="Type or Provider" style="width: 33%" instype="TypeOrProvider" maxlength="50" />
+                                                    <input type="text" name="InsOther3Policy#" id="txtInsOther3Policy" value="" placeholder="Policy Number" style="width: 33%" instype="PolicyNo" maxlength="20" />
+                                                    <input type="text" name="InsOther3Authorization#" id="txtInsOther3Authorization" value="" placeholder="Authorization Number" style="width: 33%" instype="AuthorizationNo" maxlength="20" />
+                                                </p>
+                                            </div>
+                                            <div otherid="503" class="InsurenceProvidersothersDiv">
+                                                <h5>4.</h5>
+                                                <p>
+                                                    <input type="text" name="InsOther4TypeOrProvider" id="txtInsOther4TypeOrProvider" value="" placeholder="Type or Provider" style="width: 33%" instype="TypeOrProvider" maxlength="50" />
+                                                    <input type="text" name="InsOther4Policy#" id="txtInsOther4Policy" value="" placeholder="Policy Number" style="width: 33%" instype="PolicyNo" maxlength="20" />
+                                                    <input type="text" name="InsOther4Authorization#" id="txtInsOther4Authorization" value="" placeholder="Authorization Number" style="width: 33%" instype="AuthorizationNo" maxlength="20" />
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="spacer5"></div>
+                                    <input type="submit" id="btnSaveNotes" value="Save" data-theme="b" data-icon="check" data-iconpos="left" onclick="SavePatientAddressNotesDetails();" style="width: 94%" />
+                                    <input type="submit" id="btnBackAddNote" value="Back" data-theme="f" data-icon="back" onclick="javascript: history.back();" data-iconpos="left" style="width: 94%" />
+
+                                    <div class="clear"></div>
+                                </div>
+
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="clear"></div>
+                </article>
+                <div class="clear"></div>
+            </section>
+
+        </div>
+        <!--wrapper End-->
+       
+         <!-- leftpanel2  -->
+        <div data-role="panel" id="PanelForSupV" data-position="left" data-display="push" data-theme="a" class="SidePanel">            
+           <div class="spacer10"></div>
+            <p>
+                <a href="#" class="CloseForFocus">Welcome</a>
+                <h2 class="SuperVisorName" style="color: greenyellow; margin: 0px 0px 0px 35%;"></h2>
+            </p>
+            <p style="margin-top: 21px; margin-bottom: 15px;">you have login as a <b>SuperVisor</b></p>
+             <input type="submit" id="btnGotoUnitCallList" value="Unit Calls" onclick="javascript: GetSupVCallListPath('');" data-theme="b" data-icon="arrow-r" data-iconpos="right" />
+            <input type="submit" id="btnFilterUnit" value="Filter Unit" data-theme="b" onclick="javascript: ShowSuperVisorUnitPopUp();" data-icon="arrow-r" data-iconpos="right" />            
+            <a data-icon="info" href="index.html" data-transition="slide" data-iconpos="right" data-role="button" id="btnPanelLogout" data-theme="b">Logout</a>
+            <a href="#demo-links" data-rel="close" data-role="button" id="btnPanelClose" data-theme="a" data-icon="delete">Close</a>
+        </div>
+        <!-- /leftpanel2 -->
+    </div>
+
+</body>
+</html>

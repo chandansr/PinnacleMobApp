@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ezdispatcher</title>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-icon" href="mobify-icon_2.png" />
+    <link rel="canonical" href="#" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" href="styles.css" type="text/css" media="screen" title="main" charset="utf-8" />
+    <link rel="stylesheet" href="mobile_styles.css" type="text/css" media="only screen and (max-device-width: 480px) and (min-device-width: 320px)" title="main" charset="utf-8" />
+    
+    <link href="css/jquery.mobile-1.3.1.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/jqm-docs.css" />
+         
+    <!--Register Script-->
+    <script src="Scripts/jquery.js" type="text/javascript"></script>       
+    <script src="Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="Scripts/jqm-docs.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.mobile-1.3.1.js"></script>    
+    
+    <script src="Scripts/purl.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="css/jqm-docs.css" />
+    <script src="http://code.google.com/apis/gears/gears_init.js" type="text/javascript"
+        charset="utf-8"></script>
+
+
+    <script type="text/javascript" src="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog2.js"></script>
+    <script type="text/javascript" src="http://dev.jtsage.com/jQM-SimpleDialog/demos2/extras.js"></script>
+    <link type="text/css" href="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog.min.css" rel="stylesheet" />
+
+
+    <script src="Scripts/ezDispatcher.js" type="text/javascript"></script>
+    <script src="Scripts/ezDispatcherWCF.js" type="text/javascript"></script>
+    <script src="Scripts/EzScripts/TimeStampsInfo.js" type="text/javascript"></script>
+
+    <!--link media="only screen and (max-device-width: 480px) and (min-device-width: 320px)" href="mobile.css" type="text/css" rel="stylesheet" /> 
+    <link media="handheld, only screen and (max-device-width: 320px)" href="mobile.css" type="text/css" rel="stylesheet" /-->
+    <script type="application/x-javascript">
+    if (navigator.userAgent.indexOf('iPhone') != -1) {
+    addEventListener("load", function() {
+    setTimeout(hideURLbar, 0);
+    }, false);
+    }
+    
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    }            
+    </script>
+
+</head>
+
+<body class="body_bg">
+
+
+    <div data-role="page" class="footer_wrapper" id="TimeStampContact" data-mypage="TimeStampContact" data-position="fixed">
+        <div class='AlertMessage ui-shadow ui-corner-all' style="display: none;">
+            <div class="msg-container">
+                <img src="images/ajax-loader.gif" />
+                <span>Processing. Please wait..</span>
+            </div>
+        </div>
+        <!--wrapper start-->
+        <div class="wrapper">
+            <!--header start-->
+            
+            <div data-role="header" class="header" style="width: 100%" data-position="fixed">
+                <table style="width: 100%">
+                    <tr>
+                        <td></td>
+                        <td>
+                            <p class="logo">
+                                <!--<img src="images/logo.png" alt="" class="logo">-->
+                            </p>
+                        </td>
+                        <td>
+                            <div class="clear">
+                                <img src="images/spacer.gif" width="1" height="1" alt="">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="spacer10"></div>
+                <div data-role="navbar" id="navbar">
+                    <ul>
+                        <li><a data-iconpos="top" data-icon="back" data-rel="back" href="#">Back</a></li>
+                        <li><span onclick="javascript:GetUrl(_SiteUrl.detail);"><a data-iconpos="top" data-icon="home">Home</a></span></li>                        
+                        <li class="SuperVisorOptionTab" style="display: none;" data-theme="b">
+                                <a href="#PanelForSupV" data-iconpos="top" data-icon="gear">Units</a></li>
+                        <li class="ui-CallListAlert-container"><span id="CallListAlertSpan"></span>
+                                <span onclick="javascript:GetUrl(_SiteUrl.CallList);"><a data-iconpos="top" data-icon="bars">Calls</a></span></li>                        
+                        <li><a data-iconpos="top" data-icon="info" href="index.html" data-transition="slide">Logout</a></li>
+                    </ul>
+                </div>
+
+                <!-- /navbar -->
+            </div>
+            <!--header end-->
+            <!--content start-->
+            <section class="content2">
+                <div class="clear"></div>
+
+                <article class="artical2">
+                    <div class="blu_row clearfix">
+                        <span class="right SpanUnitName" id="SpanContactUnit">UNIT : ALPHA</span> <span class="left SpanTripName" id="SpanContactTrip">TRIP : EZ-57023 </span>
+                        <label class="left">
+                            <img src="images/spacer.gif" width="1" height="1" alt=""></label>
+                    </div>
+                    <div class="row_cont">
+                        <div class="gray_row clearfix">
+                            <div class="infoPannl">
+                                <div>
+                                    <h1 id="StatusHeadContact">Status: Contact</h1>
+
+                                    <div class="spacer10"></div>
+
+                                    <div id="ContactDynamicFileds" style="width: 94%;">
+                                    </div>
+    
+                                    <div class="spacer5"></div>                                    
+                                    <input type="submit" id="btnSaveTimeStampContact" value="Save" data-theme="b" data-icon="check" onclick="SaveContactTimeStamps()" data-iconpos="left" style="width:94%" />                                    
+                                    <input type="submit" id="btnBackContact" value="Back" data-theme="f" data-icon="back" onclick="javascript: history.back();" data-iconpos="left" style="width:94%" />                                    
+                                    <div class="clear"></div>
+                                </div>
+
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="clear"></div>
+                </article>
+                <div class="clear"></div>
+            </section>
+
+        </div>
+        <!--wrapper End-->
+
+        <!-- leftpanel2  -->
+        <div data-role="panel" id="PanelForSupV" data-position="left" data-display="push" data-theme="a" class="SidePanel">            
+            <div class="spacer10"></div>
+            <p>
+                <a href="#" class="CloseForFocus">Welcome</a>
+                <h2 class="SuperVisorName" style="color: greenyellow; margin: 0px 0px 0px 35%;"></h2>
+            </p>
+            <p style="margin-top: 21px; margin-bottom: 15px;">you have login as a <b>SuperVisor</b></p>
+            <input type="submit" id="btnGotoUnitCallList" value="Unit Calls" onclick="javascript: GetSupVCallListPath('');" data-theme="b" data-icon="arrow-r" data-iconpos="right" />
+            <input type="submit" id="btnFilterUnit" value="Filter Unit" data-theme="b" onclick="javascript: ShowSuperVisorUnitPopUp();" data-icon="arrow-r" data-iconpos="right" />            
+            <a data-icon="info" href="index.html" data-transition="slide" data-iconpos="right" data-role="button" id="btnPanelLogout" data-theme="b">Logout</a>
+            <a href="#demo-links" data-rel="close" data-role="button" id="btnPanelClose" data-theme="a" data-icon="delete">Close</a>
+        </div>
+        <!-- /leftpanel2 -->
+    </div>
+
+</body>
+</html>

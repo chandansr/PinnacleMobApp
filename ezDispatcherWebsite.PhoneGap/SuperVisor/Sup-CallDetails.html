@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ezdispatcher</title>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-icon" href="mobify-icon_2.png" />
+    <link rel="canonical" href="#" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" href="styles.css" type="text/css" media="screen" title="main"
+        charset="utf-8" />
+    <link rel="stylesheet" href="mobile_styles.css" type="text/css" media="only screen and (max-device-width: 480px) and (min-device-width: 320px)"
+        title="main" charset="utf-8" />
+    <link href="css/jquery.mobile-1.3.1.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/jqm-docs.css" />
+         
+    <!--Register Script-->
+    <script src="Scripts/jquery.js" type="text/javascript"></script>       
+    <script src="Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="Scripts/jqm-docs.js" type="text/javascript"></script>
+    <script src="Scripts/jquery.mobile-1.3.1.js"></script>    
+
+    <script src="Scripts/purl.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/jqm-docs.css" />
+    <script src="http://code.google.com/apis/gears/gears_init.js" type="text/javascript"
+        charset="utf-8"></script>
+    <script src="Scripts/ezDispatcher.js" type="text/javascript"></script>
+    <script src="Scripts/ezDispatcherWCF.js" type="text/javascript"></script>
+    <script src="Scripts/EzScripts/CallInfo.js" type="text/javascript"></script>
+    <!--link media="only screen and (max-device-width: 480px) and (min-device-width: 320px)" href="mobile.css" type="text/css" rel="stylesheet" /> 
+    <link media="handheld, only screen and (max-device-width: 320px)" href="mobile.css" type="text/css" rel="stylesheet" /-->
+    <script type="application/x-javascript">
+    if (navigator.userAgent.indexOf('iPhone') != -1) {
+    addEventListener("load", function() {
+    setTimeout(hideURLbar, 0);
+    }, false);
+    }
+    
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    }            
+    </script>
+
+    <style type="text/css">
+        .ui-collapsible-content
+        {
+            height: 30% !important;
+        }
+    </style>
+</head>
+<body class="body_bg">
+    <!--footer wrapper-->
+    <div data-role="page" class="footer_wrapper" data-mypage="sup-CallInfo" data-position="fixed" data-IsSup="1">
+        <div class='AlertMessage ui-shadow ui-corner-all' style="display: none;">
+            <div class="msg-container">
+                <img src="../images/ajax-loader.gif" />
+                <span>Processing. Please wait..</span>
+            </div>
+        </div>
+        <!--wrapper start-->
+        <div class="wrapper">
+            
+            <div data-role="header" class="header" style="width: 100%" data-position="fixed">
+                <table style="width: 100%">
+                    <tr>
+                        <td></td>
+                        <td>
+                            <p class="logo">
+                                <!--<img src="../images/logo.png" alt="" class="logo">-->
+                            </p>
+                        </td>
+                        <td>
+                            <div class="clear">
+                                <img src="../images/spacer.gif" width="1" height="1" alt="">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="spacer10"></div>
+                <div data-role="navbar" id="navbar">
+
+                    <ul>
+                        <li><a data-iconpos="top" data-icon="back" data-rel="back" href="#">Back</a></li>
+                        <li><span onclick="javascript:GetUrl(_SiteUrl.sup_detail1);"><a data-iconpos="top" data-icon="home">Home</a></span></li>                        
+                        <li class="SuperVisorOptionTab" style="display: none;" data-theme="b">
+                            <a href="#PanelForSupV" data-iconpos="top" data-icon="gear" data-theme="b">Units</a></li>                        
+                        <li class="ui-CallListAlert-container"><span id="CallListAlertSpan"></span>
+                                            <span onclick="javascript:GetUrl(_SiteUrl.sup_CallList1);"><a data-iconpos="top" data-icon="bars">My Calls</a></span></li>                        
+                        <li><a data-iconpos="top" data-icon="info" href="../index.html" data-transition="slide">Logout</a></li>
+                    </ul>
+                </div>
+
+                <!-- /navbar -->
+            </div>
+            <!--header end-->
+            <!--content start-->
+            <section class="content2">
+
+                <div class="clear"></div>
+
+                <article class="artical2">
+                    <div class="blu_row clearfix">
+                        <span class="right" id="SpanCallInfoUnitName">UNIT : ALPHA</span> <span class="left" id="SpanCallInfoTrip">TRIP : EZ-57023 </span>
+                        <label class="left">
+                            <img src="images/spacer.gif" width="1" height="1" alt=""></label>
+                    </div>
+
+                    <div class="row_cont">
+                        <div class="clear"></div>
+                        <div data-role="collapsible-set" data-theme="c" data-content-theme="e">
+                            <div class="spacer10"></div>
+                            <div data-role="collapsible" data-collapsed="false">
+                                <h3>Patient Details</h3>
+                                <p>
+                                    <span style="font-weight: bold;">Last Name: </span><span id="PLName"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">First Name: </span><span id="PFName"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Date of Birth: </span><span id="PDOB"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Phone: </span><span id="PPhone"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Alerts: </span><span id="PAlerts"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Street: </span><span id="PStreet"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Apartment: </span><span id="PApartment"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">City: </span><span id="PCity"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">State: </span><span id="PState"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">ZIP: </span><span id="PZIP"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                            </div>
+
+                            <div data-role="collapsible">
+                                <h3>Caller Details</h3>
+                                <p>
+                                    <span style="font-weight: bold;">Caller Name: </span><span id="CallerName"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Caller Facility: </span><span id="CallerFacility"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Caller Mobile: </span><span id="CallerMob"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Caller Phone: </span><span id="CallerPhone"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                            </div>
+
+
+                            <div data-role="collapsible">
+                                <h3>Time Stamp Details</h3>
+                                <p>
+                                    <span style="font-weight: bold;">Assigned: </span><span id="TsAssigned"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Dispatched: </span><span id="TsDispatched"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Enroute: </span><span id="TsEnroute"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">OnScene: </span><span id="TsOnScene"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Contact: </span><span id="TsContact"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Transport: </span><span id="TsTransport"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Arrived: </span><span id="TsArrived"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Clear: </span><span id="TsClear"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                            </div>
+
+
+
+                            <div data-role="collapsible">
+                                <h3>Transportation Details</h3>
+                                <p>
+                                    <span style="font-weight: bold;">Transportation Type: </span><span id="TransportationType"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Is Round Trip: </span><span id="IsRoundTrip"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Pick-up Date: </span><span id="PickupDate"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Pick-up Time: </span><span id="PickupTime"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                            </div>
+
+                            <div data-role="collapsible">
+                                <h3>Pick-Up Details</h3>
+                                <p>
+                                    <span style="font-weight: bold;">Facility: </span><span id="PickFromFacility"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Phone: </span><span id="PickFromPhone"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Address: </span><span id="PickFromAddress"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">City: </span><span id="PickFromCity"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">State: </span><span id="PickFromState"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">ZIP Code: </span><span id="PickFromZip"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Floor or Unit: </span><span id="PickFromFloor"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Room/Bed: </span><span id="PickFromRoom"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Any stairs at location: </span><span id="PickFromStairs"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Any Obstacles: </span><span id="PickFromObstacle"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                            </div>
+
+                            <div data-role="collapsible">
+                                <h3>Drop-Up Details</h3>
+                                <p>
+                                    <span style="font-weight: bold;">Facility: </span><span id="DropToFacility"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Phone: </span><span id="DropToPhone"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Address: </span><span id="DropToAddress"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">City: </span><span id="DropToCity"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">State: </span><span id="DropToState"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">ZIP Code: </span><span id="DropToZIP"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Floor or Unit: </span><span id="DropToFloor"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Room/Bed: </span><span id="DropToRoom"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Any stairs at location: </span><span id="DropToStairs"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Any Obstacles: </span><span id="DropToObstacle"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                            </div>
+
+                            <div data-role="collapsible">
+                                <h3>Transport Details</h3>
+                                <p>
+                                    <span style="font-weight: bold;">Reason For Tx: </span><span id="ReasonForTx"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Anyone Traveling with Patient: </span><span id="PersonWithPatient"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Any Special Needs: </span><span id="AnySpecialNeeds"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Patient requires O2: </span><span id="RequireO2"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Patient over 200 IBS: </span><span id="PatientIBS"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                            </div>
+
+
+                            <div data-role="collapsible">
+                                <h3>Other Details</h3>
+                                <p>
+                                    <span style="font-weight: bold;">Level of Service: </span><span id="LevelOfService"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Level of Transport: </span><span id="LevelOfTransport"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">Level of Response: </span><span id="LevelOfResponse"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    <span style="font-weight: bold;">OutCome: </span><span id="OutCome"></span>
+                                </p>
+                                <p>&nbsp;</p>
+                            </div>
+
+
+                            <div data-role="collapsible">
+                                <h3>Medical Necessity Details</h3>
+                                <p>
+                                    <div id="MedicalNecessityQ"></div>
+                                </p>
+                                <p>&nbsp;</p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="clear"></div>
+
+                    </div>
+
+                    <div class="clear"></div>
+                </article>
+                <div class="clear"></div>
+            </section>
+            <!--content end-->
+            <!--footer start-->
+            <!--<footer class="footer">&copy; Copyright xyz Limited 2012</footer>-->
+            <!--footer End-->
+        </div>
+        <!--wrapper End-->
+
+
+        <!-- leftpanel2  -->
+        <div data-role="panel" id="PanelForSupV" data-position="left" data-display="Reveal" data-theme="a" class="SidePanel">            
+            <div class="spacer10"></div>
+            <p>
+                <a href="#" class="CloseForFocus">Welcome</a>
+                <h2 class="SuperVisorName" style="color: greenyellow; margin: 0px 0px 0px 35%;"></h2>
+            </p>
+            <p style="margin-top: 21px; margin-bottom: 15px;">you have login as a <b>SuperVisor</b></p>
+            <input type="submit" id="btnGotoUnitCallList" value="Unit Calls" onclick="javascript: GetSupVCallListPath('');" data-theme="b" data-icon="arrow-r" data-iconpos="right" />
+            <input type="submit" id="btnFilterUnit" value="Filter Unit" data-theme="b" onclick="javascript: ShowSuperVisorUnitPopUp();" data-icon="arrow-r" data-iconpos="right" />            
+            <a data-icon="info" href="../index.html" data-transition="slide" data-iconpos="right" data-role="button" id="btnPanelLogout" data-theme="b">Logout</a>
+            <a href="#demo-links" data-rel="close" data-role="button" id="btnPanelClose" data-theme="a" data-icon="delete">Close</a>
+        </div>
+        <!-- /leftpanel2 -->
+
+           
+    </div>
+    <!--footer wrapper end-->
+</body>
+</html>
