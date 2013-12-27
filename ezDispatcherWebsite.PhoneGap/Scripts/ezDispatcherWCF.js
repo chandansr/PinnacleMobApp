@@ -146,7 +146,6 @@ function GetCurrentCall() {
         },
         success: function (result) {
             if (result.Data != "") {
-
                 sucess = "1";
                 CallId = $.trim(result.Data);
             }
@@ -159,7 +158,7 @@ function GetCurrentCall() {
             if (sucess == "1") {
                 $.mobile.changePage(path, { data: { "Id": Id, "CallId": CallId, "LocReq": LocReq, "CurrentCallId": CallId }, transition: "slide" });
             }
-            else {                
+            else {
                 showAlert('You are not assigned to any of the call', 'Info');
             }
             new ezphonemessege().hide();
@@ -189,7 +188,7 @@ function SendNotificationToDevice(DeviceId, Message, IsAndroid) {
             });
         },
         success: function (result) {
-            
+
         },
         error: function (xhr) {
             showAlert('Error while sending Notification', 'Info');
@@ -668,7 +667,7 @@ function GetSupVCallsCount() {
         url: ValidateUrl,
         beforeSend: function () {
         },
-        success: function (result) {            
+        success: function (result) {
             var data = result.Data;
             $.each($.mobile.activePage.find("a:jqmData(statusid)"), function () {
                 var id = $(this).data('statusid');
@@ -679,8 +678,8 @@ function GetSupVCallsCount() {
             });
 
             $.each(data, function (i, v) {
-                var sp = $('#SupVCallCount' + v.text);                
-                $.mobile.activePage.find(sp).text(v.value);               
+                var sp = $('#SupVCallCount' + v.text);
+                $.mobile.activePage.find(sp).text(v.value);
             });
         },
         error: function (xhr) {
@@ -691,4 +690,87 @@ function GetSupVCallsCount() {
         }
     });
 
+}
+
+
+function runtimePopupForSupAvlUnits() {
+    var template = "<div data-role='popup' id='popupSupAvlUnits' data-theme='a' data-overlay-theme='a' class='ui-corner-all ui-content messagePopup'>"
+                   + "<form><div style='padding: 10px 20px;'> <h1 id='spAvl-unitname'></h1>"
+                   + "<a href='#' data-rel='back' data-role='button' data-theme='a' data-icon='delete' data-iconpos='notext' class='ui-btn-right right' style='border-top-width: 1px; top: -35px; right: -20px;'>Close</a> <br />"
+                   + "<strong>Primary Crew: </strong><span id='spAvl-priparaname'></span>"
+                   + " <br />"
+                   + "<strong>Available Since: </strong><span id='spAvl-availablesince'></span>"
+                   + " <br />"
+                   + "<strong>Unit Location: </strong><span id='spAvl-unitlocation'></span>"
+                   + " <br /><br />"
+                   + "<a data-role='button' data-theme='b' id='btnshowavlunitlocation' data-icon='forward' onclick='GetSupAvlUnitGoogleLocation();' data-shadow='true'>Show Location</a>"
+                   + "<a data-role='button' data-rel='back' data-theme='b' data-icon='check' data-shadow='true'>Close</a>"
+                   + "</div> </form> </div>"
+
+    $.mobile.activePage.append(template).trigger("create");
+}
+
+function IsValidLatlng(lat, lng) {
+    if (lat == -1 && lng == -1) {
+        return false;
+    }
+    else if (lat == 0 && lng == 0) {
+        return false;
+    }
+    else if ((lat == -1 && lng == 0) || (lat == 0 && lng == -1)) {
+        return false;
+    }
+    else if (lat == undefined || lng == undefined) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function GetmidPoint(latlng1, latlng2) {    
+    var ltln = new Object();
+    ltln.Latitude = (latlng1.Latitude + latlng2.Latitude) / 2;
+    ltln.Longitude = (latlng1.Longitude + latlng2.Longitude) / 2;
+    return (ltln);
+}
+
+
+function GetLocationForAddress(source, destination) {
+    var obj = new Object();
+    var exist = 0;
+    var fromgeocoder = new google.maps.Geocoder();
+    fromgeocoder.geocode({ 'address': source }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {            
+            obj.Fac = source;
+            obj.Latitude = results[0].geometry.location.lat();
+            obj.Longitude = results[0].geometry.location.lng();            
+            $.each(FromToFacLatLng, function (i, dt) {
+                if (dt.Fac == source) {
+                    exist = 1;
+                }
+            });
+            if (exist == 0) {
+                FromToFacLatLng.push(obj);
+            }
+        }
+    });
+
+    var togeocoder = new google.maps.Geocoder();
+    togeocoder.geocode({ 'address': destination }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            obj = new Object();
+            obj.Fac = destination;
+            obj.Latitude = results[0].geometry.location.lat();
+            obj.Longitude = results[0].geometry.location.lng();            
+            $.each(FromToFacLatLng, function (i, dt) {
+                if (dt.Fac == destination) {
+                    exist = 1;
+                }
+            });
+            if (exist == 0) {
+                FromToFacLatLng.push(obj);
+            }
+        }
+    });
 }

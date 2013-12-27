@@ -317,7 +317,7 @@ namespace ezDispatcherWebSite.WCFService
                                    + "<p>Password:<span style=\"text-decoration: underline;\"><strong> " + Password + "</strong></span></p>"
                                    + "<p>&nbsp;</p><p>From,</p><p><strong>Pinnacle Response Systems</strong></p>";
 
-                       // SendEmail(Email, body, "Password Notification", null, null, null);  
+                        SendEmail(Email, body, "Password Notification", null, null, null);  
                     }
                 }
 
@@ -1038,7 +1038,7 @@ namespace ezDispatcherWebSite.WCFService
                 DataSet ds = new DataSet();
                 ezDispathser clsezDispathser = new ezDispathser();
                 ds = clsezDispathser.GetSuperVisorCallList(Id, Status, UnitIds, Offset);
-                List<DispatcherCall> lstSupVCallList = Common.GetJson(ds.Tables[0]);
+                List<SupervisorCalls> lstSupVCallList = Common.GetSupvCallListJson(ds.Tables[0]);
                 
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", lstSupVCallList);

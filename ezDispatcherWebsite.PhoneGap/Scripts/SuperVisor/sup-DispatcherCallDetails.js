@@ -46,7 +46,7 @@ function GetSupVCallDetails() {
             },
             success: function (data) {
                 var result = data.Data;                
-                if (result.length > 0) {
+                if (result.length > 0) {                    
                     for (i = 0; i < result.length; i++) {
                         $("#UnitName").html('<span style="color:#ADEF6F;">' + result[i].Unit + '</span>');
                         $("#Trip").html('<span style="color:#ADEF6F;">' + result[i].Trip + '</span>');
@@ -93,7 +93,7 @@ function GetSupVCallInfoUrl(path) {
 
 function SupVSetGoogleLocation() {
     var from = $('.FromAddress').text();
-    var to = $('.ToAddress').text();
+    var to = $('.ToAddress').text();    
     var Unit = $('#UnitName').text();
     
     $.mobile.changePage(_SiteUrl.sup_ToFromMaps, {

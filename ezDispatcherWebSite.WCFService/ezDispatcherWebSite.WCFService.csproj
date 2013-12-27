@@ -106,6 +106,9 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\Ez-09Dec-2013.pubxml" />
+    <None Include="Properties\PublishProfiles\Ez-WCF-17Dec2013.pubxml" />
+    <None Include="Properties\PublishProfiles\Ez-WCF-24Dec2013.pubxml" />
     <None Include="Properties\PublishProfiles\EzWCF-14Nov2013.pubxml" />
     <None Include="Properties\PublishProfiles\EzWCF.pubxml" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />

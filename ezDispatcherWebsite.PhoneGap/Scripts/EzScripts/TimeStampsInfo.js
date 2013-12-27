@@ -10,8 +10,7 @@ function GetTransportTimeStamp() {
     var Id = getParameterByName("Id");
     var CallId = getParameterByName("CallId");
     var status = getParameterByName("Status");
-    var message = "";    
-    //var Page = $('[data-mypage]:visible').data('mypage');
+    var message = "";        
     var Page = $.mobile.activePage.data('mypage');
 
     if (Page == "TimeStamp") {
@@ -189,8 +188,7 @@ function GetGeneralTimeStamp() {
     var Id = getParameterByName("Id");
     var CallId = getParameterByName("CallId");
     var status = getParameterByName("Status");
-    var message = "";    
-    //var Page = $('[data-mypage]:visible').data('mypage');
+    var message = "";        
     var Page = $.mobile.activePage.data('mypage');
 
     

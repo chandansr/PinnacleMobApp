@@ -12,8 +12,7 @@ function GetPatientAddressNoteDetails() {
     var Id = getParameterByName("Id");
     var CallId = getParameterByName("CallId");
     var status = getParameterByName("Status");
-    var message = "";
-    //var Page = $('[data-mypage]:visible').data('mypage');
+    var message = "";    
     var Page = $.mobile.activePage.data('mypage');
     $.ajax({
         cache: false,
@@ -67,11 +66,13 @@ function showConfirm() {
 }
 
 function SavePatientAddressNotesDetails() {
+
     if (ValidateDetails()) {
         if (ValidateInsuranceInfo()) {
             new ezphonemessege().show({
                 msg: 'Loading..'
             });
+            //getPatientAddressFromLatLang(21.145799999999998, 79.088155);
             navigator.geolocation.getCurrentPosition(function (pos) {
                 var lat = pos.coords.latitude;
                 var lng = pos.coords.longitude;
@@ -130,6 +131,7 @@ function ValidateInsuranceInfo() {
 }
 var x2js = new X2JS();
 function SaveFullPatientAddressNotesDetails(lat, lng, addr) {
+
     new ezphonemessege().show({
         msg: 'Loading..'
     });
@@ -290,6 +292,7 @@ function SaveFullPatientAddressNotesDetails(lat, lng, addr) {
         },
         complete: function () {
             new ezphonemessege().hide();
+            
             if (sucess == "1") {
                 $.mobile.changePage(_SiteUrl.CallDetail, { data: { "Id": ParamedicId, "CallId": CallId, "LocReq": LocReq, "CurrentCallId": CurrentCallId }, transition: "slide" });
             }
@@ -309,14 +312,17 @@ function CheckTextBoxes(a) {
 }
 
 function getPatientAddressFromLatLang(lat, lng) {
+    
     var geocoder = new google.maps.Geocoder();
     var latLng = new google.maps.LatLng(lat, lng);
+    //SaveFullPatientAddressNotesDetails(21.145799999999998, 79.088155, '');
     geocoder.geocode({ 'latLng': latLng }, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
+            
             if (results[1]) {
                 SaveFullPatientAddressNotesDetails(lat, lng, results[1].formatted_address);
             }
-        } else {
+        } else {            
             SaveFullPatientAddressNotesDetails(lat, lng, '');
         }
     });

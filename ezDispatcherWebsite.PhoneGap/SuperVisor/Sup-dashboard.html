@@ -154,11 +154,9 @@
                                 <!--<span class="ui-btn-up-c ui-btn-corner-all"  id="SupVCallCount277"
                                     style="font-size: 11px; font-weight: bold; padding: 0.2em 0.5em; position: fixed; right:40px;">0</span>-->
                     </a>
-                    <a data-role="button" data-icon="status-clear-w" data-shadow="true" onclick="GetSupVCallListPath($(this).data('statusid'));" 
-                            data-theme="b" data-statusid="278">Clear
-                                <!--<span class="ui-btn-up-c ui-btn-corner-all"  id="SupVCallCount278"
-                                    style="font-size: 11px; font-weight: bold; padding: 0.2em 0.5em; position: fixed; right:25px;"></span>-->
-                    </a>
+                    <!--<a data-role="button" data-icon="status-clear-w" data-shadow="true" onclick="GetSupVCallListPath($(this).data('statusid'));" 
+                            data-theme="b" data-statusid="278">Clear                                
+                    </a>-->
                     
 
                     <!--<a data-role="button" data-icon="status-clear" data-shadow="true" style="background: #5C94C0; color: white;">Clear</a>-->                    
@@ -175,7 +173,7 @@
                     <div data-role="content" data-theme="b">
                         <h3>Currently you are not assigned to any of the call</h3>
 
-                        <a href="#" data-role="button" data-rel="back" data-theme="d" data-mini="true">Ok</a>
+                        <a data-role="button" data-rel="back" data-theme="d" data-mini="true">Ok</a>
                     </div>
                 </div>
 
@@ -193,9 +191,10 @@
             <a href="#" class="CloseForFocus">Welcome</a>
             <h2 class="SuperVisorName" style="color: greenyellow; margin: 0px 0px 0px 35%;"></h2>
         </p>
-        <p style="margin-top: 21px; margin-bottom: 15px;">you have login as a <b>SuperVisor</b></p>
-        <input type="submit" id="btnGotoUnitCallList" value="Unit Calls" onclick="javascript: GetSupVCallListPath('');" data-theme="b" data-icon="arrow-r" data-iconpos="right" />
+        <p style="margin-top: 21px; margin-bottom: 15px;">you have login as a <b>SuperVisor</b></p>        
         <input type="submit" id="btnFilterUnit" value="Filter Unit" data-theme="b" onclick="javascript: ShowSuperVisorUnitPopUp();" data-icon="arrow-r" data-iconpos="right" />
+        <input type="submit" id="btnGotoUnitCallList" value="Unit by Name" onclick="javascript: GetUnFilteredSupVCallList('');" data-theme="b" data-icon="arrow-r" data-iconpos="right" />
+        <input type="submit" id="btnGotoUnitCallListbyStatus" value="Unit by Status" onclick="javascript: GetUnFilteredSupVCallList('1');" data-theme="b" data-icon="arrow-r" data-iconpos="right" />
         <a data-icon="info" href="../index.html" data-transition="slide" data-iconpos="right" data-role="button" id="btnPanelLogout" data-theme="b">Logout</a>
         <a href="#demo-links" data-rel="close" data-role="button" id="btnPanelClose" data-theme="a" data-icon="delete">Close</a>
     </div>

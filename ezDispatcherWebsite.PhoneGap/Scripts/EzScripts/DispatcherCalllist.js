@@ -9,8 +9,7 @@ function GetCallList() {
     var Id = getParameterByName("Id");
     var LocReq = getParameterByName("LocReq");
     var message = "";
-    var time = new Date().getTimezoneOffset();
-    //var Page = $('[data-mypage]:visible').data('mypage');
+    var time = new Date().getTimezoneOffset();    
     var Page = $.mobile.activePage.data('mypage');
     var li = "";
     var count = 0;
@@ -34,6 +33,7 @@ function GetCallList() {
 
                 if (result.length > 0) {
                     count = 1;
+                    
                     for (i = 0; i < result.length; i++) {
                         var datatheme;
                         var NoteHistory = "";
@@ -48,7 +48,7 @@ function GetCallList() {
                             datatheme = "";
                         }
                                                 
-                        li = '<li class="liList"' + datatheme + ' CallId= "' + result[i].CallIntakeID + '" Date= " ' + result[i].PickupDate + ' "><span class="ui-li-aside" style="margin-right:3%;width:17%;font-weight:normal;font-size:small;">' + result[i].PickupTime + '</span><a class="Call" CallId ="' + result[i].CallIntakeID + '"><img class="ui-corner-all" src="images/Listimages/ambulance.jpg" style="margin-top:20px;margin-left:10px;"  />';
+                        li = '<li class="liList"' + datatheme + ' CallId= "' + result[i].CallIntakeID + '" Date= " ' + result[i].PickupDate + ' "><span class="ui-li-aside" style="margin-right:3%;width:17%;font-weight:bold;font-size:small;">' + result[i].PickupTime + '</span><a class="Call" CallId ="' + result[i].CallIntakeID + '"><img class="ui-corner-all" src="images/Listimages/ambulance.jpg" style="margin-top:20px;margin-left:10px;"  />';
                         li = li + ' <div style="float: left;" ><h3 style="width: 100%"> ' + result[i].CallId + '</h3>'
                         li = li + '<span class="ui-li-desc">' + result[i].CallType + ' </span>';
                         li = li + '<div style="clear:both"></div>';
@@ -72,13 +72,14 @@ function GetCallList() {
                 // message=xhr.responseBody;
             },
             complete: function () {
+                
                 $('#lstView').append(li).trigger('create');
                 $("#lstView").listview('refresh');
                 if (count > 0) {
                     $("#lstView").listview({
-                        autodividers: true,
+                        autodividers: true,                        
                         autodividersSelector: function (li) {
-                            var out = li.attr("Date");
+                            var out = li.attr("Date").trim();
                             return out;
                         }
                     }).listview("refresh");

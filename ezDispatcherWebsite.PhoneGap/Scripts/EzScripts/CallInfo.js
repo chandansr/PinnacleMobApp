@@ -35,8 +35,7 @@ function GetCallInfoTopUrl(path) {
 function GetCallInfo() {
     var GetDataUrl = _ServicesUrl._SecondServicePath + _WcfFunctionUrl._CallInfo;
     var Id = getParameterByName("CallId");
-    var message = "";    
-    //var Page = $('[data-mypage]:visible').data('mypage');
+    var message = "";        
     var Page = $.mobile.activePage.data('mypage');
     
     if (Page == "CallInfo") {

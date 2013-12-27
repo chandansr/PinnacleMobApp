@@ -20,7 +20,7 @@ $(function () {
     setInterval(GetCrewLocation, 120000);
     setInterval(RefreshUnitLocation, 60000);
     setInterval(GetSuperVisorUnits, 480000);
-    
+
     $('[type="submit"]').bind("click", function (event, ui) {
         new ezphonemessege().show({
             msg: 'Processing Please wait..'
@@ -61,7 +61,8 @@ $(function () {
                     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
                 }
                 else {
-                    $('#lstView li').live('click', function () {
+                    $('#lstView li.liList').die('click');
+                    $('#lstView li.liList').live('click', function () {                        
                         if ($('#lstView').data('nocalls') == "0") {
                             var CallId = $(this).attr('callid');
                             var Id = getParameterByName("Id");
@@ -95,6 +96,11 @@ $(function () {
                     });
                     $("#btnGetDestination").bind("click", function (event, ui) {
                         GetDestination();
+                    });
+                    $(".SidePanel").panel({
+                        open: function (event, ui) {
+                            $(this).find('.CloseForFocus').focus();
+                        }
                     });
                     BindNecessaryFunctions();
                     GetCallDetails();
@@ -470,19 +476,103 @@ $(function () {
                 else if (event.type == 'pagecreate') {
                 }
                 else {
-                    $('#sup-lstView li').live('click', function () {
-                        if ($('#sup-lstView').data('nocalls') == "0") {
+                    $('#sup-lstView li.liList').die('click');
+
+                    $('#sup-lstView li.liList').live('click', function () {
+                        if ($('#sup-lstView').data('nocalls') == "0" && $(this).attr('callid') != '-1') {
                             var CallId = $(this).attr('callid');
                             var Id = getParameterByName("Id");
                             var LocReq = getParameterByName("LocReq");
                             var CurrentCallId = getParameterByName("CurrentCallId");
                             $.mobile.changePage(_SiteUrl.sup_CallDetail, { data: { "Id": Id, "CallId": CallId, "LocReq": LocReq, "CurrentCallId": CurrentCallId }, transition: "slide" });
                         }
+                        else if ($('#sup-lstView').data('nocalls') == "0" && $(this).attr('callid') == '-1') {
+
+                            $.mobile.activePage.find("#spAvl-availablesince").text($(this).find('#ul-li-desc-avlsincespan').text());
+                            $.mobile.activePage.find("#spAvl-priparaname").text($(this).find('#ul-li-desc-avlcrewname').text());
+                            $.mobile.activePage.find("#spAvl-unitname").text($(this).attr('unit'));                            
+                            var isavl = '', isshow = 0;
+                            if ($(this).attr('crewlat') != '-1' && $(this).attr('crewlong') != '-1' && $(this).attr('isonline') == '1') {
+                                isavl = 'Available[Online]';
+                                isshow = 1;
+                            }
+                            else if ($(this).attr('crewlat') != '-1' && $(this).attr('crewlong') != '-1' && $(this).attr('isonline') == '0') {
+                                isavl = 'Last Known Available[Offline]';
+                                isshow = 1;
+                            }
+                            else {
+                                isavl = 'Not Available';
+                                isshow = 0;
+                            }
+                            $.mobile.activePage.find("#spAvl-unitlocation").text(isavl);
+                            if (isshow == 0) {
+                                $('#btnshowavlunitlocation').hide();
+                            } else {
+                                $('#btnshowavlunitlocation').show();
+                            }
+
+                            $.mobile.activePage.find("#popupSupAvlUnits").popup("open", { positionTo: "center" });
+                        }
                         else {
                             showAlert('No Call Available', 'Info');
                         }
                     });
+                    
+                    $('#sup-lstView').on('afterRefresh', function () {
+                        //Sort the List by the Unitname or StatusName
+                        var list = $("#sup-lstView");
+                        var lis = $('#sup-lstView li').not('.ui-li-divider').get();
+                        var statuses = ["Available", "Dispatched", "Enroute", "At Location", "Pt Contact", "Transporting", "At Destination"];
 
+                        lis.sort(function (a, b) {                            
+                            var valA, valB;                            
+                            if (getParameterByName("IsFilterByStatus") == "1") {
+                                valA = $(a).attr('unitstatus').trim();
+                                valB = $(b).attr('unitstatus').trim();
+                                if (statuses.indexOf(valA) < statuses.indexOf(valB)) { return -1; }
+                                if (statuses.indexOf(valA) > statuses.indexOf(valB)) { return 1; }
+                                return 0;
+                            }
+                            else {
+                                valA = $(a).attr('unit').trim();
+                                valB = $(b).attr('unit').trim();
+                                if (valA.toUpperCase() < valB.toUpperCase()) { return -1; }
+                                if (valA.toUpperCase() > valB.toUpperCase()) { return 1; }
+                                return 0;
+                            }
+
+
+                        });
+                        list.empty();
+                        $.each(lis, function (i, li) {
+                            list.append(li);
+                        });
+                        
+                        list.listview('refresh');
+                        //Sort the List by the Unitname or StatusName
+                        
+                        $(".ui-li-divider").each(function () {                            
+                            var textSplit = $(this).text().split(",_#_");
+                            var status = textSplit[1];
+                            var unitname = textSplit[0];
+                            if (getParameterByName("IsFilterByStatus") == "1") {
+                                $(this).text(status);
+                                var unitspan = document.createElement('span');
+                                $(unitspan).addClass('right').text(unitname);
+                                $(this).append(unitspan);
+                            }
+                            else {
+                                $(this).text(unitname);
+                                var statusspan = document.createElement('span');
+                                $(statusspan).addClass('right').text(status);
+                                $(this).append(statusspan);
+                            }
+                        });                        
+                        
+                    });
+                    
+
+                    runtimePopupForSupAvlUnits();
                     BindNecessaryFunctions();
                     GetSupVCallList();
                 }
@@ -571,16 +661,22 @@ $(function () {
                             if (i.UnitName == Unit)
                                 return i;
                         })[0].UnitId;
+                        
                         $.mobile.activePage.find('#map_canvas_2').gmap({ 'zoom': '8' }).bind('init', function () {
+                            
                             $.getJSON(_ServicesUrl._SecondServicePath + _WcfFunctionUrl._GetPrimaryCrewLocation, { Id: Id, UnitIds: UnitId, Offset: time, CallId: CallId }, function (data) {
-
+                                
                                 $.each(data.Data, function (i, marker) {
-                                    if (marker.Latitude != "-1" && marker.Longitude != "-1") {
+                                
+                                    var statusid = $(marker.Unit).data('statusid');
+                                    var mapImg = $(marker.Unit).data('isoffline') == '1' ? '../images/MapImages/UnitOff-' + statusid + '.png' : '../images/MapImages/Unit-' + statusid + '.png';
+
+                                    if (IsValidLatlng(marker.Latitude, marker.Longitude)) {
                                         $.mobile.activePage.find('#map_canvas_2').gmap('addMarker', {
                                             'position': new google.maps.LatLng(marker.Latitude, marker.Longitude),
                                             'bounds': true,
-                                            'animation': google.maps.Animation.DROP,                                            
-                                            'icon': new google.maps.MarkerImage('../images/Ambulance2.png')
+                                            'animation': google.maps.Animation.DROP,
+                                            'icon': new google.maps.MarkerImage(mapImg)
                                         }).click(function () {
                                             $.mobile.activePage.find('#map_canvas_2').gmap('openInfoWindow', {
                                                 'content': marker.Unit,
@@ -589,6 +685,63 @@ $(function () {
                                             }, this);
                                         });
                                     }
+                                    else if ($(marker.Unit).data('isoffline') == '1' && statusid != '287') {
+                                        var FromFac = FromToFacLatLng.filter(function (index) {
+                                            return index.Fac == source;
+                                        });
+                                        var ToFac = FromToFacLatLng.filter(function (index) {
+                                            return index.Fac == destination;
+                                        });
+                                        if (FromFac.length > 0 && ToFac.length > 0) {
+                                            var fromfaclatlng = new Object();
+                                            fromfaclatlng.Latitude = FromFac[0].Latitude;
+                                            fromfaclatlng.Longitude = FromFac[0].Longitude;
+                                            var tofaclatlng = new Object();
+                                            tofaclatlng.Latitude = ToFac[0].Latitude;
+                                            tofaclatlng.Longitude = ToFac[0].Longitude;
+
+                                            var ltln1 = GetmidPoint(fromfaclatlng, tofaclatlng);  //halfpoint between scene and destination.
+                                            switch (statusid) {
+                                                case 285 || 286:       //Case dispatched, Enroute--> pin between the user current location & the scene address.
+                                                    var ltln2 = GetmidPoint(MyCurrentLoc[0], fromfaclatlng);
+                                                    marker.Latitude = ltln2.Latitude;
+                                                    marker.Longitude = ltln2.Longitude;
+                                                    break;
+                                                case 282 || 283:        //Case onscene, PtContact--> pin on the Scene Address.
+                                                    marker.Latitude = fromfaclatlng.Latitude;
+                                                    marker.Longitude = fromfaclatlng.Longitude;
+                                                    break;
+                                                case 284:             //case Transporting--> pin between the scene and destination address.
+                                                    marker.Latitude = ltln1.Latitude;
+                                                    marker.Longitude = ltln1.Longitude;
+                                                    break;
+                                                case 277:             //case Arrived--> pin on the destination address.
+                                                    marker.Latitude = tofaclatlng.Latitude;
+                                                    marker.Longitude = tofaclatlng.Longitude;
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+                                            if (IsValidLatlng(marker.Latitude, marker.Longitude)) {
+                                                $.mobile.activePage.find('#map_canvas_2').gmap('addMarker', {
+                                                    'position': new google.maps.LatLng(marker.Latitude, marker.Longitude),
+                                                    'bounds': true,
+                                                    'animation': google.maps.Animation.DROP,
+                                                    'icon': new google.maps.MarkerImage(mapImg)
+                                                }).click(function () {
+                                                    $.mobile.activePage.find('#map_canvas_2').gmap('openInfoWindow', {
+                                                        'content': marker.Unit,
+                                                        'closeBoxMargin': "10px 2px 2px 2px",
+                                                        'closeBoxURL': "http://www.google.com/intl/en_us/mapfiles/close.gif"
+                                                    }, this);
+                                                });
+                                            }
+                                        }
+                                        else {
+                                            GetLocationForAddress(source, destination);
+                                        }
+                                    }
+
                                 });
                             });
                         });
@@ -716,6 +869,8 @@ var _SuperVisorUnits =
         _SupUnitDetails: []
     }
 
+var MyCurrentLoc = [];
+var FromToFacLatLng = [];
 
 function GetUrl(path) {
 
@@ -746,26 +901,37 @@ var _SiteFunctionalUrl =
 
 
 function GetCrewLocation() {
-    
-    if ($.mobile.activePage.data('mypage') != 'Index') {
+
+    if ($.mobile.activePage.data('mypage') != 'Index') {        
         navigator.geolocation.getCurrentPosition(function (pos) {
             var lat = pos.coords.latitude;
             var lng = pos.coords.longitude;
             getAddressFromLatLang(lat, lng);
         });
-    }    
+    }
 }
 
 function getAddressFromLatLang(lat, lng) {
     var geocoder = new google.maps.Geocoder();
     var latLng = new google.maps.LatLng(lat, lng);
+    
     geocoder.geocode({ 'latLng': latLng }, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             if (results[1]) {
                 SaveCrewLoc(getParameterByName("Id"), lat, lng, results[1].formatted_address);
+                var loc = new Object();
+                loc.Latitude = lat;
+                loc.Longitude = lng;
+                MyCurrentLoc = [];
+                MyCurrentLoc.push(loc);                
             }
         } else {
-            SaveCrewLoc(getParameterByName("Id"), lat, lng, '');
+            SaveCrewLoc(getParameterByName("Id"), lat, lng, '');            
+            var loc = new Object();
+            loc.Latitude = lat;
+            loc.Longitude = lng;
+            MyCurrentLoc = [];
+            MyCurrentLoc.push(loc);
         }
     });
 }
@@ -923,7 +1089,7 @@ function refreshNavbar(el) {
 
 
 function GetSuperVisorUnits() {
-    
+
     if ($.mobile.activePage.data('mypage') != 'Index') {
         var ValidateUrl = _ServicesUrl._SecondServicePath + _WcfFunctionUrl._GetSuperVisorUnits;
         var count = 0;
@@ -1006,7 +1172,7 @@ function runtimePopupForSupUnits(message, popupafterclose) {
                    + "<span id='SV-Popup-Validataion' style='color:red; display:none;'>*Please select the Unit</span></div> </form> </div>"
 
     popupafterclose = popupafterclose ? popupafterclose : function () { };
-    $.mobile.activePage.append(template).trigger("create");    
+    $.mobile.activePage.append(template).trigger("create");
 }
 
 
@@ -1082,9 +1248,25 @@ function GetSupVCallListPath(status) {
     }
 }
 
+function GetUnFilteredSupVCallList(bystatus) {
+
+    var path = ($.mobile.activePage.data('issup') == '1' ? _SiteUrl.sup_CallListFrmDashboard : _SiteUrl.sup_CallList);
+    var Id = getParameterByName("Id");
+    var LocReq = getParameterByName("LocReq");
+    var CurrentCallId = GetCrewCurrentCallId();
+
+    if (bystatus == '1') {
+        $.mobile.changePage(path, { data: { "Id": Id, "LocReq": LocReq, "CurrentCallId": CurrentCallId, "StatusId": status, "IsFilterByStatus": "1", "IsAllUnit": "1" }, transition: "slide" });
+    }
+    else {
+        $.mobile.changePage(path, { data: { "Id": Id, "LocReq": LocReq, "CurrentCallId": CurrentCallId, "StatusId": status, "IsAllUnit": "1" }, transition: "slide" });
+    }
+}
+
+
 
 function RefreshUnitLocation() {
-
+    
     if ($.mobile.activePage.data('mypage') == 'sup-ToFromLocation' && globalVar._IsSuperVisor == '1') {
         new ezphonemessege().show({
             msg: 'Processing..Please wait..'
@@ -1099,30 +1281,94 @@ function RefreshUnitLocation() {
         var Unit = getParameterByName("Unit");
         var time = new Date().getTimezoneOffset();
         var CallId = getParameterByName("CallId");
+        
         var UnitId = $.map(_SuperVisorUnits._SupUnitDetails, function (i, v) {
             if (i.UnitName == Unit)
                 return i;
         })[0].UnitId;
 
+        //var loc = new Object();
+        //loc.Latitude = 21.145799999999998;
+        //loc.Longitude = 79.088155;
+        //MyCurrentLoc = [];
+        //MyCurrentLoc.push(loc);
+
         $.getJSON(_ServicesUrl._SecondServicePath + _WcfFunctionUrl._GetPrimaryCrewLocation, { Id: Id, UnitIds: UnitId, Offset: time, CallId: CallId }, function (data) {
-            var amb = 1;
+            
             $.each(data.Data, function (i, marker) {
-                if (amb > 10) {
-                    amb = 1;
-                }
-                if (marker.Latitude != "-1" && marker.Longitude != "-1") {
+                
+                var statusid = $(marker.Unit).data('statusid');
+                var mapImg = $(marker.Unit).data('isoffline') == '1' ? '../images/MapImages/UnitOff-' + statusid + '.png' : '../images/MapImages/Unit-' + statusid + '.png';
+                
+                if (IsValidLatlng(marker.Latitude, marker.Longitude)) {                    
                     $.mobile.activePage.find('#map_canvas_2').gmap('addMarker', {
                         'position': new google.maps.LatLng(marker.Latitude, marker.Longitude),
                         'bounds': true,
                         'animation': google.maps.Animation.DROP,
-                        'icon': new google.maps.MarkerImage('../images/MapImages/Ambulance' + amb + '.png')
+                        'icon': new google.maps.MarkerImage(mapImg)
                     }).click(function () {
                         $.mobile.activePage.find('#map_canvas_2').gmap('openInfoWindow', {
                             'content': marker.Unit,
                             'closeBoxMargin': "10px 2px 2px 2px",
                             'closeBoxURL': "http://www.google.com/intl/en_us/mapfiles/close.gif"
-                        }, this);                        
+                        }, this);
                     });
+                }
+                else if ($(marker.Unit).data('isoffline') == '1' && statusid != '287') {
+                    var FromFac = FromToFacLatLng.filter(function (index) {                        
+                        return index.Fac == source;
+                    });
+                    var ToFac = FromToFacLatLng.filter(function (index) {                        
+                        return index.Fac == destination;
+                    });
+                    if (FromFac.length > 0 && ToFac.length > 0) {
+                        var fromfaclatlng = new Object();
+                        fromfaclatlng.Latitude = FromFac[0].Latitude;
+                        fromfaclatlng.Longitude = FromFac[0].Longitude;
+                        var tofaclatlng = new Object();
+                        tofaclatlng.Latitude = ToFac[0].Latitude;
+                        tofaclatlng.Longitude = ToFac[0].Longitude;
+
+                        var ltln1 = GetmidPoint(fromfaclatlng, tofaclatlng);  //halfpoint between scene and destination.
+                        switch (statusid) {
+                            case 285 || 286:       //Case dispatched, Enroute--> pin between the user current location & the scene address.
+                                var ltln2 = GetmidPoint(MyCurrentLoc[0], fromfaclatlng);
+                                marker.Latitude = ltln2.Latitude;
+                                marker.Longitude = ltln2.Longitude;
+                                break;
+                            case 282 || 283:        //Case onscene, PtContact--> pin on the Scene Address.
+                                marker.Latitude = fromfaclatlng.Latitude;
+                                marker.Longitude = fromfaclatlng.Longitude;
+                                break;
+                            case 284:             //case Transporting--> pin between the scene and destination address.
+                                marker.Latitude = ltln1.Latitude;
+                                marker.Longitude = ltln1.Longitude;
+                                break;
+                            case 277:             //case Arrived--> pin on the destination address.
+                                marker.Latitude = tofaclatlng.Latitude;
+                                marker.Longitude = tofaclatlng.Longitude;
+                                break;
+                            default:
+                                break;
+                        }
+                        if (IsValidLatlng(marker.Latitude, marker.Longitude)) {
+                            $.mobile.activePage.find('#map_canvas_2').gmap('addMarker', {
+                                'position': new google.maps.LatLng(marker.Latitude, marker.Longitude),
+                                'bounds': true,
+                                'animation': google.maps.Animation.DROP,
+                                'icon': new google.maps.MarkerImage(mapImg)
+                            }).click(function () {
+                                $.mobile.activePage.find('#map_canvas_2').gmap('openInfoWindow', {
+                                    'content': marker.Unit,
+                                    'closeBoxMargin': "10px 2px 2px 2px",
+                                    'closeBoxURL': "http://www.google.com/intl/en_us/mapfiles/close.gif"
+                                }, this);
+                            });
+                        }
+                    }
+                    else {
+                        GetLocationForAddress(source, destination);
+                    }
                 }
             });
             $.mobile.activePage.find('#map_canvas_2').gmap('option', 'zoom', 8);
@@ -1135,10 +1381,11 @@ function RefreshUnitLocation() {
 
 
 function RemoveGoogleMoreLinks() {
-    $.mobile.activePage.find("#map_canvas_2").find("a").removeAttr("href");    
+    $.mobile.activePage.find("#map_canvas_2").find("a").removeAttr("href");
     $(".gm-rev").hide();
     $(".gm-website").hide();
     setTimeout(function () { $(".gm-rev").hide() }, 1000);
     setTimeout(function () { $(".gm-website").hide() }, 1000);
     //$("[class^='gm-website']").hide();
 }
+

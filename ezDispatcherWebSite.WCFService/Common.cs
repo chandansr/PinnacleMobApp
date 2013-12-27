@@ -569,6 +569,46 @@ namespace ezDispatcherWebSite.WCFService
         }
 
 
+        public static List<SupervisorCalls> GetSupvCallListJson(DataTable dt)
+        {
+            List<SupervisorCalls> lstSupvCallList = new List<SupervisorCalls>();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                SupervisorCalls obj = new SupervisorCalls();
+
+                obj.CallStatus = dr.Table.Columns.Contains("CALLSTATUS") ? dr["CALLSTATUS"].ToString() : "";
+                obj.LastName = dr.Table.Columns.Contains("LastName") ? dr["LastName"].ToString() : "";
+                obj.FirstName = dr.Table.Columns.Contains("FirstName") ? dr["FirstName"].ToString() : "";
+                obj.ContractNumber = dr.Table.Columns.Contains("ContactNumber") ? dr["ContactNumber"].ToString() : "";
+                obj.Email = dr.Table.Columns.Contains("Email") ? dr["Email"].ToString() : "";
+                obj.Address = dr.Table.Columns.Contains("Address") ? dr["Address"].ToString() : "";
+                obj.CallIntakeID = dr.Table.Columns.Contains("CALLINTAKEID") ? dr["CALLINTAKEID"].ToString() : "";
+                obj.PickupTime = dr.Table.Columns.Contains("PICKUPTIME") ? dr["PICKUPTIME"].ToString() : "";
+                obj.CallType = dr.Table.Columns.Contains("CALLTYPE") ? dr["CALLTYPE"].ToString() : "";
+                obj.CallId = dr.Table.Columns.Contains("CALLID") ? dr["CALLID"].ToString() : "";
+                obj.ProviderName = dr.Table.Columns.Contains("PROVIDERNAME") ? dr["PROVIDERNAME"].ToString() : "";
+                obj.AsignUnit = dr.Table.Columns.Contains("ASSIGNEDUNIT") ? dr["ASSIGNEDUNIT"].ToString() : "";
+                obj.CreatedDate = dr.Table.Columns.Contains("CREATEDDATE") ? dr["CREATEDDATE"].ToString() : "";
+                obj.PickupDate = dr.Table.Columns.Contains("PICKUPDATE") ? dr["PICKUPDATE"].ToString() : "";
+                obj.ReturnTime = dr.Table.Columns.Contains("RETURN_TIME") ? dr["RETURN_TIME"].ToString() : "";
+                obj.FullName = dr.Table.Columns.Contains("FULL_NAME") ? dr["FULL_NAME"].ToString() : "";
+                obj.FromAddress = dr.Table.Columns.Contains("FROMADDRESS") ? dr["FROMADDRESS"].ToString() : "";
+                obj.ToAddress = dr.Table.Columns.Contains("TOADDRESS") ? dr["TOADDRESS"].ToString() : "";
+                obj.CurrentCallId = dr.Table.Columns.Contains("CurrentCallId") ? dr["CurrentCallId"].ToString() : "";
+                obj.UnitStatus = dr.Table.Columns.Contains("UnitStatus") ? dr["UnitStatus"].ToString() : "";
+                obj.IsComplete = dr.Table.Columns.Contains("IsComplete") ? dr["IsComplete"].ToString() : "";
+                obj.Scene = dr.Table.Columns.Contains("Scene") ? dr["Scene"].ToString() : "";
+                obj.Destination = dr.Table.Columns.Contains("Destination") ? dr["Destination"].ToString() : "";
+                obj.LevelResponse = dr.Table.Columns.Contains("LevelResponse") ? dr["LevelResponse"].ToString() : "";
+                obj.ReasonForTrans = dr.Table.Columns.Contains("ReasonForTrans") ? dr["ReasonForTrans"].ToString() : "";
+
+                lstSupvCallList.Add(obj);
+            }
+            return lstSupvCallList;
+        }
+
+
     }
   
 

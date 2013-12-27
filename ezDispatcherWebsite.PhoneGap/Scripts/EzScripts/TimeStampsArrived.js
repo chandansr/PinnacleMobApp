@@ -11,7 +11,7 @@ function GetArrivedTimeStamp() {
     var CallId = getParameterByName("CallId");
     var status = getParameterByName("Status");
     var message = "";
-    //var Page = $('[data-mypage]:visible').data('mypage');
+    
     var Page = $.mobile.activePage.data('mypage');
     var DynamicFieldHtml = "";
     var time = new Date().getTimezoneOffset();

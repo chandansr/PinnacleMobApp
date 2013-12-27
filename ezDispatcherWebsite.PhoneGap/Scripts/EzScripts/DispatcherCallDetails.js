@@ -1,31 +1,16 @@
 ﻿
 $(document).ready(function () {
 
-    GetCallDetails();    
-    
-    $(".SidePanel").panel({
-        open: function (event, ui) {
-            $(this).find('.CloseForFocus').focus();
-        }
-    });
-
-    $("#btnGetScene").bind("click", function (event, ui) {
-        GetScene();
-    });
-    $("#btnGetDestination").bind("click", function (event, ui) {
-        GetDestination();
-    });
-
 });
 
 
 function GetCallDetails() {
+    
     var GetDataUrl = _ServicesUrl._SecondServicePath + _WcfFunctionUrl._GetData;
     var PdId = getParameterByName("Id");
     var Loc = getParameterByName("LocReq");
-    var CallID = getParameterByName("CallId");    
+    var CallID = getParameterByName("CallId");       
     
-    //var Page = $('[data-mypage]:visible').data('mypage');
     var Page = $.mobile.activePage.data('mypage');
     var message = "";
     var ulhtml = "";
@@ -46,8 +31,7 @@ function GetCallDetails() {
                 });
             },
             success: function (data) {
-                var result = data.Data;
-                
+                var result = data.Data;                
                 if (result.length > 0) {
                     for (i = 0; i < result.length; i++) {
                         $("#UnitName").html('<span style="color:#ADEF6F;">' + result[i].Unit + '</span>');
@@ -213,6 +197,7 @@ function GetTimeStampUrl(path, link) {
     });
 
     Ajax.done(function (result) {
+        
         new ezphonemessege().hide();
         if (result.Data[0].ActUnitDelayStatus.Status == "Clear") {
             $("#StatusInfoMessage").fadeIn("slow");

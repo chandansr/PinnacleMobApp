@@ -93,10 +93,7 @@
 
         // PhoneGap is ready
         //
-        function onDeviceReady() {
-            document.addEventListener("resume", onResume, false);
-            document.addEventListener('pause', onPause, false);
-            //showAlert("Device Ready", "Info");
+        function onDeviceReady() {            
             DeviceId = device.uuid;
             DeviceType = device.platform;
             $(".AlertMessage").fadeIn("slow");
@@ -107,12 +104,7 @@
                 $(".AlertMessage").fadeOut("slow");
             }, "json");
             $(".AlertMessage").fadeOut("slow");
-
-            var ezdb = window.openDatabase("EzDb", "1.0", "Pinnacle DB", 1000000);
-            ezdb.transaction(populateDB, errorCB, successCB);
-
-            //showAlert('deviceready event received', 'info');
-
+            
             try {
                 pushNotification = window.plugins.pushNotification;
                 if (device.platform == 'android' || device.platform == 'Android') {
@@ -205,8 +197,7 @@
         }
 
         function tokenHandler(result) {
-            //showAlert('token: ', 'info');
-            //showAlert('token: ' + result, 'info');
+            //showAlert('token: ', 'info');            
             DeviceToken = result;
             // Your iOS push server needs to know the token before it can push to this device
             // here is where you might want to send it the token for later use.
@@ -217,48 +208,7 @@
         }
 
         function errorHandler(error) {
-            //showAlert('error', 'info');
-            //showAlert('error:' + error, 'info');
-        }
-        
-        // Populate the database 
-        //
-        function populateDB(tx) {
-            //showAlert("Create Table", "Info");            
-        }
-
-        function SaveDb(tx) {
-            //showAlert("After Login", "Info");            
-        }
-
-        function GetDb(tx) {
-            //showAlert("Select Transaction", "Info");            
-        }
-
-        function querySuccess(tx, results) {
-            //showAlert("Select Query", "Info");            
-        }
-
-        // Transaction error callback
-        //
-        function errorCB(tx, err) {
-            //showAlert("Error processing SQL: " + err);
-        }
-
-        // Transaction success callback
-        //
-        function successCB() {
-            //alert("success!");
-        }
-
-        // Handle the resume event
-        //
-        function onResume() {
-            //showAlert("Resume Fired", "Info");            
-        }
-
-        function onPause() {
-            //showAlert('Application Paused', 'Info');            
+            //showAlert('error', 'info');            
         }
     </script>
 
@@ -293,10 +243,7 @@
                 var userName = $("#txtUserName").val();
                 var password = $("#txtPassword").val();
 
-                var res = Login(userName, password, DeviceId, DeviceType);
-                //SendNotificationToDevice("b8df388796cdd2456b689ed1a740a1488ad527aae79b1baf48084ca9d75984b5", "You are assigned New Call.", "0");
-                //SendNotificationToDevice("cca2316bd355fe4a2009166e5c4691cc2f607079a58cedb4243cf8f9218a72b9", "You are assigned New Call.", "0");
-                //SendNotificationToDevice("b8df388796cdd2456b689ed1a740a1488ad527aae79b1baf48084ca9d75984b5", "You are assigned New Call.", "0");
+                var res = Login(userName, password, DeviceId, DeviceType);                
                 
                 if (res.Message == "Success") {
                     $("#divError").css("display", "none");
@@ -384,7 +331,7 @@
                     <div id="divError" style="display: none"><span style="color: red">Please enter valid username and password</span></div>
                     <p>
                         <label for="text-mini">Username Name:</label>
-                        <input type="text" name="UserName" class="txtClass" data-role="textinput" data-icon="star" id="txtUserName" value="Email Id" data-mini="true" defaultval="Email Id" />                       
+                        <input type="email" name="UserName" class="txtClass" data-role="textinput" data-icon="star" id="txtUserName" value="Email Id" data-mini="true" defaultval="Email Id" />                       
                     </p>
 
                     <p>
@@ -402,7 +349,7 @@
                         <a id="ForgotPass" style="cursor: pointer;" href="#ForgotPassPop" data-rel="popup" data-transition="turn">Forgot your Password</a>
 
                         <div data-role="popup" id="ForgotPassPop" data-theme="e">
-                            <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+                            <a data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
                             <br />
                             <p>
                                 <b>Please provide your Email address. Password will be send to your Email address.</b>
@@ -427,7 +374,7 @@
 
                 <a id='lnkPasswordSendConfirm' href="#PasswordSendConfirmation" data-rel="dialog" data-transition="pop" style='display: none;'></a>
                 <div data-role="page" id="PasswordSendConfirmation" data-overlay-theme="e" data-theme="b">
-                    <a href="#" data-rel="back" data-role="button" data-theme="d" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+                    <a data-rel="back" data-role="button" data-theme="d" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
                     <div data-role="header" data-theme="d">
                         <h1>Password send..</h1>
                     </div>
@@ -435,7 +382,7 @@
                     <div data-role="content" data-theme="c">
                         <h3>Your password has been send to the Email address you provided.</h3>
 
-                        <a href="#" data-role="button" data-rel="back" data-theme="b" data-mini="true">Ok</a>
+                        <a data-role="button" data-rel="back" data-theme="b" data-mini="true">Ok</a>
                     </div>
                 </div>
 

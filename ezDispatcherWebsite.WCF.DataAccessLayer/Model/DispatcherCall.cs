@@ -69,7 +69,7 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
         public string Trip { get; set; }
         public string PLastName { get; set; }
         public string PFirstName { get; set; }
-        public string PDOB { get; set; }        
+        public string PDOB { get; set; }
         public string PPhone { get; set; }
         public string PAlerts { get; set; }
         public string PStreet { get; set; }
@@ -218,7 +218,7 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
     }
 
     public class DeviceDetails
-    {        
+    {
         public string ParamedicDetailsID { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
@@ -250,5 +250,42 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public string CallId { get; set; }
+    }
+
+    public class SupervisorCalls
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string ContractNumber { get; set; }
+        public string Address { get; set; }
+        public string CallIntakeID { get; set; }
+        public string PatientName { get; set; }
+        public string CaseManagerName { get; set; }
+        public string Service { get; set; }
+        public string ToAddress { get; set; }
+        public string PickupDate { get; set; }
+        public string PickupTime { get; set; }
+        public string CallStatus { get; set; }
+        public string CallType { get; set; }
+        public string CallId { get; set; }
+        public string AsignUnit { get; set; }
+        public string CreatedDate { get; set; }
+        public string ReturnTime { get; set; }
+        public string ProviderName { get; set; }
+        public string FullName { get; set; }
+        public string Requested { get; set; }
+        public string Scheduled { get; set; }
+        public string DOB { get; set; }
+        public string FromAddress { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string CurrentCallId { get; set; }
+        public string IsComplete { get; set; }
+        public string UnitStatus { get; set; }
+        public string Scene { get; set; }
+        public string Destination { get; set; }
+        public string LevelResponse { get; set; }
+        public string ReasonForTrans { get; set; }
     }
 }

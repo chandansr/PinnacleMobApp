@@ -79,7 +79,7 @@
                 <div class="spacer10"></div>
                 <div data-role="navbar" id="navbar">
                     <ul>
-                        <li><a data-iconpos="top" data-icon="back" data-rel="back" href="#">Back</a></li>
+                        <li><a data-iconpos="top" data-icon="back" data-rel="back">Back</a></li>
                         <li><span onclick="javascript:GetUrl(_SiteUrl.detail);"><a data-iconpos="top" data-icon="home">Home</a></span></li>                        
                         <li class="SuperVisorOptionTab" style="display: none;" data-theme="b">
                                 <a href="#PanelForSupV" data-iconpos="top" data-icon="gear">Units</a></li>
@@ -326,9 +326,10 @@
                 <a href="#" class="CloseForFocus">Welcome</a>
                 <h2 class="SuperVisorName" style="color: greenyellow; margin: 0px 0px 0px 35%;"></h2>
             </p>
-            <p style="margin-top: 21px; margin-bottom: 15px;">you have login as a <b>SuperVisor</b></p>
-             <input type="submit" id="btnGotoUnitCallList" value="Unit Calls" onclick="javascript: GetSupVCallListPath('');" data-theme="b" data-icon="arrow-r" data-iconpos="right" />
+            <p style="margin-top: 21px; margin-bottom: 15px;">you have login as a <b>SuperVisor</b></p>             
             <input type="submit" id="btnFilterUnit" value="Filter Unit" data-theme="b" onclick="javascript: ShowSuperVisorUnitPopUp();" data-icon="arrow-r" data-iconpos="right" />            
+            <input type="submit" id="btnGotoUnitCallList" value="Unit by Name" onclick="javascript: GetUnFilteredSupVCallList('');" data-theme="b" data-icon="arrow-r" data-iconpos="right" />
+            <input type="submit" id="btnGotoUnitCallListbyStatus" value="Unit by Status" onclick="javascript: GetUnFilteredSupVCallList('1');" data-theme="b" data-icon="arrow-r" data-iconpos="right" />
             <a data-icon="info" href="index.html" data-transition="slide" data-iconpos="right" data-role="button" id="btnPanelLogout" data-theme="b">Logout</a>
             <a href="#demo-links" data-rel="close" data-role="button" id="btnPanelClose" data-theme="a" data-icon="delete">Close</a>
         </div>
