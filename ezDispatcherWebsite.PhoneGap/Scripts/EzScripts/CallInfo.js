@@ -37,15 +37,16 @@ function GetCallInfo() {
     var Id = getParameterByName("CallId");
     var message = "";        
     var Page = $.mobile.activePage.data('mypage');
-    
+    var DispatcherCalls = { CallId: Id };
     if (Page == "CallInfo") {
 
         $.ajax({
             cache: false,
-            type: "GET",
+            type: "POST",
             async: false,
             url: GetDataUrl,
-            data: { CallId: Id },
+            data: JSON.stringify({ "DispatcherCalls": DispatcherCalls }),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function () {
                 new ezphonemessege().show({

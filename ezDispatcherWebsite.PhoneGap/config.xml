@@ -68,6 +68,30 @@
   <icon src="images/icon-72-hdpi.png"   gap:platform="android"    gap:density="hdpi" />
   <icon src="images/icon-96-xhdpi.png"  gap:platform="android"    gap:density="xhdpi" />
   
+  <!--<gap:splash src="images/splash-iphone/splash-57.png"    gap:platform="ios" />-->
+  
+  
+  <gap:splash src="images/splash-android/splash-36-ldpi.png"  gap:platform="android" gap:density="ldpi" />
+  <gap:splash src="images/splash-android/splash-48-mdpi.png"  gap:platform="android" gap:density="mdpi" />
+  <gap:splash src="images/splash-android/splash-72-hdpi.png"  gap:platform="android" gap:density="hdpi" />
+  *<gap:splash src="images/splash-android/splash-96-xhdpi.png" gap:platform="android" gap:density="xhdpi" />
+  
+  <gap:splash src="images/splash-iphone/splash-57.png"    gap:platform="ios"     width="320" height="480" />
+  <gap:splash src="images/splash-iphone/splash-72.png" gap:platform="ios"     width="640" height="960" />
+  <gap:splash src="images/splash-iphone/splash-57-2x.png"      gap:platform="ios"     width="768" height="1024" />
+  <gap:splash src="images/splash-iphone/splash-72-2x.png"     gap:platform="ios"     width="1024" height="768" />
+  
+  <!--<icon src="images/splash-android/splash-48-mdpi.png"   gap:platform="android"    gap:density="mdpi" />
+  <icon src="images/splash-android/splash-72-hdpi.png"   gap:platform="android"    gap:density="hdpi" />
+  <icon src="images/splash-android/splash-96-xhdpi.png"  gap:platform="android"    gap:density="xhdpi" />
+  
+  <icon src="images/splash-iphone/splash-57.png"            gap:platform="ios"        width="57" height="57" />
+  <icon src="images/splash-iphone/splash-72.png"            gap:platform="ios"        width="72" height="72" />
+  <icon src="images/splash-iphone/splash-57-2x.png"         gap:platform="ios"        width="114" height="114" />
+  <icon src="images/splash-iphone/splash-72-2x.png"         gap:platform="ios"        width="144" height="144" />-->
+  
+  
+  
   
   <!--<icon src="res/icon/android/icon-48-mdpi.png"   gap:platform="android"    gap:density="mdpi" />
   <icon src="res/icon/android/icon-72-hdpi.png"   gap:platform="android"    gap:density="hdpi" />

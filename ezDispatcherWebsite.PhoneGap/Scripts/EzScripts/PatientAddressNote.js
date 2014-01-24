@@ -14,12 +14,14 @@ function GetPatientAddressNoteDetails() {
     var status = getParameterByName("Status");
     var message = "";    
     var Page = $.mobile.activePage.data('mypage');
+    var PatientAddressNote={ Id: Id, CallId: CallId };
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         url: GetDataUrl,
-        data: { Id: Id, CallId: CallId },
+        data: JSON.stringify({ "PatientAddressNote": PatientAddressNote }),
+        contentType: "application/json; charset=utf-8",
         dataType: "json",
         beforeSend: function () {
             new ezphonemessege().show({
@@ -72,12 +74,12 @@ function SavePatientAddressNotesDetails() {
             new ezphonemessege().show({
                 msg: 'Loading..'
             });
-            //getPatientAddressFromLatLang(21.145799999999998, 79.088155);
-            navigator.geolocation.getCurrentPosition(function (pos) {
-                var lat = pos.coords.latitude;
-                var lng = pos.coords.longitude;
-                getPatientAddressFromLatLang(lat, lng);
-            });
+            getPatientAddressFromLatLang(21.145799999999998, 79.088155);
+            //navigator.geolocation.getCurrentPosition(function (pos) {
+            //    var lat = pos.coords.latitude;
+            //    var lng = pos.coords.longitude;
+            //    getPatientAddressFromLatLang(lat, lng);
+            //});
         }
     }
 }
@@ -257,13 +259,14 @@ function SaveFullPatientAddressNotesDetails(lat, lng, addr) {
     var sendinsuranceJson = JSON.stringify(InsObjs);
     //insuranceinfo = '<InsInfo><Is><insurence><IPID>72</IPID><IsRe>false</IsRe></insurence></Is></InsInfo>';
 
-    
+    var PatientAddressNote = { Id: ParamedicId, CallId: CallId, Status: status, jsonData: sendJson, InsuranceInfo: sendinsuranceJson };
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         url: GetDataUrl,
-        data: { Id: ParamedicId, CallId: CallId, Status: status, jsonData: sendJson, InsuranceInfo: sendinsuranceJson },
+        data: JSON.stringify({ "PatientAddressNote": PatientAddressNote }),
+        contentType: "application/json; charset=utf-8",
         dataType: "json",
         beforeSend: function () {
             new ezphonemessege().show({
@@ -315,17 +318,17 @@ function getPatientAddressFromLatLang(lat, lng) {
     
     var geocoder = new google.maps.Geocoder();
     var latLng = new google.maps.LatLng(lat, lng);
-    //SaveFullPatientAddressNotesDetails(21.145799999999998, 79.088155, '');
-    geocoder.geocode({ 'latLng': latLng }, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
+    SaveFullPatientAddressNotesDetails(21.145799999999998, 79.088155, '');
+    //geocoder.geocode({ 'latLng': latLng }, function (results, status) {
+    //    if (status == google.maps.GeocoderStatus.OK) {
             
-            if (results[1]) {
-                SaveFullPatientAddressNotesDetails(lat, lng, results[1].formatted_address);
-            }
-        } else {            
-            SaveFullPatientAddressNotesDetails(lat, lng, '');
-        }
-    });
+    //        if (results[1]) {
+    //            SaveFullPatientAddressNotesDetails(lat, lng, results[1].formatted_address);
+    //        }
+    //    } else {            
+    //        SaveFullPatientAddressNotesDetails(lat, lng, '');
+    //    }
+    //});
 }
 
 

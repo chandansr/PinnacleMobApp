@@ -12,14 +12,15 @@ function GetTransportTimeStamp() {
     var status = getParameterByName("Status");
     var message = "";        
     var Page = $.mobile.activePage.data('mypage');
-
+    var TimeStampsInfo = { Id: Id, CallId: CallId };
     if (Page == "TimeStamp") {
         $.ajax({
             cache: false,
-            type: "GET",
+            type: "POST",
             async: false,
             url: GetDataUrl,
-            data: { Id: Id, CallId: CallId },
+            data: JSON.stringify({ "TimeStampsInfo": TimeStampsInfo }),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function () {
                 $.mobile.showPageLoadingMsg("a", "Loading...");
@@ -106,14 +107,16 @@ function SaveTransportTimeStamps() {
     var sucess = "0";
     var LOT = $("#selectLOT").val();
     var OutCome = $("#selectOutCome").val();
-    
+    var TimeStampsInfo = { Id: ParamedicId, CallId: CallId, Status: status, CallNo: CallNo, Milege: Milege, Desc: Desc, offset: time, LOT: LOT, OutCome: OutCome };
+    debugger;
     var message = "";
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         url: GetDataUrl,
-        data: { Id: ParamedicId, CallId: CallId, Status: status, CallNo: CallNo, Milege: Milege, Desc: Desc, offset: time, LOT: LOT, OutCome: OutCome},
+        data: JSON.stringify({ "TimeStampsInfo": TimeStampsInfo }),
+        contentType: "application/json; charset=utf-8",
         dataType: "json",
         beforeSend: function () {
             $.mobile.showPageLoadingMsg("a", "Loading....");
@@ -159,12 +162,14 @@ function UpdateCrewLoc() {
     });
 
     var ValidateUrl = _ServicesUrl._SecondServicePath + _WcfFunctionUrl._SaveCrewLocation;
+    var CrewLocation = { Id: Id, Lat: lat, Lnt: lng };
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         dataType: "json",
-        data: { Id: Id, Lat: lat, Lnt: lng },
+        data: JSON.stringify({ "CrewLocation": CrewLocation }),
+        contentType: "application/json; charset=utf-8",
         url: ValidateUrl,
         beforeSend: function () {
             $.mobile.showPageLoadingMsg("a", "Loading...");
@@ -190,14 +195,15 @@ function GetGeneralTimeStamp() {
     var status = getParameterByName("Status");
     var message = "";        
     var Page = $.mobile.activePage.data('mypage');
-
+    var TimeStampsInfo = { Id: Id, CallId: CallId };
     
         $.ajax({
             cache: false,
-            type: "GET",
+            type: "POST",
             async: false,
             url: GetDataUrl,
-            data: { Id: Id, CallId: CallId },
+            data: JSON.stringify({ "TimeStampsInfo": TimeStampsInfo }),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function () {
                 $.mobile.showPageLoadingMsg("a", "Loading...");
@@ -238,14 +244,17 @@ function GetGeneralTimeStamp() {
         var sucess = "0";
         var IsDelay = "0";
         var DelayReason = "";
-
+        var TimeStampsInfo = {
+            Id: ParamedicId, CallId: CallId, Status: status, CallNo: CallNo, Milege: Milege, Desc: Desc, offset: time, IsDelay: IsDelay, DelayReason: DelayReason
+        };
         var message = "";
         $.ajax({
             cache: false,
-            type: "GET",
+            type: "POST",
             async: false,
             url: GetDataUrl,
-            data: { Id: ParamedicId, CallId: CallId, Status: status, CallNo: CallNo, Milege: Milege, Desc: Desc, offset: time, IsDelay: IsDelay, DelayReason: DelayReason },
+            data: JSON.stringify({ "TimeStampsInfo": TimeStampsInfo }),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function () {
                 $.mobile.showPageLoadingMsg("a", "Loading....");
@@ -295,14 +304,15 @@ function GetGeneralTimeStamp() {
         var IsDelay = "1";
         var DelayReason = $("#txtDelayReasonArrivedDelay").val();
         var sucess = "0";
-
+        var TimeStampsInfo={ Id: ParamedicId, CallId: CallId, Status: status, CallNo: CallNo, Milege: Milege, Desc: Desc, offset: time, IsDelay: IsDelay, DelayReason: DelayReason };
         var message = "";
         $.ajax({
             cache: false,
-            type: "GET",
+            type: "POST",
             async: false,
             url: GetDataUrl,
-            data: { Id: ParamedicId, CallId: CallId, Status: status, CallNo: CallNo, Milege: Milege, Desc: Desc, offset: time, IsDelay: IsDelay, DelayReason: DelayReason },
+            data: JSON.stringify({ "TimeStampsInfo": TimeStampsInfo }),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function () {
                 $.mobile.showPageLoadingMsg("a", "Loading....");
@@ -348,14 +358,15 @@ function GetGeneralTimeStamp() {
         var IsDelay = "1";
         var DelayReason = $("#txtDelayReasonEnroute").val();
         var sucess = "0";
-
+        var TimeStampsInfo = { Id: ParamedicId, CallId: CallId, Status: status, offset: time, JsonData: senddata };
         var message = "";
         $.ajax({
             cache: false,
-            type: "GET",
+            type: "POST",
             async: false,
             url: GetDataUrl,
-            data: { Id: ParamedicId, CallId: CallId, Status: status, offset: time, IsDelay: IsDelay, DelayReason: DelayReason },
+            data: JSON.stringify({ "TimeStampsInfo": TimeStampsInfo }),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function () {
                 $.mobile.showPageLoadingMsg("a", "Loading....");
@@ -401,14 +412,15 @@ function GetGeneralTimeStamp() {
         var IsDelay = "1";
         var DelayReason = $("#txtDelayReasonOnScene").val();
         var sucess = "0";
-
+        var TimeStampsInfo = { Id: ParamedicId, CallId: CallId, Status: status, offset: time, JsonData: senddata };
         var message = "";
         $.ajax({
             cache: false,
-            type: "GET",
+            type: "POST",
             async: false,
             url: GetDataUrl,
-            data: { Id: ParamedicId, CallId: CallId, Status: status, offset: time, IsDelay: IsDelay, DelayReason: DelayReason },
+            data: JSON.stringify({ "TimeStampsInfo": TimeStampsInfo }),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function () {
                 $.mobile.showPageLoadingMsg("a", "Loading....");
@@ -453,14 +465,15 @@ function GetGeneralTimeStamp() {
         var time = new Date().getTimezoneOffset();
         var PCR = $("#txtPCRNOClear").val();        
         var sucess = "0";
-
+        var TimeStampsInfo = { Id: ParamedicId, CallId: CallId, Status: status, offset: time, PCR: PCR };
         var message = "";
         $.ajax({
             cache: false,
-            type: "GET",
+            type: "POST",
             async: false,
             url: GetDataUrl,
-            data: { Id: ParamedicId, CallId: CallId, Status: status, offset: time, PCR: PCR },
+            data: JSON.stringify({ "TimeStampsInfo": TimeStampsInfo }),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function () {
                 $.mobile.showPageLoadingMsg("a", "Loading....");

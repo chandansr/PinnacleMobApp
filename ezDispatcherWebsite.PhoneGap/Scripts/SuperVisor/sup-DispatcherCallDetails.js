@@ -29,15 +29,18 @@ function GetSupVCallDetails() {
     var message = "";
     var ulhtml = "";
     var IsShow = "0";
-
+    var DispatcherCalls = {
+        PDID:PdId,
+        CallId: CallID,
+    };
     if (Page == "sup-CallDetails") {
-
+        
         $.ajax({
-
-            type: "GET",
+            type: "POST",
             async: false,
             url: GetDataUrl,
-            data: { PDID: PdId, CallId: CallID },
+            data: JSON.stringify({ "DispatcherCalls": DispatcherCalls }),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function () {
                 new ezphonemessege().show({

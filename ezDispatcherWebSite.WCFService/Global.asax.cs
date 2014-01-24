@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel.Activation;
 using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
-using System.ServiceModel.Activation;
-using System.Web.Routing;
 
 namespace ezDispatcherWebSite.WCFService
 {
@@ -14,8 +13,8 @@ namespace ezDispatcherWebSite.WCFService
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            RouteTable.Routes.Add(new ServiceRoute("UserService", new WebServiceHostFactory(), typeof(UserService)));
-          
+            System.Web.Routing.RouteTable.Routes.Add(new ServiceRoute("", new WebServiceHostFactory(),
+                                        typeof(ezDispatcherWebSite.WCFService.Service1)));
         }
 
         protected void Session_Start(object sender, EventArgs e)
@@ -30,6 +29,7 @@ namespace ezDispatcherWebSite.WCFService
 
             EnableCrossDmainAjaxCall();
         }
+
         private void EnableCrossDmainAjaxCall()
         {
             HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*");

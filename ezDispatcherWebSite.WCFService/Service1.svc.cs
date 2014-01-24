@@ -1,32 +1,41 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ezDispatcherWebSite.WCFService.ServiceInterface;
-using System.IO;
-using System.Web.Script.Serialization;
-using System.Text;
+using System.Configuration;
 using System.Data;
-using ezDispatcherWebsite.WCF.DataAccessLayer;
-using System.ServiceModel.Activation;
-using System.Web.SessionState;
-using System.ServiceModel;
-using System.Net.Mail;
+using System.Data.SqlClient;
+using System.IO;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
-using System.Net.Security;
-using System.Collections.Specialized;
-using System.Net.Sockets;
+using System.Net.Mail;
+using System.ServiceModel;
+using System.ServiceModel.Activation;
+using System.Text;
+using System.Web;
+using System.Web.Script.Serialization;
+using ezDispatcherWebsite.WCF.DataAccessLayer;
 using MoonAPNS;
 
 
 namespace ezDispatcherWebSite.WCFService
 {
+    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in code, svc and config file together.
+    // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
-
-    public class UserService : IUserService
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
+    public class Service1 : IService1
     {
         JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
+
+        public UserDetails[] GetUserDetails(string Username)
+        {
+            List<UserDetails> tt = new List<UserDetails>();
+            UserDetails uu = new UserDetails();
+            uu.UserName = "dsfd";
+            uu.UserId = "11";
+            uu.Role = "sds";
+            tt.Add(uu);
+            return tt.ToArray();
+        }
 
 
         #region GetDispatcherCalls
@@ -35,13 +44,13 @@ namespace ezDispatcherWebSite.WCFService
         /// </summary>
         /// <returns></returns>
         ///         
-        public Stream GetDispatcherCalls(string PDID, string CallId)
+        public Stream GetDispatcherCalls(DispatcherCalls DispatcherCalls)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
             {
-                string CallID = CallId;
-                if (CallId == "")
+                string CallID = DispatcherCalls.CallId;
+                if (DispatcherCalls.CallId == "")
                 {
                     CallID = "2861";
                 }
@@ -49,8 +58,8 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataTable dt = new DataTable();
                 ezDispathser clsezDispathser = new ezDispathser();
-                dt = clsezDispathser.GetDispatcherCalls(Convert.ToInt32(PDID), Convert.ToInt32(CallID));
-                List<DispatcherCallDetails> lstcurCallr = Common.GetCallDetailsJson(dt);
+                dt = clsezDispathser.GetDispatcherCalls(Convert.ToInt32(DispatcherCalls.PDID), Convert.ToInt32(CallID));
+                List<DispatcherCallDetails> lstcurCallr = ezDispatcherWebSite.WCFService.Common.GetCallDetailsJson(dt);
 
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", lstcurCallr);
@@ -80,20 +89,20 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the interface method we are using for get all list of Dispatcher Calls.
         /// </summary>
         /// <returns>This method only returns list of users  Dispatcher Calls</returns>
-        public Stream GetDispatcherCallList(string Id, int Offset)
+        public Stream GetDispatcherCallList(DispatcherCallsList DispatcherCallsList)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
             {
-                string ParamedicDetailsID = Id;
+                string ParamedicDetailsID = DispatcherCallsList.Id;
                 DateTime date = new DateTime();
                 date = DateTime.UtcNow;
                 //TraceService("GetDispatcherCalls entry at " + DateTime.Now);
                 string returnValue = string.Empty;
                 DataTable dt = new DataTable();
                 ezDispathser clsezDispathser = new ezDispathser();
-                dt = clsezDispathser.GetDispatcherCallList(Convert.ToInt32(ParamedicDetailsID), date, Offset);
-                List<DispatcherCall> lstcurCallr = Common.GetJson(dt);
+                dt = clsezDispathser.GetDispatcherCallList(Convert.ToInt32(ParamedicDetailsID), date, DispatcherCallsList.Offset);
+                List<DispatcherCall> lstcurCallr = ezDispatcherWebSite.WCFService.Common.GetJson(dt);
 
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", lstcurCallr);
@@ -115,14 +124,7 @@ namespace ezDispatcherWebSite.WCFService
             return new MemoryStream(bResponse);
         }
         #endregion
-
-
-        #region ValidateCrew
-        /// <summary>
-        /// This is the method we are using for validating the crew.
-        /// </summary>
-        /// <returns></returns>
-        public List<ezLogin> ValidateCrew(string Username, string Password, string DeviceId, string DeviceType, int Offset)
+        public List<ezLogin> ValidateCrew(CrewDetails CrewDetails)
         {
             ezLogin ez = new ezLogin();
             List<ezLogin> lstez = new List<ezLogin>();
@@ -130,8 +132,8 @@ namespace ezDispatcherWebSite.WCFService
             {
                 DataTable dt = new DataTable();
                 ezDispathser clsezDispathser = new ezDispathser();
-                var password = Common.EncryptText(Password);
-                dt = clsezDispathser.ValidateCrew(Username, password, DeviceId, DeviceType, Offset);
+                var password = ezDispatcherWebSite.WCFService.Common.EncryptText(CrewDetails.Password);
+                dt = clsezDispathser.ValidateCrew(CrewDetails.Username, password, CrewDetails.DeviceId, CrewDetails.DeviceType, CrewDetails.Offset);
                 string str = dt.Rows[0]["UserID"].ToString();
 
                 if (str != "")
@@ -157,26 +159,24 @@ namespace ezDispatcherWebSite.WCFService
             lstez.Add(ez);
             return lstez;
         }
-        #endregion
-
 
         #region GetCallsDetails
         /// <summary>
         /// This is the method we are using for getting all details related to call.
         /// </summary>
         /// <returns></returns>
-        public Stream GetCallDetails(string CallId)
+        public Stream GetCallDetails(DispatcherCalls DispatcherCalls)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
             {
-                string CallID = CallId;
+                string CallID = DispatcherCalls.CallId;
 
                 string returnValue = string.Empty;
                 DataTable dt = new DataTable();
                 ezDispathser clsezDispathser = new ezDispathser();
                 dt = clsezDispathser.GetCallDetails(Convert.ToInt32(CallID));
-                List<CallDetails> lstCallDetails = Common.GetCallFullInfoJson(dt);
+                List<CallDetails> lstCallDetails = ezDispatcherWebSite.WCFService.Common.GetCallFullInfoJson(dt);
 
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", lstCallDetails);
@@ -205,12 +205,12 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for getting details of the current call for the crew.
         /// </summary>
         /// <returns></returns>
-        public Stream GetCurrentCallDetails(string Id)
+        public Stream GetCurrentCallDetails(DispatcherCallsList DispatcherCallsList)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
             {
-                string ID = Id;
+                string ID = DispatcherCallsList.Id;
 
                 string returnValue = string.Empty;
                 DataTable dt = new DataTable();
@@ -251,7 +251,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for getting details of the current call for the crew.
         /// </summary>
         /// <returns></returns>
-        public Stream SaveTimeStampsInfo(int Id, int CallId, string Status, string CallNo, string Milege, string Desc, int offset, string IsDelay, string DelayReason)
+        public Stream SaveTimeStampsInfo(TimeStampsInfo TimeStampsInfo)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -259,7 +259,7 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataTable dt = new DataTable();
                 ezDispathser clsezDispathser = new ezDispathser();
-                dt = clsezDispathser.SaveTimeStampsInfo(Convert.ToInt32(Id), Convert.ToInt32(CallId), Status, CallNo, Milege, Desc, offset, IsDelay, DelayReason);
+                dt = clsezDispathser.SaveTimeStampsInfo(Convert.ToInt32(TimeStampsInfo.Id), Convert.ToInt32(TimeStampsInfo.CallId), TimeStampsInfo.Status, TimeStampsInfo.CallNo, TimeStampsInfo.Milege, TimeStampsInfo.Desc, TimeStampsInfo.offset, TimeStampsInfo.IsDelay, TimeStampsInfo.DelayReason);
 
                 retDict.Add("Message", "Success");
                 if (dt.Rows.Count > 0)
@@ -307,7 +307,7 @@ namespace ezDispatcherWebSite.WCFService
 
                 if (dt.Rows.Count > 0)
                 {
-                    var Password = Common.DecryptText(dt.Rows[0]["Password"].ToString());
+                    var Password = ezDispatcherWebSite.WCFService.Common.DecryptText(dt.Rows[0]["Password"].ToString());
                     var Email = dt.Rows[0]["Email"].ToString();
                     if (dt.Rows[0]["Email"].ToString() != "")
                     {
@@ -317,7 +317,7 @@ namespace ezDispatcherWebSite.WCFService
                                    + "<p>Password:<span style=\"text-decoration: underline;\"><strong> " + Password + "</strong></span></p>"
                                    + "<p>&nbsp;</p><p>From,</p><p><strong>Pinnacle Response Systems</strong></p>";
 
-                        SendEmail(Email, body, "Password Notification", null, null, null);  
+                        SendEmail(Email, body, "Password Notification", null, null, null);
                     }
                 }
 
@@ -413,7 +413,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for saving the current location of the Primary Crew.
         /// </summary>
         /// <returns></returns>
-        public Stream SaveCrewLocation(int Id, string Lat, string Lnt, string Addr, int Offset)
+        public Stream SaveCrewLocation(CrewLocation CrewLocation)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -421,11 +421,11 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataSet ds = new DataSet();
                 ezDispathser clsezDispathser = new ezDispathser();
-                ds = clsezDispathser.SaveCrewCurrentLocation(Convert.ToInt32(Id), Lat, Lnt, Addr, Offset);
-                List<DispatcherCall> lstcurCallr = new List<DispatcherCall>(); 
+                ds = clsezDispathser.SaveCrewCurrentLocation(Convert.ToInt32(CrewLocation.Id), CrewLocation.Lat, CrewLocation.Lnt, CrewLocation.Addr, CrewLocation.Offset);
+                List<DispatcherCall> lstcurCallr = new List<DispatcherCall>();
                 if (ds.Tables.Contains("Table1"))
                 {
-                    lstcurCallr = Common.GetJson(ds.Tables[1]);
+                    lstcurCallr = ezDispatcherWebSite.WCFService.Common.GetJson(ds.Tables[1]);
                 }
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", lstcurCallr);
@@ -453,7 +453,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for getting the details of call for timestamp page.
         /// </summary>
         /// <returns></returns>
-        public Stream GetTimeStampDetails(int Id, int CallId)
+        public Stream GetTimeStampDetails(TimeStampsInfo TimeStampsInfo)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -461,8 +461,8 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataSet ds = new DataSet();
                 ezDispathser clsezDispathser = new ezDispathser();
-                ds = clsezDispathser.GetCallDetailsForTimeStamp(Id, CallId);
-                List<CallDetailsForTimeStamp> lstcallD = Common.GetJsonforTimeStamp(ds);
+                ds = clsezDispathser.GetCallDetailsForTimeStamp(TimeStampsInfo.Id, TimeStampsInfo.CallId);
+                List<CallDetailsForTimeStamp> lstcallD = ezDispatcherWebSite.WCFService.Common.GetJsonforTimeStamp(ds);
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", lstcallD);
             }
@@ -490,7 +490,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for getting the Delay status of the unit.
         /// </summary>
         /// <returns></returns>
-        public Stream GetDelayStatus(int Id, int CallId, string Status, int Offset)
+        public Stream GetDelayStatus(DelayStatus DelayStatus)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -498,8 +498,8 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataSet ds = new DataSet();
                 ezDispathser clsezDispathser = new ezDispathser();
-                ds = clsezDispathser.GetDelayStatus(Id, CallId, Status, Offset);
-                List<UnitDelayStatus> lstUnitDelayS = Common.GetJsonforUnitDelayStatus(ds);
+                ds = clsezDispathser.GetDelayStatus(DelayStatus.Id, DelayStatus.CallId, DelayStatus.Status, DelayStatus.Offset);
+                List<UnitDelayStatus> lstUnitDelayS = ezDispatcherWebSite.WCFService.Common.GetJsonforUnitDelayStatus(ds);
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", lstUnitDelayS);
             }
@@ -527,7 +527,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for saving the Time stamp details of the user (without Milege).
         /// </summary>
         /// <returns></returns>
-        public Stream SaveGeneralTimeStampsInfo(int Id, int CallId, string Status, int offset, string JsonData)
+        public Stream SaveGeneralTimeStampsInfo(TimeStampsInfo TimeStampsInfo)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -535,7 +535,7 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataTable dt = new DataTable();
                 ezDispathser clsezDispathser = new ezDispathser();
-                dt = clsezDispathser.SaveGeneralTimeStampsInfo(Convert.ToInt32(Id), Convert.ToInt32(CallId), Status, offset, JsonData);
+                dt = clsezDispathser.SaveGeneralTimeStampsInfo(Convert.ToInt32(TimeStampsInfo.Id), Convert.ToInt32(TimeStampsInfo.CallId), TimeStampsInfo.Status, TimeStampsInfo.offset, TimeStampsInfo.JsonData);
 
                 retDict.Add("Message", "Success");
                 if (dt.Rows.Count > 0)
@@ -570,7 +570,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for saving the Transport timestamp of the user.
         /// </summary>
         /// <returns></returns>
-        public Stream SaveTransportTimeStampsInfo(int Id, int CallId, string Status, int offset, string JsonData)
+        public Stream SaveTransportTimeStampsInfo(TimeStampsInfo TimeStampsInfo)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -578,7 +578,7 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataTable dt = new DataTable();
                 ezDispathser clsezDispathser = new ezDispathser();
-                dt = clsezDispathser.SaveTransportTimeStampsInfo(Convert.ToInt32(Id), Convert.ToInt32(CallId), Status, offset, JsonData);
+                dt = clsezDispathser.SaveTransportTimeStampsInfo(Convert.ToInt32(TimeStampsInfo.Id), Convert.ToInt32(TimeStampsInfo.CallId), TimeStampsInfo.Status, TimeStampsInfo.offset, TimeStampsInfo.JsonData);
 
                 retDict.Add("Message", "Success");
                 if (dt.Rows.Count > 0)
@@ -613,7 +613,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for saving the Clear timestamp of the user.
         /// </summary>
         /// <returns></returns>
-        public Stream SaveClearTimeStampsInfo(int Id, int CallId, string Status, int offset, string PCR)
+        public Stream SaveClearTimeStampsInfo(TimeStampsInfo TimeStampsInfo)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -621,7 +621,7 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataTable dt = new DataTable();
                 ezDispathser clsezDispathser = new ezDispathser();
-                dt = clsezDispathser.SaveClearTimeStampsInfo(Convert.ToInt32(Id), Convert.ToInt32(CallId), Status, offset, PCR);
+                dt = clsezDispathser.SaveClearTimeStampsInfo(Convert.ToInt32(TimeStampsInfo.Id), Convert.ToInt32(TimeStampsInfo.CallId), TimeStampsInfo.Status, TimeStampsInfo.offset, TimeStampsInfo.PCR);
 
                 retDict.Add("Message", "Success");
                 if (dt.Rows.Count > 0)
@@ -656,7 +656,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for getting the Dynamic fields for the status.
         /// </summary>
         /// <returns></returns>
-        public Stream GetStatusWiseDynamicFields(int Id, int CallId, string Status, int Offset)
+        public Stream GetStatusWiseDynamicFields(TimeStampsInfo TimeStampsInfo)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -664,8 +664,8 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataTable dt = new DataTable();
                 ezDispathser clsezDispathser = new ezDispathser();
-                dt = clsezDispathser.GetStatusWiseDynamicFields(Id, CallId, Status, Offset);
-                List<DynamicFields> lstDynamicFields = Common.GetDynamicFieldsJson(dt);
+                dt = clsezDispathser.GetStatusWiseDynamicFields(TimeStampsInfo.Id, TimeStampsInfo.CallId, TimeStampsInfo.Status, TimeStampsInfo.offset);
+                List<DynamicFields> lstDynamicFields = ezDispatcherWebSite.WCFService.Common.GetDynamicFieldsJson(dt);
 
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", lstDynamicFields);
@@ -693,7 +693,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for getting the Dynamic fields for the status(Transport).
         /// </summary>
         /// <returns></returns>
-        public Stream GetTransportDynamicFields(int Id, int CallId, string Status, int Offset)
+        public Stream GetTransportDynamicFields(TimeStampsInfo TimeStampsInfo)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -701,8 +701,8 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataSet ds = new DataSet();
                 ezDispathser clsezDispathser = new ezDispathser();
-                ds = clsezDispathser.GetTransportDynamicFields(Id, CallId, Status, Offset);
-                List<TransportDynamicFields> lstTransportDynamicFields = Common.GetTransportDynamicFieldsJson(ds);
+                ds = clsezDispathser.GetTransportDynamicFields(TimeStampsInfo.Id, TimeStampsInfo.CallId, TimeStampsInfo.Status, TimeStampsInfo.offset);
+                List<TransportDynamicFields> lstTransportDynamicFields = ezDispatcherWebSite.WCFService.Common.GetTransportDynamicFieldsJson(ds);
 
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", lstTransportDynamicFields);
@@ -730,7 +730,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for getting the Call Details for the Patient Address note details page.
         /// </summary>
         /// <returns></returns>
-        public Stream GetPatientAddressNoteDetails(int Id, int CallId)
+        public Stream GetPatientAddressNoteDetails(PatientAddressNote PatientAddressNoteDetails)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -738,8 +738,8 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataSet ds = new DataSet();
                 ezDispathser clsezDispathser = new ezDispathser();
-                ds = clsezDispathser.GetPatientAddressNoteDetails(Id, CallId);
-                List<PatientAddressNoteDetails> lstPatientAddrNote = Common.GetPatientAddressNoteDetails(ds);
+                ds = clsezDispathser.GetPatientAddressNoteDetails(PatientAddressNoteDetails.Id, PatientAddressNoteDetails.CallId);
+                List<PatientAddressNoteDetails> lstPatientAddrNote = ezDispatcherWebSite.WCFService.Common.GetPatientAddressNoteDetails(ds);
 
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", lstPatientAddrNote);
@@ -767,7 +767,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for saving the patient address as a note to dispatcher.
         /// </summary>
         /// <returns></returns>
-        public Stream SavePatientAddressNote(int Id, int CallId, string Status, string jsonData, string InsuranceInfo)
+        public Stream SavePatientAddressNote(PatientAddressNote PatientAddressNoteDetails)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -775,7 +775,7 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataSet ds = new DataSet();
                 ezDispathser clsezDispathser = new ezDispathser();
-                ds = clsezDispathser.SavePatientAddressNote(Id, CallId, Status, jsonData, InsuranceInfo);
+                ds = clsezDispathser.SavePatientAddressNote(PatientAddressNoteDetails.Id, PatientAddressNoteDetails.CallId, PatientAddressNoteDetails.Status, PatientAddressNoteDetails.jsonData, PatientAddressNoteDetails.InsuranceInfo);
 
                 retDict.Add("Message", "Success");
                 if (ds.Tables[0].Rows.Count > 0)
@@ -819,7 +819,7 @@ namespace ezDispatcherWebSite.WCFService
                 DataSet ds = new DataSet();
                 ezDispathser clsezDispathser = new ezDispathser();
                 ds = clsezDispathser.GetFacilities(Id, Facility);
-                List<ValueForDDL> Facilities = Common.GetFacilities(ds.Tables[0]);
+                List<ValueForDDL> Facilities = ezDispatcherWebSite.WCFService.Common.GetFacilities(ds.Tables[0]);
 
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", Facilities);
@@ -847,7 +847,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for getting the Device details.
         /// </summary>
         /// <returns></returns>
-        public Stream GetDeviceDetails(string DeviceId, string DeviceType)
+        public Stream GetDeviceDetails(Device Device)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -855,8 +855,8 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataSet ds = new DataSet();
                 ezDispathser clsezDispathser = new ezDispathser();
-                ds = clsezDispathser.GetDeviceDetails(DeviceId, DeviceType);
-                List<DeviceDetails> DeviceDetails = Common.GetDeviceDetails(ds.Tables[0]);
+                ds = clsezDispathser.GetDeviceDetails(Device.DeviceId, Device.DeviceType);
+                List<DeviceDetails> DeviceDetails = ezDispatcherWebSite.WCFService.Common.GetDeviceDetails(ds.Tables[0]);
 
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", DeviceDetails);
@@ -897,7 +897,7 @@ namespace ezDispatcherWebSite.WCFService
 
             tRequest.Headers.Add(string.Format("Sender: id={0}", SENDER_ID));
 
-            string postData = "collapse_key=score_update&time_to_live=108&delay_while_idle=1&data.message=" + value 
+            string postData = "collapse_key=score_update&time_to_live=108&delay_while_idle=1&data.message=" + value
                                 + "&data.time=" + System.DateTime.Now.ToString() + "&registration_id=" + deviceId + "";
 
 
@@ -949,7 +949,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for saving the device Token needed for PushNotification.
         /// </summary>
         /// <returns></returns>
-        public Stream SaveDeviceToken(int Id, string DeviceId, string DeviceToken, string DevicePlatform, string jsonData)
+        public Stream SaveDeviceToken(Device DeviceDetails)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -957,7 +957,7 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataSet ds = new DataSet();
                 ezDispathser clsezDispathser = new ezDispathser();
-                ds = clsezDispathser.SaveDeviceToken(Id, DeviceId, DeviceToken, DevicePlatform, jsonData);
+                ds = clsezDispathser.SaveDeviceToken(DeviceDetails.Id, DeviceDetails.DeviceId, DeviceDetails.DeviceToken, DeviceDetails.DevicePlatform, DeviceDetails.jsonData);
 
                 if (ds.Tables[0].Rows.Count > 0)
                 {
@@ -1002,7 +1002,7 @@ namespace ezDispatcherWebSite.WCFService
                 DataSet ds = new DataSet();
                 ezDispathser clsezDispathser = new ezDispathser();
                 ds = clsezDispathser.GetSuperVisorUnits(Id);
-                List<SuperVisorUnits> SuperVisorUnits = Common.GetSuperVisorUnits(ds);
+                List<SuperVisorUnits> SuperVisorUnits = ezDispatcherWebSite.WCFService.Common.GetSuperVisorUnits(ds);
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", SuperVisorUnits);
             }
@@ -1029,7 +1029,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for getting the SuperVisor Call List.
         /// </summary>
         /// <returns></returns>
-        public Stream GetSuperVisorCallList(int Id, string Status, string UnitIds, int Offset)
+        public Stream GetSuperVisorCallList(SuperVisorUnitsDetails SuperVisorUnitsDetails)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -1037,9 +1037,9 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataSet ds = new DataSet();
                 ezDispathser clsezDispathser = new ezDispathser();
-                ds = clsezDispathser.GetSuperVisorCallList(Id, Status, UnitIds, Offset);
-                List<SupervisorCalls> lstSupVCallList = Common.GetSupvCallListJson(ds.Tables[0]);
-                
+                ds = clsezDispathser.GetSuperVisorCallList(SuperVisorUnitsDetails.Id, SuperVisorUnitsDetails.Status, SuperVisorUnitsDetails.UnitIds, SuperVisorUnitsDetails.Offset);
+                List<SupervisorCalls> lstSupVCallList = ezDispatcherWebSite.WCFService.Common.GetSupvCallListJson(ds.Tables[0]);
+
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", lstSupVCallList);
             }
@@ -1075,7 +1075,7 @@ namespace ezDispatcherWebSite.WCFService
                 DataSet ds = new DataSet();
                 ezDispathser clsezDispathser = new ezDispathser();
                 ds = clsezDispathser.GetPrimaryCrewLoc(Id, UnitIds, Offset, CallId);
-                List<PrimaryCrewLocation> lstprmcrew = Common.GetPrimaryCrewLoc(ds.Tables[0]);
+                List<PrimaryCrewLocation> lstprmcrew = ezDispatcherWebSite.WCFService.Common.GetPrimaryCrewLoc(ds.Tables[0]);
 
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", lstprmcrew);
@@ -1104,7 +1104,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for getting the SuperVisor calls count.
         /// </summary>
         /// <returns></returns>
-        public Stream GetSupVCallsCount(int PId, string PUnits)
+        public Stream GetSupVCallsCount(SupVCalls SupVCalls)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -1112,9 +1112,9 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataSet ds = new DataSet();
                 ezDispathser clsezDispathser = new ezDispathser();
-                ds = clsezDispathser.GetSupVCallsCount(PId, PUnits);
-                List<ValueForDDL> lstsupvCount = Common.GetSupVCallsCount(ds.Tables[0]);
-                
+                ds = clsezDispathser.GetSupVCallsCount(SupVCalls.PId, SupVCalls.PUnits);
+                List<ValueForDDL> lstsupvCount = ezDispatcherWebSite.WCFService.Common.GetSupVCallsCount(ds.Tables[0]);
+
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", lstsupvCount);
             }
@@ -1134,6 +1134,5 @@ namespace ezDispatcherWebSite.WCFService
             return new MemoryStream(bResponse);
         }
         #endregion
-
     }
 }

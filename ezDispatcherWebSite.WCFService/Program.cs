@@ -1,4 +1,4 @@
-/*Copyright 2011 Arash Norouzi
+﻿/*Copyright 2011 Arash Norouzi
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -31,9 +31,9 @@ namespace MoonAPNS
             var payload1 = new NotificationPayload("Device Token", "Message", 1, "default");
             payload1.AddCustom("RegionID", "IDQ10150");
 
-            var p = new List<NotificationPayload> {payload1};
+            var p = new List<NotificationPayload> { payload1 };
 
-            var push = new PushNotification(false, "p12 file location","password");
+            var push = new PushNotification(false, "p12 file location", "password");
             var rejected = push.SendToApple(p);
             foreach (var item in rejected)
             {

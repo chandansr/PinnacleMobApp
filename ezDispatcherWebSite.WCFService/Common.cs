@@ -49,7 +49,7 @@ namespace ezDispatcherWebSite.WCFService
             }
             return msg;
         }
-                
+
         public static List<DispatcherCall> GetJson(DataTable dt)
         {
             List<DispatcherCall> lstcurCall = new List<DispatcherCall>();
@@ -57,10 +57,10 @@ namespace ezDispatcherWebSite.WCFService
             foreach (DataRow dr in dt.Rows)
             {
                 DispatcherCall obj = new DispatcherCall();
-                
+
                 obj.CallStatus = dr.Table.Columns.Contains("CALLSTATUS") ? dr["CALLSTATUS"].ToString() : "";
-                obj.LastName =dr.Table.Columns.Contains("LastName")? dr["LastName"].ToString(): "";
-                obj.FirstName =dr.Table.Columns.Contains("FirstName")? dr["FirstName"].ToString(): "";
+                obj.LastName = dr.Table.Columns.Contains("LastName") ? dr["LastName"].ToString() : "";
+                obj.FirstName = dr.Table.Columns.Contains("FirstName") ? dr["FirstName"].ToString() : "";
                 obj.ContractNumber = dr.Table.Columns.Contains("ContactNumber") ? dr["ContactNumber"].ToString() : "";
                 obj.Email = dr.Table.Columns.Contains("Email") ? dr["Email"].ToString() : "";
                 obj.Address = dr.Table.Columns.Contains("Address") ? dr["Address"].ToString() : "";
@@ -79,7 +79,7 @@ namespace ezDispatcherWebSite.WCFService
                 obj.CurrentCallId = dr.Table.Columns.Contains("CurrentCallId") ? dr["CurrentCallId"].ToString() : "";
                 obj.UnitStatus = dr.Table.Columns.Contains("UnitStatus") ? dr["UnitStatus"].ToString() : "";
                 obj.IsComplete = dr.Table.Columns.Contains("IsComplete") ? dr["IsComplete"].ToString() : "";
-                
+
                 lstcurCall.Add(obj);
             }
             return lstcurCall;
@@ -138,13 +138,13 @@ namespace ezDispatcherWebSite.WCFService
             foreach (DataRow dr in dt.Rows)
             {
                 CallDetails obj = new CallDetails();
-                
+
                 obj.CallId = dr.Table.Columns.Contains("CallId") ? dr["CallId"].ToString() : "";
                 obj.Unit = dr.Table.Columns.Contains("Unit") ? dr["Unit"].ToString() : "";
                 obj.Trip = dr.Table.Columns.Contains("Trip") ? dr["Trip"].ToString() : "";
                 obj.PLastName = dr.Table.Columns.Contains("PLastName") ? dr["PLastName"].ToString() : "";
                 obj.PFirstName = dr.Table.Columns.Contains("PFirstName") ? dr["PFirstName"].ToString() : "";
-                obj.PDOB = dr.Table.Columns.Contains("PDOB") ? dr["PDOB"].ToString() : "";                
+                obj.PDOB = dr.Table.Columns.Contains("PDOB") ? dr["PDOB"].ToString() : "";
                 obj.PPhone = dr.Table.Columns.Contains("PPhone") ? dr["PPhone"].ToString() : "";
                 obj.PAlerts = dr.Table.Columns.Contains("PAlerts") ? dr["PAlerts"].ToString() : "";
                 obj.PStreet = dr.Table.Columns.Contains("PStreet") ? dr["PStreet"].ToString() : "";
@@ -248,7 +248,7 @@ namespace ezDispatcherWebSite.WCFService
                 calld.OutComeString = lstOutCome;
                 lstcalldetailsTS.Add(calld);
             }
-            return lstcalldetailsTS; 
+            return lstcalldetailsTS;
         }
 
 
@@ -256,14 +256,14 @@ namespace ezDispatcherWebSite.WCFService
         {
             List<UnitDelayStatus> lstUnitDelayStatus = new List<UnitDelayStatus>();
             UnitDelayStatus1 ActUnitStatus = new UnitDelayStatus1();
-            
+
             if (ds.Tables.Contains("Table1"))
             {
                 foreach (DataRow dr in ds.Tables[1].Rows)
-                {                    
+                {
                     ActUnitStatus.IsDelay = dr.Table.Columns.Contains("IsDelay") ? dr["IsDelay"].ToString() : "";
-                    ActUnitStatus.Status = dr.Table.Columns.Contains("Status") ? dr["Status"].ToString() : "";                    
-                }                
+                    ActUnitStatus.Status = dr.Table.Columns.Contains("Status") ? dr["Status"].ToString() : "";
+                }
             }
 
             if (ds.Tables.Contains("Table"))
@@ -610,6 +610,6 @@ namespace ezDispatcherWebSite.WCFService
 
 
     }
-  
+
 
 }

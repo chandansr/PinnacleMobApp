@@ -15,15 +15,17 @@ function GetCallDetails() {
     var message = "";
     var ulhtml = "";
     var IsShow = "0";
-
+    var DispatcherCalls = {
+        PDID: PdId,
+        CallId: CallID,
+    };
     if (Page == "CallDetails") {
-
         $.ajax({
-
-            type: "GET",
+            type: "POST",
             async: false,
             url: GetDataUrl,
-            data: { PDID: PdId, CallId: CallID },
+            data: JSON.stringify({ "DispatcherCalls": DispatcherCalls }),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function () {
                 new ezphonemessege().show({
@@ -178,13 +180,15 @@ function GetTimeStampUrl(path, link) {
     var ValidateUrl = _ServicesUrl._SecondServicePath + _WcfFunctionUrl._GetDelayStatus;
     var time = new Date().getTimezoneOffset();
     var CurrentCallId = GetCrewCurrentCallId();
-
+    var DelayStatus = { Id: Id, CallId: CallId, Status: status, Offset: time };
+    
     var Ajax = $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         dataType: "JSON",
-        data: { Id: Id, CallId: CallId, Status: status, Offset: time },
+        data: JSON.stringify({ "DelayStatus": DelayStatus }),
+        contentType: "application/json; charset=utf-8",
         url: ValidateUrl,
         beforeSend: function () {
             new ezphonemessege().show({
@@ -266,17 +270,18 @@ function SaveTimeStampsWithoutMilege(status) {
     jsondata.Obj = [];
     jsondata.HasJson = hasJson;
     var senddata = JSON.stringify(jsondata);
-
+    var TimeStampsInfo = { Id: ParamedicId, CallId: CallId, Status: status, offset: time, JsonData: senddata };
 
     var message = "";
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         url: GetDataUrl,
-        data: { Id: ParamedicId, CallId: CallId, Status: status, offset: time, JsonData: senddata },
+        data: JSON.stringify({ "TimeStampsInfo": TimeStampsInfo }),
+        contentType: "application/json; charset=utf-8",
         dataType: "json",
-        beforeSend: function () {
+               beforeSend: function () {
             new ezphonemessege().show({
                 msg: 'Processing..Please wait..'
             });
@@ -322,12 +327,14 @@ function UpdateCrewLocAfterStatus(lat, lng) {
 
     var Id = getParameterByName("Id");    
     var ValidateUrl = _ServicesUrl._SecondServicePath + _WcfFunctionUrl._SaveCrewLocation;
+    var CrewLocation={ Id: Id, Lat: lat, Lnt: lng };
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         dataType: "json",
-        data: { Id: Id, Lat: lat, Lnt: lng },
+        data: JSON.stringify({ "CrewLocation": CrewLocation }),
+        contentType: "application/json; charset=utf-8",
         url: ValidateUrl,
         beforeSend: function () {            
         },

@@ -1,11 +1,11 @@
 ﻿
 $(document).ready(function () {
-    
+
 });
 
 
 function GetContactTimeStamp() {
-  
+
     var GetDataUrl = _ServicesUrl._SecondServicePath + _WcfFunctionUrl._GetStatusWiseDynamicFields;
     var Id = getParameterByName("Id");
     var CallId = getParameterByName("CallId");
@@ -15,14 +15,15 @@ function GetContactTimeStamp() {
     var Page = $.mobile.activePage.data('mypage');
     var DynamicFieldHtml = "";
     var time = new Date().getTimezoneOffset();
-
+    var TimeStampsInfo = { Id: Id, CallId: CallId, Status: status, offset: time };
     if (Page == "TimeStampContact") {
         $.ajax({
             cache: false,
-            type: "GET",
+            type: "POST",
             async: false,
             url: GetDataUrl,
-            data: { Id: Id, CallId: CallId, Status: status, Offset: time },
+            data: JSON.stringify({ "TimeStampsInfo": TimeStampsInfo }),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function () {
                 new ezphonemessege().show({
@@ -87,19 +88,20 @@ function SaveContactTimeStamps() {
             MasterFValue: $this.find('input[type="text"]').first().val()
         });
     });
-    jsondata.HasJson = hasJson;    
+    jsondata.HasJson = hasJson;
     var senddata = JSON.stringify(jsondata);
     var LocReq = getParameterByName("LocReq");
     var time = new Date().getTimezoneOffset();
     var sucess = "0";
-
+    var TimeStampsInfo = { Id: ParamedicId, CallId: CallId, Status: status, offset: time, JsonData: senddata };
     var message = "";
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         url: GetDataUrl,
-        data: { Id: ParamedicId, CallId: CallId, Status: status, offset: time, JsonData: senddata },
+        data: JSON.stringify({ "TimeStampsInfo": TimeStampsInfo }),
+        contentType: "application/json; charset=utf-8",
         dataType: "json",
         beforeSend: function () {
             new ezphonemessege().show({
@@ -117,7 +119,7 @@ function SaveContactTimeStamps() {
 
                 if ($xml.find('ErrorProcedure').text() == "SUCCESS") {
                     sucess = "1";
-                    UpdateCrewLoc();                    
+                    UpdateCrewLoc();
                 }
                 else {
                     $("#StatusHead").html("Some error occured. Please try again after some time.");

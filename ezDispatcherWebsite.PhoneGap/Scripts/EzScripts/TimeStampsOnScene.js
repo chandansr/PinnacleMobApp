@@ -15,14 +15,15 @@ function GetOnSceneTimeStamp() {
     var Page = $.mobile.activePage.data('mypage');
     var DynamicFieldHtml = "";
     var time = new Date().getTimezoneOffset();
-
+    var TimeStampsInfo = { Id: Id, CallId: CallId, Status: status, offset: time };
     if (Page == "TimeStampOnScene") {
         $.ajax({
             cache: false,
-            type: "GET",
+            type: "POST",
             async: false,
             url: GetDataUrl,
-            data: { Id: Id, CallId: CallId, Status: status, Offset: time },
+            data: JSON.stringify({ "TimeStampsInfo": TimeStampsInfo }),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function () {
                 new ezphonemessege().show({
@@ -106,14 +107,15 @@ function SaveOnSceneTimeStamps() {
     var LocReq = getParameterByName("LocReq");
     var time = new Date().getTimezoneOffset();
     var sucess = "0";
-
+    var TimeStampsInfo = { Id: ParamedicId, CallId: CallId, Status: status, offset: time, JsonData: senddata };
     var message = "";
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         url: GetDataUrl,
-        data: { Id: ParamedicId, CallId: CallId, Status: status, offset: time, JsonData: senddata },
+        data: JSON.stringify({ "TimeStampsInfo": TimeStampsInfo }),
+        contentType: "application/json; charset=utf-8",
         dataType: "json",
         beforeSend: function () {
             new ezphonemessege().show({

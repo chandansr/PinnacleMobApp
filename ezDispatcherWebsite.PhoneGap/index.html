@@ -178,9 +178,9 @@
                     else {
                         // otherwise we were launched because the user touched a notification in the notification tray.
                         if (e.coldstart)
-                            showAlert('COLDSTART NOTIFICATION', 'info');
+                            showAlert('You are assign a New Call.', 'info');
                         else
-                            showAlert('BACKGROUND NOTIFICATION', 'info');
+                            showAlert('You are assign a New Call.', 'info');
                     }
                     //showAlert('MESSAGE -> MSG: ' + e.payload.message, 'info');
                     //showAlert('MSGCNT: ' + e.payload.msgcnt, 'info');
@@ -277,6 +277,8 @@
                     var CurrentCallId = GetLoginCrewCurrentCallId(Id[0]);
 
                     $.mobile.changePage(path, { data: { "Id": Id[0], "LocReq": Id[1].trim(), "CurrentCallId": CurrentCallId, "IsFirstLogin": "1" } });
+
+                    SaveCrewLoc(169, 39.3026872, -74.6008295, '');
                 }
                 else {
                     $("#divError").html("<span style='color: red'>Please enter valid Username & Password.</span>");

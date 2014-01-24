@@ -7,19 +7,15 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8C248DD5-DB69-4CE3-ADD4-8B078FD99B81}</ProjectGuid>
+    <ProjectGuid>{4AB96924-E704-44E1-A9E7-C54AA05B717F}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ezDispatcherWebSite.WCFService</RootNamespace>
     <AssemblyName>ezDispatcherWebSite.WCFService</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>4.0</OldToolsVersion>
-    <UseIISExpress>false</UseIISExpress>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -43,18 +39,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ezDispatcherWebsite.WCF.DataAccessLayer">
-      <HintPath>..\ezDispatcherWebsite.WCF.DataAccessLayer\bin\Debug\ezDispatcherWebsite.WCF.DataAccessLayer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\ezDispatcherWebsite.WCF.DataAccessLayer\bin\Debug\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\Official\Projects\Ez\Third Party Assemblies\NewtonJson\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
-      <HintPath>..\..\NLog.dll</HintPath>
+      <HintPath>..\..\Official\Projects\EzMobile\ezDispatcherWebSite.WCFService\bin\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Data.Services" />
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.ServiceModel.Activation" />
@@ -78,15 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
+    <Content Include="Service1.svc" />
+    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common.cs" />
@@ -97,21 +82,30 @@
     <Compile Include="NotificationAlert.cs" />
     <Compile Include="NotificationPayload.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PushNotification.cs" />
-    <Compile Include="ServiceInterface\IUserService.cs" />
-    <Compile Include="UserService.cs" />
+    <Compile Include="Service1.svc.cs">
+      <DependentUpon>Service1.svc</DependentUpon>
+    </Compile>
+    <Compile Include="IService1.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\Ez-09Dec-2013.pubxml" />
-    <None Include="Properties\PublishProfiles\Ez-WCF-17Dec2013.pubxml" />
-    <None Include="Properties\PublishProfiles\Ez-WCF-24Dec2013.pubxml" />
-    <None Include="Properties\PublishProfiles\EzWCF-14Nov2013.pubxml" />
-    <None Include="Properties\PublishProfiles\EzWCF.pubxml" />
-    <None Include="Properties\PublishProfiles\Profile1.pubxml" />
+    <None Include="Properties\PublishProfiles\EzWCF-20Jan2014.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ezDispatcherWebsite.WCF.DataAccessLayer\ezDispatcherWebsite.WCF.DataAccessLayer.csproj">
+      <Project>{6b0f6f31-ed98-4a2b-8510-070c591b4844}</Project>
+      <Name>ezDispatcherWebsite.WCF.DataAccessLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -124,12 +118,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>63124</DevelopmentServerPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost:51373/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -13,15 +13,16 @@ function GetSupVCallInfo() {
     var message = "";    
     //var Page = $('[data-mypage]:visible').data('mypage');
     var Page = $.mobile.activePage.data('mypage');
-    
+    var DispatcherCalls = { CallId: Id };
     if (Page == "sup-CallInfo") {
 
         $.ajax({
             cache: false,
-            type: "GET",
+            type: "POST",
             async: false,
             url: GetDataUrl,
-            data: { CallId: Id },
+            data: JSON.stringify({ "DispatcherCalls": DispatcherCalls }),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function () {
                 new ezphonemessege().show({

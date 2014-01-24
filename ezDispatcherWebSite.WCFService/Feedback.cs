@@ -1,4 +1,4 @@
-/*Copyright 2011 Arash Norouzi
+﻿/*Copyright 2011 Arash Norouzi
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -17,37 +17,37 @@
 
 namespace MoonAPNS
 {
-	/// <summary>
-	/// Feedback object
-	/// </summary>
-	public class Feedback
-	{
+    /// <summary>
+    /// Feedback object
+    /// </summary>
+    public class Feedback
+    {
 
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		public Feedback()
-		{
-			this.DeviceToken = string.Empty;
-			this.Timestamp = DateTime.MinValue;
-		}
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public Feedback()
+        {
+            this.DeviceToken = string.Empty;
+            this.Timestamp = DateTime.MinValue;
+        }
 
-		/// <summary>
-		/// Device Token string in hex form without any spaces or dashes
-		/// </summary>
-		public string DeviceToken
-		{
-			get;
-			set;
-		}
+        /// <summary>
+        /// Device Token string in hex form without any spaces or dashes
+        /// </summary>
+        public string DeviceToken
+        {
+            get;
+            set;
+        }
 
-		/// <summary>
-		/// Timestamp of the Feedback for when Apple received the notice to stop sending notifications to the device
-		/// </summary>
-		public DateTime Timestamp
-		{
-			get;
-			set;
-		}
-	}
+        /// <summary>
+        /// Timestamp of the Feedback for when Apple received the notice to stop sending notifications to the device
+        /// </summary>
+        public DateTime Timestamp
+        {
+            get;
+            set;
+        }
+    }
 }

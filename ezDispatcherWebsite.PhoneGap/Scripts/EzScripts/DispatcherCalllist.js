@@ -13,15 +13,19 @@ function GetCallList() {
     var Page = $.mobile.activePage.data('mypage');
     var li = "";
     var count = 0;
-
+    var DispatcherCallsList = {
+        Id: Id,
+        Offset: time
+    };
     if (Page == "CallList") {
         $.ajax({
             cache: false,
-            type: "GET",
+            type: "POST",
             async: false,
             url: GetDataUrl,
-            data: { Id: Id, Offset: time },
+            data: JSON.stringify({ "DispatcherCallsList": DispatcherCallsList }),
             dataType: "json",
+            contentType: "application/json; charset=utf-8",
             beforeSend: function () {
                 new ezphonemessege().show({
                     msg: 'Processing..Please wait..'

@@ -17,14 +17,15 @@ function GetSupVCallList() {
     var Page = $.mobile.activePage.data('mypage');
     var li = "";
     var count = 0;
-    
+    var SuperVisorUnitsDetails = { Id: Id, Status: status, UnitIds: UnitId, Offset: time };
     if (Page == "sup-CallList") {
         $.ajax({
             cache: false,
-            type: "GET",
+            type: "POST",
             async: false,
             url: GetDataUrl,
-            data: { Id: Id, Status: status, UnitIds: UnitId, Offset: time },
+            data: JSON.stringify({ "SuperVisorUnitsDetails": SuperVisorUnitsDetails }),
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function () {
                 new ezphonemessege().show({

@@ -54,20 +54,36 @@ function Login(userName, password, DeviceId, DeviceType) {
     var ValidateUrl = _ServicesUrl._SecondServicePath + _WcfFunctionUrl._ValidateCrew;
     var time = new Date().getTimezoneOffset();
     var msg;
+    var CrewDetails = new Object();
+    CrewDetails = {
+        Username: userName,
+        Password: password,
+        DeviceId: DeviceId,
+        DeviceType: DeviceType,
+        Offset: time
+    };
+    
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         dataType: "json",
-        data: { username: userName, password: password, DeviceId: DeviceId, DeviceType: DeviceType, Offset: time },
         url: ValidateUrl,
+        //data: '{"Username":"' + userName + '","Password":"' + password + '","DeviceId":"' + DeviceId + '","DeviceType":"' + DeviceType + '","Offset":"' + time + '"}',
+        contentType: "application/json; charset=utf-8",
+        //url: 'UserService.svc/ValidateCrew',
+        //data: JSON.stringify(CrewDetails),
+        data: JSON.stringify({ "CrewDetails": CrewDetails }),
+        processData: false,    
         beforeSend: function () {
             new ezphonemessege().show({
                 msg: 'Processing.. Please wait..'
             });
         },
         success: function (result) {
-            msg = result.ValidateCrewResult[0];
+            
+            msg = result[0];
+            
         },
         error: function (xhr) {
             // message=xhr.responseBody;
@@ -76,6 +92,7 @@ function Login(userName, password, DeviceId, DeviceType) {
             new ezphonemessege().hide();
         }
     });
+
     return msg;
 }
 
@@ -85,16 +102,17 @@ function SendPassword() {
     var EmailId = $("#txtEmail").val();
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         dataType: "json",
-        data: { EmailId: EmailId },
+        data: JSON.stringify({ 'EmailId': EmailId }),
         url: ValidateUrl,
+        contentType: "application/json; charset=utf-8",
         beforeSend: function () {
             $.mobile.showPageLoadingMsg("a", "Loading...");
         },
         success: function (result) {
-
+            
             if (result.Data == "" && result.Message != "Failure") {
                 $("#divError").html("<span style='color: red'>The email id doesn't have any account in the application.</span>");
                 $("#divError").css("display", "block");
@@ -109,7 +127,7 @@ function SendPassword() {
                 $("#lnkPasswordSendConfirm").click();
             }
         },
-        error: function (xhr) {
+        error: function (xhr) {            
             // message=xhr.responseBody;
         },
         complete: function () {
@@ -131,13 +149,15 @@ function GetCurrentCall() {
     var sucess = "0";
     var CallId = "";
     var path = _SiteUrl.CallDetail;
-
+    var DispatcherCallsList = { Id: Id };
+    
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         dataType: "json",
-        data: { Id: Id },
+        data: JSON.stringify({ "DispatcherCallsList": DispatcherCallsList }),
+        contentType: "application/json; charset=utf-8",
         url: ValidateUrl,
         beforeSend: function () {
             new ezphonemessege().show({
@@ -208,12 +228,15 @@ function GetCrewCurrentCallId() {
     var sucess = "0";
     var CallId = "";
     var path = _SiteUrl.CallDetail;
+    var DispatcherCallsList = { Id: Id };
+ 
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         dataType: "json",
-        data: { Id: Id },
+        data: JSON.stringify({ "DispatcherCallsList": DispatcherCallsList }),
+        contentType: "application/json; charset=utf-8",
         url: ValidateUrl,
         beforeSend: function () {
         },
@@ -243,12 +266,14 @@ function GetLoginCrewCurrentCallId(Id) {
     var sucess = "0";
     var CallId = "";
     var path = _SiteUrl.CallDetail;
+    var DispatcherCallsList = { Id: Id };
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         dataType: "json",
-        data: { Id: Id },
+        data: JSON.stringify({ "DispatcherCallsList": DispatcherCallsList }),
+        contentType: "application/json; charset=utf-8",
         url: ValidateUrl,
         beforeSend: function () {
         },
@@ -277,13 +302,14 @@ function saveDeviceToken(ParamedicID, DeviceId, DeviceToken, DevicePlatform) {
     var jsonData = new Object();
     jsonData.Offset = (-1) * time;
     var sendJson = JSON.stringify(jsonData);
-
+    var Device={ Id: ParamedicID, DeviceId: DeviceId, DeviceToken: DeviceToken, DevicePlatform: DevicePlatform, jsonData: sendJson };
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         dataType: "json",
-        data: { Id: ParamedicID, DeviceId: DeviceId, DeviceToken: DeviceToken, DevicePlatform: DevicePlatform, jsonData: sendJson },
+        data: JSON.stringify({ "Device": Device }),
+        contentType: "application/json; charset=utf-8",
         url: ValidateUrl,
         beforeSend: function () {
         },
@@ -310,7 +336,7 @@ function X2JS() {
         CDATA_SECTION_NODE: 4,
         DOCUMENT_NODE: 9
     };
-
+    
     function getNodeLocalName(node) {
         var nodeLocalName = node.localName;
         if (nodeLocalName == null) // Yeah, this is IE!! 
@@ -628,13 +654,14 @@ function GetSupVPrimaryCrewlocation() {
     var Id = getParameterByName("Id");
     var UnitID = getParameterByName("UnitIds");
     var time = new Date().getTimezoneOffset();
-
+    var SuperVisorUnitsDetails = { Id: Id, UnitIds: UnitID, Offset: time };
     $.ajax({
         cache: false,
         type: "GET",
         async: false,
         dataType: "json",
         data: { Id: Id, UnitIds: UnitID, Offset: time },
+       // contentType: "application/json; charset=utf-8",
         url: ValidateUrl,
         beforeSend: function () {
         },
@@ -658,12 +685,14 @@ function GetSupVCallsCount() {
     var ValidateUrl = _ServicesUrl._SecondServicePath + _WcfFunctionUrl._GetSuperVisorCallsCount;
     var Id = getParameterByName("Id");
     var units = _SuperVisorUnits._CurrentSelected.toString();
+    var SupVCalls = { PId: Id, PUnits: units };
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         dataType: "json",
-        data: { PId: Id, PUnits: units },
+        data: JSON.stringify({ "SupVCalls": SupVCalls }),
+        contentType: "application/json; charset=utf-8",
         url: ValidateUrl,
         beforeSend: function () {
         },
@@ -728,7 +757,7 @@ function IsValidLatlng(lat, lng) {
     }
 }
 
-function GetmidPoint(latlng1, latlng2) {    
+function GetmidPoint(latlng1, latlng2) {
     var ltln = new Object();
     ltln.Latitude = (latlng1.Latitude + latlng2.Latitude) / 2;
     ltln.Longitude = (latlng1.Longitude + latlng2.Longitude) / 2;
@@ -741,10 +770,10 @@ function GetLocationForAddress(source, destination) {
     var exist = 0;
     var fromgeocoder = new google.maps.Geocoder();
     fromgeocoder.geocode({ 'address': source }, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {            
+        if (status == google.maps.GeocoderStatus.OK) {
             obj.Fac = source;
             obj.Latitude = results[0].geometry.location.lat();
-            obj.Longitude = results[0].geometry.location.lng();            
+            obj.Longitude = results[0].geometry.location.lng();
             $.each(FromToFacLatLng, function (i, dt) {
                 if (dt.Fac == source) {
                     exist = 1;
@@ -762,7 +791,7 @@ function GetLocationForAddress(source, destination) {
             obj = new Object();
             obj.Fac = destination;
             obj.Latitude = results[0].geometry.location.lat();
-            obj.Longitude = results[0].geometry.location.lng();            
+            obj.Longitude = results[0].geometry.location.lng();
             $.each(FromToFacLatLng, function (i, dt) {
                 if (dt.Fac == destination) {
                     exist = 1;

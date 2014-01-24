@@ -211,7 +211,8 @@ $(function () {
                         })[0].UnitId;
 
                         $('#map_canvas_2').gmap().bind('init', function () {
-                            $.getJSON(_ServicesUrl._SecondServicePath + _WcfFunctionUrl._GetPrimaryCrewLocation, { Id: Id, UnitIds: UnitId, Offset: time }, function (data) {
+                            var SuperVisorUnitsDetails = { Id: Id, UnitIds: UnitID, Offset: time };
+                            $.getJSON(_ServicesUrl._SecondServicePath + _WcfFunctionUrl._GetPrimaryCrewLocation, { Id: Id, UnitIds: UnitID, Offset: time }, function (data) {
                                 $.each(data.Data, function (i, marker) {
                                     if (marker.Latitude != "-1" && marker.Longitude != "-1") {
                                         $('#map_canvas_2').gmap('addMarker', {
@@ -328,6 +329,7 @@ $(function () {
                             sugList.html("");
                             sugList.listview("refresh");
                         } else {
+                            var Facilities = { Id: Id, Facility: text };
                             $.get(_ServicesUrl._SecondServicePath + _WcfFunctionUrl._GetFacilities, { Id: Id, Facility: text }, function (res, code) {
 
                                 var str = "";
@@ -663,7 +665,7 @@ $(function () {
                         })[0].UnitId;
                         
                         $.mobile.activePage.find('#map_canvas_2').gmap({ 'zoom': '8' }).bind('init', function () {
-                            
+                            var SuperVisorUnitsDetails = { Id: Id, UnitIds: UnitId, Offset: time, CallId: CallId };
                             $.getJSON(_ServicesUrl._SecondServicePath + _WcfFunctionUrl._GetPrimaryCrewLocation, { Id: Id, UnitIds: UnitId, Offset: time, CallId: CallId }, function (data) {
                                 
                                 $.each(data.Data, function (i, marker) {
@@ -812,9 +814,11 @@ var _SiteUrl =
 var _ServicesUrl =
 {
     _BaseServicePath: "http://50.23.221.50/EzDispatchermob/UserService/",
-    //_SecondServicePath: "http://localhost:63124/UserService/"
+    //_SecondServicePath: "http://localhost:51373/Service1.svc/"
+    _SecondServicePath: "http://50.23.221.50/EzDispatchermob/"
+    //_SecondServicePath: "http://localhost:63124/UserService1/"
     //_SecondServicePath: "http://50.23.221.50/EzDispatchermob/UserService/"
-    _SecondServicePath: "http://72.13.12.113:8080/UserService/"
+   //_SecondServicePath: "http://72.13.12.113:8080/UserService/"
 };
 /*--------------------End Services base path-----------------*/
 
@@ -940,12 +944,14 @@ function SaveCrewLoc(Id, Lat, Lnt, addr) {
 
     var ValidateUrl = _ServicesUrl._SecondServicePath + _WcfFunctionUrl._SaveCrewLocation;
     var time = new Date().getTimezoneOffset();
+    var CrewLocation={ Id: Id, Lat: Lat, Lnt: Lnt, Addr: addr, Offset: time };
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         dataType: "json",
-        data: { Id: Id, Lat: Lat, Lnt: Lnt, Addr: addr, Offset: time },
+        data: JSON.stringify({ "CrewLocation": CrewLocation }),
+        contentType: "application/json; charset=utf-8",
         url: ValidateUrl,
         beforeSend: function () {
         },
@@ -1089,29 +1095,30 @@ function refreshNavbar(el) {
 
 
 function GetSuperVisorUnits() {
-
+    
     if ($.mobile.activePage.data('mypage') != 'Index') {
         var ValidateUrl = _ServicesUrl._SecondServicePath + _WcfFunctionUrl._GetSuperVisorUnits;
         var count = 0;
         var Uhtml = '';
         var Mhtml = '';
-
+        
         $.ajax({
             cache: false,
-            type: "GET",
+            type: "POST",
             async: false,
             dataType: "json",
-            data: { Id: globalVar._SuperVisorID },
+            data: JSON.stringify({ "Id": globalVar._SuperVisorID }),
+            contentType: "application/json; charset=utf-8",
             url: ValidateUrl,
             beforeSend: function () {
             },
             success: function (result) {
-
+                
                 _SuperVisorUnits._TotalUnits = [];
                 _SuperVisorUnits._SupUnitDetails = [];
                 if (result.Data.toString() != '') {
                     globalVar._IsSuperVisor = "1";
-
+                    
                     if ($.isPlainObject(result.Data)) {
                         count++;
                         var Unit = new Object();
@@ -1136,7 +1143,7 @@ function GetSuperVisorUnits() {
                                     + '<label for="chkUnit-' + v.UnitId.trim() + '">' + v.Unit + '</label>';
                         });
                     }
-
+                    
                     if (count > 0) {
                         Mhtml = '<fieldset data-role="controlgroup"> ' + Uhtml + ' </fieldset>';
                     }
@@ -1146,9 +1153,11 @@ function GetSuperVisorUnits() {
                 }
             },
             error: function (xhr) {
+                
                 // message=xhr.responseBody;
             },
             complete: function () {
+                
                 _SuperVisorUnits._TotalSelection = Mhtml;
             }
         });
@@ -1207,6 +1216,7 @@ function GetSuperVisorUnitList() {
 function BindNecessaryFunctions() {
     CheckSuperVisor();
     runtimePopupForSupUnits('', false);
+    
     if (globalVar._IsSuperVisor == "1") {
         $.mobile.activePage.find(".SuperVisorName").text(globalVar._SuperVisorName);
     }
@@ -1292,7 +1302,7 @@ function RefreshUnitLocation() {
         //loc.Longitude = 79.088155;
         //MyCurrentLoc = [];
         //MyCurrentLoc.push(loc);
-
+        var SuperVisorUnitsDetails = { Id: Id, UnitIds: UnitId, Offset: time, CallId: CallId };
         $.getJSON(_ServicesUrl._SecondServicePath + _WcfFunctionUrl._GetPrimaryCrewLocation, { Id: Id, UnitIds: UnitId, Offset: time, CallId: CallId }, function (data) {
             
             $.each(data.Data, function (i, marker) {
