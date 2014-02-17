@@ -4,6 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ezDispatcherWebsite.PhoneGap", ".", "{DDFD7C37-DF6B-4A96-AC2A-1245971F4B46}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = ""
 		Debug.AspNetCompiler.VirtualPath = "/ezDispatcherWebsite.PhoneGap"
 		Debug.AspNetCompiler.PhysicalPath = "..\ezDispatcherWebsite.PhoneGap\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\ezDispatcherWebsite.PhoneGap\"
@@ -21,10 +22,6 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ezDispatcherWebsite.PhoneGa
 		VWDPort = "49302"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ezDispatcherWebsite.WCF.DataAccessLayer", "..\ezDispatcherWebsite.WCF.DataAccessLayer\ezDispatcherWebsite.WCF.DataAccessLayer.csproj", "{6B0F6F31-ED98-4A2B-8510-070C591B4844}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ezDispatcherWebSite.WCFService", "..\ezDispatcherWebSite.WCFService\ezDispatcherWebSite.WCFService.csproj", "{8C248DD5-DB69-4CE3-ADD4-8B078FD99B81}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,14 +32,6 @@ Global
 		{DDFD7C37-DF6B-4A96-AC2A-1245971F4B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDFD7C37-DF6B-4A96-AC2A-1245971F4B46}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{DDFD7C37-DF6B-4A96-AC2A-1245971F4B46}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{6B0F6F31-ED98-4A2B-8510-070C591B4844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6B0F6F31-ED98-4A2B-8510-070C591B4844}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6B0F6F31-ED98-4A2B-8510-070C591B4844}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6B0F6F31-ED98-4A2B-8510-070C591B4844}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8C248DD5-DB69-4CE3-ADD4-8B078FD99B81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8C248DD5-DB69-4CE3-ADD4-8B078FD99B81}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8C248DD5-DB69-4CE3-ADD4-8B078FD99B81}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8C248DD5-DB69-4CE3-ADD4-8B078FD99B81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

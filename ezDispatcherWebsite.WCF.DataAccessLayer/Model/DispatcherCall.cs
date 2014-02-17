@@ -1,10 +1,13 @@
-﻿using System;
+﻿#region Using
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#endregion
 
 namespace ezDispatcherWebsite.WCF.DataAccessLayer
 {
+    #region DispatcherCall
     public class DispatcherCall
     {
         public string FirstName { get; set; }
@@ -36,8 +39,11 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
         public string CurrentCallId { get; set; }
         public string IsComplete { get; set; }
         public string UnitStatus { get; set; }
+        public string EncryptionReq { get; set; }
     }
+    #endregion
 
+    #region DispatcherCallDetails
     public class DispatcherCallDetails
     {
         public string CallId { get; set; }
@@ -61,7 +67,9 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
         public string IsPatientInfoProvidedByCrew { get; set; }
         public TimeStamps TimeStamp { get; set; }
     }
+    #endregion
 
+    #region CallDetails
     public class CallDetails
     {
         public string CallId { get; set; }
@@ -124,7 +132,9 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
         public string OutCome { get; set; }
         public string MedicalNParam { get; set; }
     }
+    #endregion
 
+    #region TimeStamps
     public class TimeStamps
     {
         public string Assigned { get; set; }
@@ -136,7 +146,9 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
         public string Arrived { get; set; }
         public string Clear { get; set; }
     }
+    #endregion
 
+    #region CallDetailsForTimeStamp
     public class CallDetailsForTimeStamp
     {
         public string CallId { get; set; }
@@ -150,13 +162,17 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
         public List<ValueForDDL> LOTString { get; set; }
         public List<ValueForDDL> OutComeString { get; set; }
     }
+    #endregion
 
+    #region ValueForDDL
     public class ValueForDDL
     {
         public string value { get; set; }
         public string text { get; set; }
     }
+    #endregion
 
+    #region UnitDelayStatus
     public class UnitDelayStatus
     {
         public string Status { get; set; }
@@ -171,7 +187,9 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
         public string IsAllow { get; set; }
         public UnitDelayStatus1 ActUnitDelayStatus { get; set; }
     }
+    #endregion
 
+    #region DynamicFields
     public class DynamicFields
     {
         public string Status { get; set; }
@@ -187,7 +205,9 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
         public string Unit { get; set; }
         public string Trip { get; set; }
     }
+    #endregion
 
+    #region TransportDynamicFields
     public class TransportDynamicFields
     {
         public string Status { get; set; }
@@ -210,13 +230,17 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
         public List<ValueForDDL> LOTString { get; set; }
         public List<ValueForDDL> OutComeString { get; set; }
     }
+    #endregion
 
+    #region UnitDelayStatus1
     public class UnitDelayStatus1
     {
         public string IsDelay { get; set; }
         public string Status { get; set; }
     }
+    #endregion
 
+    #region DeviceDetails
     public class DeviceDetails
     {
         public string ParamedicDetailsID { get; set; }
@@ -225,7 +249,9 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
         public string DeviceId { get; set; }
         public string DevicePlatform { get; set; }
     }
+    #endregion
 
+    #region PatientAddressNoteDetails
     public class PatientAddressNoteDetails
     {
         public string ParamedicDetailsID { get; set; }
@@ -234,7 +260,9 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
         public string Trip { get; set; }
         public List<ValueForDDL> StateString { get; set; }
     }
+    #endregion
 
+    #region SuperVisorUnits
     public class SuperVisorUnits
     {
         public string SuperVisorId { get; set; }
@@ -243,7 +271,9 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
         public string Unit { get; set; }
         public string SuperVisorName { get; set; }
     }
+    #endregion
 
+    #region PrimaryCrewLocation
     public class PrimaryCrewLocation
     {
         public string Unit { get; set; }
@@ -251,7 +281,9 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
         public string Longitude { get; set; }
         public string CallId { get; set; }
     }
+    #endregion
 
+    #region SupervisorCalls
     public class SupervisorCalls
     {
         public string FirstName { get; set; }
@@ -288,4 +320,5 @@ namespace ezDispatcherWebsite.WCF.DataAccessLayer
         public string LevelResponse { get; set; }
         public string ReasonForTrans { get; set; }
     }
+    #endregion
 }

@@ -35,7 +35,19 @@ function GetCallDetails() {
             success: function (data) {
                 var result = data.Data;                
                 if (result.length > 0) {
+                    var fnsec = new fn_security();
+
                     for (i = 0; i < result.length; i++) {
+                                                
+                        if (globalVar._IsEncryptionReq == "1") {
+                            result[i].PickUpDetails = fnsec.decrypt({ value: result[i].PickUpDetails });
+                            result[i].FromAddress = fnsec.decrypt({ value: result[i].FromAddress });
+                            result[i].ToAddress = fnsec.decrypt({ value: result[i].ToAddress });
+                            result[i].ContactName = fnsec.decrypt({ value: result[i].ContactName });
+                            result[i].Contact = fnsec.decrypt({ value: result[i].Contact });
+                            result[i].Alerts = fnsec.decrypt({ value: result[i].Alerts });                            
+                        }
+
                         $("#UnitName").html('<span style="color:#ADEF6F;">' + result[i].Unit + '</span>');
                         $("#Trip").html('<span style="color:#ADEF6F;">' + result[i].Trip + '</span>');
                         $("#PickUpTime").html(result[i].PickupTime);
@@ -364,15 +376,16 @@ function SetSceneDesLocation(link) {
 
 
 function GetScene() {
-    if (navigator.notification) {
-        var scene = $(".FromAddress").text();
+    
+    if (navigator.notification) {        
+        var scene = $(".FromAddress").text();        
         switch (device.platform) {
-            case "Android": 
-                var url = 'geo:0,0?q=' + scene;
+            case "Android":                
+                var url = 'geo:0,0?q=' + scene;                                
                 window.location = url;
                 break;
             case "iOS":
-                var url = 'maps:q=' + scene;
+                var url = 'maps:q=' + scene;                
                 window.location = url;
                 break;
         }
@@ -382,7 +395,8 @@ function GetScene() {
 }
 
 function GetDestination() {
-    if (navigator.notification) {
+    
+    if (navigator.notification) {        
         var destination = $(".ToAddress").text();
         switch (device.platform) {
             case "Android":
@@ -390,7 +404,7 @@ function GetDestination() {
                 window.location = url;
                 break;
             case "iOS":
-                var url = 'maps:q=' + destination;
+                var url = 'maps:q=' + destination;                
                 window.location = url;
                 break;  
         }

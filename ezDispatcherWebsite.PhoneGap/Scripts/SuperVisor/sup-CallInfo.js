@@ -10,8 +10,7 @@ $(document).ready(function () {
 function GetSupVCallInfo() {
     var GetDataUrl = _ServicesUrl._SecondServicePath + _WcfFunctionUrl._CallInfo;
     var Id = getParameterByName("CallId");
-    var message = "";    
-    //var Page = $('[data-mypage]:visible').data('mypage');
+    var message = "";        
     var Page = $.mobile.activePage.data('mypage');
     var DispatcherCalls = { CallId: Id };
     if (Page == "sup-CallInfo") {
@@ -33,7 +32,49 @@ function GetSupVCallInfo() {
                 var result = data.Data;
 
                 if (result.length > 0) {
+                    var fnsec = new fn_security();
                     for (i = 0; i < result.length; i++) {
+
+                        if (globalVar._IsEncryptionReq == "1") {
+
+                            result[i].PLastName = fnsec.decrypt({ value: result[i].PLastName });
+                            result[i].PFirstName = fnsec.decrypt({ value: result[i].PFirstName });
+                            result[i].PDOB = fnsec.decrypt({ value: result[i].PDOB });
+                            result[i].PPhone = fnsec.decrypt({ value: result[i].PPhone });
+                            result[i].PAlerts = fnsec.decrypt({ value: result[i].PAlerts });
+                            result[i].PStreet = fnsec.decrypt({ value: result[i].PStreet });
+                            result[i].PAppartment = fnsec.decrypt({ value: result[i].PAppartment });
+                            result[i].PCity = fnsec.decrypt({ value: result[i].PCity });
+                            result[i].PState = fnsec.decrypt({ value: result[i].PState });
+                            result[i].PZip = fnsec.decrypt({ value: result[i].PZip });
+                            result[i].PickFromFacility = fnsec.decrypt({ value: result[i].PickFromFacility });
+                            result[i].PickFromPhone = fnsec.decrypt({ value: result[i].PickFromPhone });
+                            result[i].PickFromAddress = fnsec.decrypt({ value: result[i].PickFromAddress });
+                            result[i].PickFromCity = fnsec.decrypt({ value: result[i].PickFromCity });
+                            result[i].PickFromState = fnsec.decrypt({ value: result[i].PickFromState });
+                            result[i].PickFromZip = fnsec.decrypt({ value: result[i].PickFromZip });
+                            result[i].PickFromFloor = fnsec.decrypt({ value: result[i].PickFromFloor });
+                            result[i].PickFromRoom = fnsec.decrypt({ value: result[i].PickFromRoom });
+                            result[i].PickFromStairs = fnsec.decrypt({ value: result[i].PickFromStairs });
+                            result[i].PickFromObstacle = fnsec.decrypt({ value: result[i].PickFromObstacle });
+                            result[i].DropToFacility = fnsec.decrypt({ value: result[i].DropToFacility });
+                            result[i].DropToPhone = fnsec.decrypt({ value: result[i].DropToPhone });
+                            result[i].DropToAddress = fnsec.decrypt({ value: result[i].DropToAddress });
+                            result[i].DropToCity = fnsec.decrypt({ value: result[i].DropToCity });
+                            result[i].DropToState = fnsec.decrypt({ value: result[i].DropToState });
+                            result[i].DropToZip = fnsec.decrypt({ value: result[i].DropToZip });
+                            result[i].DropToFloor = fnsec.decrypt({ value: result[i].DropToFloor });
+                            result[i].DropToRoom = fnsec.decrypt({ value: result[i].DropToRoom });
+                            result[i].DropToStairs = fnsec.decrypt({ value: result[i].DropToStairs });
+                            result[i].DropToObstacle = fnsec.decrypt({ value: result[i].DropToObstacle });
+                            result[i].ReasonForTx = fnsec.decrypt({ value: result[i].ReasonForTx });
+                            result[i].AttentdentInfo = fnsec.decrypt({ value: result[i].AttentdentInfo });
+                            result[i].SpecialNeeds = fnsec.decrypt({ value: result[i].SpecialNeeds });
+                            result[i].IsO2Requierd = fnsec.decrypt({ value: result[i].IsO2Requierd });
+                            result[i].IsOver200IBS = fnsec.decrypt({ value: result[i].IsOver200IBS });
+
+                        }
+
                         $("#SpanCallInfoUnitName").html(result[i].Unit);
                         $("#SpanCallInfoTrip").html(result[i].Trip);
                         $("#PLName").html(result[i].PLastName);

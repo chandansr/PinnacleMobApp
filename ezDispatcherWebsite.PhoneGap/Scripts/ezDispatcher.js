@@ -1,4 +1,5 @@
-﻿/*------------------------- ezDispatcher js detail  ------------------------------------------------------------*/
+﻿
+/*------------------------- ezDispatcher js detail  ------------------------------------------------------------*/
 
 // Created By:-Smartdata Developer
 // Created Date:-07-02-2013
@@ -27,6 +28,7 @@ $(function () {
         });
     });
 
+    
     $(document).on('pagecreate pageinit pageshow', 'div:jqmData(role="page")', function (event) {
 
         switch (this.attributes['data-mypage'].value) {
@@ -98,7 +100,7 @@ $(function () {
                         GetDestination();
                     });
                     $(".SidePanel").panel({
-                        open: function (event, ui) {
+                        open: function (event, ui) {                            
                             $(this).find('.CloseForFocus').focus();
                         }
                     });
@@ -761,8 +763,8 @@ $(function () {
                 else if (event.type == 'pagecreate') {
                     new ezphonemessege().hide();
                 }
-                else {
-                    BindNecessaryFunctions();
+                else {                    
+                    BindNecessaryFunctions();                    
                 }
                 break;
         }
@@ -814,8 +816,9 @@ var _SiteUrl =
 var _ServicesUrl =
 {
     _BaseServicePath: "http://50.23.221.50/EzDispatchermob/UserService/",
-    //_SecondServicePath: "http://localhost:51373/Service1.svc/"
-    _SecondServicePath: "http://50.23.221.50/EzDispatchermob/"
+   //_SecondServicePath: "http://localhost:51373/Service1.svc/"
+    //_SecondServicePath: "http://50.23.221.50/EzDispatchermob/"
+    _SecondServicePath: "http://72.13.12.113:8080/"
     //_SecondServicePath: "http://localhost:63124/UserService1/"
     //_SecondServicePath: "http://50.23.221.50/EzDispatchermob/UserService/"
    //_SecondServicePath: "http://72.13.12.113:8080/UserService/"
@@ -862,7 +865,8 @@ var globalVar =
         _GmapLocation: '',
         _IsSuperVisor: '',
         _SuperVisorID: '0',
-        _SuperVisorName: ''
+        _SuperVisorName: '',
+        _IsEncryptionReq: '0'
     }
 
 var _SuperVisorUnits =
@@ -870,7 +874,8 @@ var _SuperVisorUnits =
         _CurrentSelected: [],
         _TotalUnits: [],
         _TotalSelection: '',
-        _SupUnitDetails: []
+        _SupUnitDetails: [],
+        _SupUnitSelectedString: ''
     }
 
 var MyCurrentLoc = [];
@@ -944,7 +949,7 @@ function SaveCrewLoc(Id, Lat, Lnt, addr) {
 
     var ValidateUrl = _ServicesUrl._SecondServicePath + _WcfFunctionUrl._SaveCrewLocation;
     var time = new Date().getTimezoneOffset();
-    var CrewLocation={ Id: Id, Lat: Lat, Lnt: Lnt, Addr: addr, Offset: time };
+    var CrewLocation = { Id: Id, Lat: Lat, Lnt: Lnt, Addr: addr, Offset: time };    
     $.ajax({
         cache: false,
         type: "POST",
@@ -959,7 +964,7 @@ function SaveCrewLoc(Id, Lat, Lnt, addr) {
 
             if (result.Data.toString() != '') {
 
-                if (result.Data[0].CurrentCallId != '') {
+                if (result.Data[0].CurrentCallId) {
                     if (getParameterByName("IsFirstLogin") == "1") {
                         if (result.Data[0].CallType.trim() == '[EMERGENCY CALL]') {
                             $('#CallListAlertSpan').addClass('ECallListAlert');
@@ -971,9 +976,15 @@ function SaveCrewLoc(Id, Lat, Lnt, addr) {
                             navigator.notification.beep(4);
                             navigator.notification.vibrate(6000);
                         }
+                        if (result.Data[0].EncryptionReq == 'Allowed') {
+                            globalVar._IsEncryptionReq = '1';
+                        }
                     }
                     else if ($('div:jqmData(role="page"):visible').attr('data-mypage') == 'CallList') {
                         AppendNewCallToList(result.Data[0]);
+                        if (result.Data[0].EncryptionReq == 'Allowed') {
+                            globalVar._IsEncryptionReq = '1';
+                        }
                     }
                     else if (getParameterByName("CurrentCallId") != result.Data[0].CurrentCallId) {
                         if (result.Data[0].CallType.trim() == '[EMERGENCY CALL]') {
@@ -986,12 +997,23 @@ function SaveCrewLoc(Id, Lat, Lnt, addr) {
                             navigator.notification.beep(4);
                             navigator.notification.vibrate(6000);
                         }
+                        if (result.Data[0].EncryptionReq == 'Allowed') {
+                            globalVar._IsEncryptionReq = '1';
+                        }
+                    }
+                    else if (result.Data[0].EncryptionReq == 'Allowed') {
+                        globalVar._IsEncryptionReq = '1';
+                    }
+                }
+                else {
+                    if (result.Data[0].EncryptionReq == 'Allowed') {
+                        globalVar._IsEncryptionReq = '1';
                     }
                 }
             }
         },
         error: function (xhr) {
-            // message=xhr.responseBody;
+            // message=xhr.responseBody;            
         },
         complete: function () {
         }
@@ -1095,13 +1117,13 @@ function refreshNavbar(el) {
 
 
 function GetSuperVisorUnits() {
-    
+  
     if ($.mobile.activePage.data('mypage') != 'Index') {
         var ValidateUrl = _ServicesUrl._SecondServicePath + _WcfFunctionUrl._GetSuperVisorUnits;
         var count = 0;
         var Uhtml = '';
         var Mhtml = '';
-        
+       
         $.ajax({
             cache: false,
             type: "POST",
@@ -1113,12 +1135,12 @@ function GetSuperVisorUnits() {
             beforeSend: function () {
             },
             success: function (result) {
-                
+               
                 _SuperVisorUnits._TotalUnits = [];
                 _SuperVisorUnits._SupUnitDetails = [];
                 if (result.Data.toString() != '') {
                     globalVar._IsSuperVisor = "1";
-                    
+
                     if ($.isPlainObject(result.Data)) {
                         count++;
                         var Unit = new Object();
@@ -1127,7 +1149,7 @@ function GetSuperVisorUnits() {
                         _SuperVisorUnits._SupUnitDetails.push(Unit);
                         globalVar._SuperVisorName = result.Data[0].SuperVisorName;
                         _SuperVisorUnits._TotalUnits.push(result.Data[0].UnitId);
-                        Uhtml = Uhtml + '<input type="checkbox" name="checkbox-Pick" id="chkUnit-' + result.Data[0].UnitId.trim() + '" class="custom" data-UnitId="' + result.Data[0].UnitId + '" data-UnitAssignedId="' + result.Data[0].UnitAssignedID + '" />'
+                        Uhtml = Uhtml + '<input type="checkbox" name="checkbox-Pick" id="chkUnit-' + result.Data[0].UnitId.trim() + '" class="custom" data-UnitId="' + result.Data[0].UnitId + '" data-UnitAssignedId="' + result.Data[0].UnitAssignedID + '" data-unitname="' + result.Data[0].Unit + '" />'
                                     + '<label for="chkUnit-' + result.Data[0].UnitId.trim() + '">' + result.Data[0].Unit + '</label>';
                     }
                     else {
@@ -1139,11 +1161,11 @@ function GetSuperVisorUnits() {
                             _SuperVisorUnits._SupUnitDetails.push(Unit);
                             globalVar._SuperVisorName = v.SuperVisorName;
                             _SuperVisorUnits._TotalUnits.push(v.UnitId);
-                            Uhtml = Uhtml + '<input type="checkbox" name="checkbox-Pick" id="chkUnit-' + v.UnitId.trim() + '" class="custom"  data-UnitId="' + v.UnitId + '" data-UnitAssignedId="' + v.UnitAssignedID + '"  />'
+                            Uhtml = Uhtml + '<input type="checkbox" name="checkbox-Pick" id="chkUnit-' + v.UnitId.trim() + '" class="custom"  data-UnitId="' + v.UnitId + '" data-UnitAssignedId="' + v.UnitAssignedID + '" data-unitname="' + v.Unit + '"  />'
                                     + '<label for="chkUnit-' + v.UnitId.trim() + '">' + v.Unit + '</label>';
                         });
                     }
-                    
+
                     if (count > 0) {
                         Mhtml = '<fieldset data-role="controlgroup"> ' + Uhtml + ' </fieldset>';
                     }
@@ -1153,11 +1175,9 @@ function GetSuperVisorUnits() {
                 }
             },
             error: function (xhr) {
-                
                 // message=xhr.responseBody;
             },
             complete: function () {
-                
                 _SuperVisorUnits._TotalSelection = Mhtml;
             }
         });
@@ -1167,7 +1187,7 @@ function GetSuperVisorUnits() {
 
 function runtimePopupForSupUnits(message, popupafterclose) {
     var template = "<div data-role='popup' id='popupLogin' data-theme='a' data-overlay-theme='a' class='ui-corner-all ui-content messagePopup'>"
-                   + "<form><div style='padding: 10px 20px;'> <h3 id='sv-selectedUnits'></h3>"
+                   + "<form><div> <h3 id='sv-selectedUnits' style='color:greenyellow;'>Selected Units:</h3><h4 id='sv-selectedunitdetails' style='width:250px;'></h4>"
                    + "<a href='#' data-rel='back' data-role='button' data-theme='a' data-icon='delete' data-iconpos='notext' class='ui-btn-right right' style='border-top-width: 1px; top: -35px; right: -20px;'>Close</a> <br />"
                    + "<div data-role='collapsible-set' data-theme='b' data-content-theme='c' data-collapsed-icon='arrow-r' data-expanded-icon='arrow-d'"
                    + " style='margin: 0; width: 250px;'>"
@@ -1216,16 +1236,20 @@ function GetSuperVisorUnitList() {
 function BindNecessaryFunctions() {
     CheckSuperVisor();
     runtimePopupForSupUnits('', false);
-    
     if (globalVar._IsSuperVisor == "1") {
         $.mobile.activePage.find(".SuperVisorName").text(globalVar._SuperVisorName);
     }
     $.mobile.activePage.find("#popupLogin").popup({
         afteropen: function (event, ui) {
             $('#SV-Popup-Validataion').hide();
-            for (i = 0; i < _SuperVisorUnits._CurrentSelected.length; i++) {
+            var selectedunits = '';
+            
+            for (i = 0; i < _SuperVisorUnits._CurrentSelected.length; i++) {            
                 $('#sv-AssignUnits').find('input[data-unitid="' + _SuperVisorUnits._CurrentSelected[i] + '"]').prop('checked', true).checkboxradio("refresh");
+                selectedunits = ((selectedunits == '') ? '' : selectedunits + ', ') + $('#sv-AssignUnits').find('input[data-unitid="' + _SuperVisorUnits._CurrentSelected[i] + '"]').data('unitname').toString();                
             }
+            
+            $('#sv-selectedunitdetails').text(selectedunits);
             $.mobile.activePage.find('#btnGotoUnit').width($.mobile.activePage.find('#popupLogin').find('.ui-collapsible-set').width());
         },
         afterclose: function (event, ui) {

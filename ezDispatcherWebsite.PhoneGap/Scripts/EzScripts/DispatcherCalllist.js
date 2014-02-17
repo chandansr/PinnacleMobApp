@@ -38,9 +38,23 @@ function GetCallList() {
                 if (result.length > 0) {
                     count = 1;
                     
+                    var fnsec = new fn_security();
+
                     for (i = 0; i < result.length; i++) {
                         var datatheme;
                         var NoteHistory = "";
+                        //debugger;
+                        if (globalVar._IsEncryptionReq == "1") {
+                            result[i].LastName = fnsec.decrypt({ value: result[i].LastName });
+                            result[i].FirstName = fnsec.decrypt({ value: result[i].FirstName });
+                            result[i].ContractNumber = fnsec.decrypt({ value: result[i].ContractNumber });
+                            result[i].Email = fnsec.decrypt({ value: result[i].Email });
+                            result[i].Address = fnsec.decrypt({ value: result[i].Address });
+                            result[i].FullName = fnsec.decrypt({ value: result[i].FullName });
+                            result[i].FromAddress = fnsec.decrypt({ value: result[i].FromAddress });
+                            result[i].ToAddress = fnsec.decrypt({ value: result[i].ToAddress });
+                        }
+
 
                         if (result[i].CurrentCallId == result[i].CallIntakeID) {
                             datatheme = " data-theme='f'";                            

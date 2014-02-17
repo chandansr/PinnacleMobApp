@@ -26,6 +26,12 @@ namespace ezDispatcherWebSite.WCFService
     {
         JavaScriptSerializer jsSerializer = new JavaScriptSerializer();
 
+        #region GetUserDetailsDummy
+        /// <summary>
+        /// Test Method
+        /// </summary>
+        /// <returns></returns>
+        ///         
         public UserDetails[] GetUserDetails(string Username)
         {
             List<UserDetails> tt = new List<UserDetails>();
@@ -36,6 +42,7 @@ namespace ezDispatcherWebSite.WCFService
             tt.Add(uu);
             return tt.ToArray();
         }
+        #endregion
 
 
         #region GetDispatcherCalls
@@ -44,16 +51,13 @@ namespace ezDispatcherWebSite.WCFService
         /// </summary>
         /// <returns></returns>
         ///         
+      
         public Stream GetDispatcherCalls(DispatcherCalls DispatcherCalls)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
             {
-                string CallID = DispatcherCalls.CallId;
-                if (DispatcherCalls.CallId == "")
-                {
-                    CallID = "2861";
-                }
+                string CallID = DispatcherCalls.CallId;                
                 //TraceService("GetDispatcherCalls entry at " + DateTime.Now);
                 string returnValue = string.Empty;
                 DataTable dt = new DataTable();
@@ -124,6 +128,14 @@ namespace ezDispatcherWebSite.WCFService
             return new MemoryStream(bResponse);
         }
         #endregion
+
+
+        #region ValidateCrew
+        /// <summary>
+        /// This is the method we are using for validating the crew while login to the Application.
+        /// </summary>
+        /// <returns></returns>
+        ///         
         public List<ezLogin> ValidateCrew(CrewDetails CrewDetails)
         {
             ezLogin ez = new ezLogin();
@@ -140,7 +152,8 @@ namespace ezDispatcherWebSite.WCFService
                 {
                     ez.Message = "Success";
                     ez.Response = "1";
-                    ez.Result = dt.Rows[0]["UserID"].ToString() + "," + dt.Rows[0]["LocReq"].ToString() + "," + dt.Rows[0]["IsSuperVisor"].ToString();
+                    ez.Result = dt.Rows[0]["UserID"].ToString() + "," + dt.Rows[0]["LocReq"].ToString() + "," + dt.Rows[0]["IsSuperVisor"].ToString() + "," 
+                                    + dt.Rows[0]["EncryptionAllowed"].ToString();
                 }
                 else
                 {
@@ -159,6 +172,8 @@ namespace ezDispatcherWebSite.WCFService
             lstez.Add(ez);
             return lstez;
         }
+        #endregion
+
 
         #region GetCallsDetails
         /// <summary>
@@ -288,8 +303,7 @@ namespace ezDispatcherWebSite.WCFService
         }
         #endregion
 
-
-
+        
         #region SendPassword
         /// <summary>
         /// This is the method we are using for Verifying and then sending user password through email.
@@ -413,6 +427,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for saving the current location of the Primary Crew.
         /// </summary>
         /// <returns></returns>
+      
         public Stream SaveCrewLocation(CrewLocation CrewLocation)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
@@ -423,9 +438,13 @@ namespace ezDispatcherWebSite.WCFService
                 ezDispathser clsezDispathser = new ezDispathser();
                 ds = clsezDispathser.SaveCrewCurrentLocation(Convert.ToInt32(CrewLocation.Id), CrewLocation.Lat, CrewLocation.Lnt, CrewLocation.Addr, CrewLocation.Offset);
                 List<DispatcherCall> lstcurCallr = new List<DispatcherCall>();
-                if (ds.Tables.Contains("Table1"))
+                if (ds.Tables.Contains("Table1") && ds.Tables[1].Rows.Count > 0)
                 {
                     lstcurCallr = ezDispatcherWebSite.WCFService.Common.GetJson(ds.Tables[1]);
+                }
+                else
+                {
+                    lstcurCallr = ezDispatcherWebSite.WCFService.Common.GetEncryptionDetails(ds);
                 }
                 retDict.Add("Message", "Success");
                 retDict.Add("Data", lstcurCallr);
@@ -483,8 +502,7 @@ namespace ezDispatcherWebSite.WCFService
         }
         #endregion
 
-
-
+        
         #region GetDelayStatus
         /// <summary>
         /// This is the method we are using for getting the Delay status of the unit.
@@ -520,8 +538,7 @@ namespace ezDispatcherWebSite.WCFService
         }
         #endregion
 
-
-
+        
         #region SaveGeneralTimeStampsInfo
         /// <summary>
         /// This is the method we are using for saving the Time stamp details of the user (without Milege).
@@ -847,7 +864,7 @@ namespace ezDispatcherWebSite.WCFService
         /// This is the method we are using for getting the Device details.
         /// </summary>
         /// <returns></returns>
-        public Stream GetDeviceDetails(Device Device)
+        public Stream GetDeviceDetails(string DeviceId, string DeviceType)
         {
             Dictionary<string, object> retDict = new Dictionary<string, object>();
             try
@@ -855,7 +872,7 @@ namespace ezDispatcherWebSite.WCFService
                 string returnValue = string.Empty;
                 DataSet ds = new DataSet();
                 ezDispathser clsezDispathser = new ezDispathser();
-                ds = clsezDispathser.GetDeviceDetails(Device.DeviceId, Device.DeviceType);
+                ds = clsezDispathser.GetDeviceDetails(DeviceId, DeviceType);
                 List<DeviceDetails> DeviceDetails = ezDispatcherWebSite.WCFService.Common.GetDeviceDetails(ds.Tables[0]);
 
                 retDict.Add("Message", "Success");
@@ -1096,8 +1113,7 @@ namespace ezDispatcherWebSite.WCFService
             return new MemoryStream(bResponse);
         }
         #endregion
-
-
+        
 
         #region Get Primary Crew Location
         /// <summary>
@@ -1134,5 +1150,7 @@ namespace ezDispatcherWebSite.WCFService
             return new MemoryStream(bResponse);
         }
         #endregion
+
+
     }
 }

@@ -36,14 +36,30 @@ function GetSupVCallList() {
                 var result = data.Data;
 
                 if (result.length > 0) {
-                    count = 1;                    
+                    count = 1;
+                    var fnsec = new fn_security();
                     for (i = 0; i < result.length; i++) {
 
+                        if (globalVar._IsEncryptionReq == "1") {
+                            result[i].LastName = fnsec.decrypt({ value: result[i].LastName });
+                            result[i].FirstName = fnsec.decrypt({ value: result[i].FirstName });
+                            result[i].ContractNumber = fnsec.decrypt({ value: result[i].ContractNumber });
+                            result[i].Email = fnsec.decrypt({ value: result[i].Email });
+                            result[i].Address = fnsec.decrypt({ value: result[i].Address });
+                            result[i].FullName = fnsec.decrypt({ value: result[i].FullName });
+                            result[i].FromAddress = fnsec.decrypt({ value: result[i].FromAddress });
+                            result[i].ToAddress = fnsec.decrypt({ value: result[i].ToAddress });
+                            result[i].Scene = fnsec.decrypt({ value: result[i].Scene });
+                            result[i].Destination = fnsec.decrypt({ value: result[i].Destination });
+                            result[i].ReasonForTrans = fnsec.decrypt({ value: result[i].ReasonForTrans });
+                        }                       
+                        
                         if (result[i].CallIntakeID == '-1') {
                             li = li + '<li class="liList" data-theme="f" CallId= "' + result[i].CallIntakeID + '" Date= " ' + result[i].PickupDate + ' " Unit="' + result[i].AsignUnit + '" UnitId="' + result[i].AsignUnit + '" Unitstatus="' + result[i].UnitStatus + '" IsOnline="' + result[i].LevelResponse + '" CrewLat="' + result[i].Scene + '" CrewLong="' + result[i].Destination + '">';
                             li = li + ' <a class="Call" CallId ="' + result[i].CallIntakeID + '">';
                             li = li + ' <div style="float: left;" ><h3 style="width: 100%"> ' + result[i].AsignUnit + '</h3>'
-                            li = li + '<span class="ui-li-desc">Available Since: <span id="ul-li-desc-avlsincespan">' + result[i].PickupDate + ' [' + result[i].ReturnTime + ']' + '</span> </span>'
+                            li = li + '<span class="ui-li-desc">Available Since: <span id="ul-li-desc-avlsincespan">' + ((result[i].PickupDate != "") ? result[i].PickupDate + ' [' : '')
+                            li = li + ((result[i].ReturnTime!= "")? result[i].ReturnTime + ']' : "") + '</span> </span>'
                             li = li + '<div style="clear:both"></div>';
                             li = li + '<span class="ui-li-desc">Primary Crew: <span id="ul-li-desc-avlcrewname">' + result[i].FullName + ' </span></span></div></a>';
                             li = li + '  </a></li>';

@@ -53,6 +53,7 @@ namespace ezDispatcherWebSite.WCFService
         public static List<DispatcherCall> GetJson(DataTable dt)
         {
             List<DispatcherCall> lstcurCall = new List<DispatcherCall>();
+            //var isencryption = Convert.ToBoolean(ConfigurationManager.AppSettings["patientdetailsencryption"].ToString());
 
             foreach (DataRow dr in dt.Rows)
             {
@@ -79,6 +80,19 @@ namespace ezDispatcherWebSite.WCFService
                 obj.CurrentCallId = dr.Table.Columns.Contains("CurrentCallId") ? dr["CurrentCallId"].ToString() : "";
                 obj.UnitStatus = dr.Table.Columns.Contains("UnitStatus") ? dr["UnitStatus"].ToString() : "";
                 obj.IsComplete = dr.Table.Columns.Contains("IsComplete") ? dr["IsComplete"].ToString() : "";
+                obj.EncryptionReq = dr.Table.Columns.Contains("IsEncryptionReq") ? dr["IsEncryptionReq"].ToString() : "";
+
+                if (dr["IsEncryptionReq"].ToString() == "Allowed")
+                {
+                    obj.LastName = obj.LastName == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.LastName).ToString();
+                    obj.FirstName = obj.FirstName == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.FirstName).ToString();
+                    obj.ContractNumber = obj.ContractNumber == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.ContractNumber).ToString();
+                    obj.Email = obj.Email == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.Email).ToString();
+                    obj.Address = obj.Address == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.Address).ToString();
+                    obj.FullName = obj.FullName == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.FullName).ToString();
+                    obj.FromAddress = obj.FromAddress == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.FromAddress).ToString();
+                    obj.ToAddress = obj.ToAddress == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.ToAddress).ToString();
+                }
 
                 lstcurCall.Add(obj);
             }
@@ -88,6 +102,7 @@ namespace ezDispatcherWebSite.WCFService
         public static List<DispatcherCallDetails> GetCallDetailsJson(DataTable dt)
         {
             List<DispatcherCallDetails> lstDispCall = new List<DispatcherCallDetails>();
+            //var isencryption = Convert.ToBoolean(ConfigurationManager.AppSettings["patientdetailsencryption"].ToString());
 
             foreach (DataRow dr in dt.Rows)
             {
@@ -125,6 +140,16 @@ namespace ezDispatcherWebSite.WCFService
 
                 obj.TimeStamp = objTimeStamp;
 
+                if (dr["IsEncryptionReq"].ToString() == "Allowed")
+                {
+                    obj.PickUpDetails = obj.PickUpDetails == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PickUpDetails).ToString();
+                    obj.FromAddress = obj.FromAddress == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.FromAddress).ToString();
+                    obj.ToAddress = obj.ToAddress == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.ToAddress).ToString();
+                    obj.ContactName = obj.ContactName == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.ContactName).ToString();
+                    obj.Contact = obj.Contact == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.Contact).ToString();
+                    obj.Alerts = obj.Alerts == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.Alerts).ToString();
+                }
+
                 lstDispCall.Add(obj);
             }
             return lstDispCall;
@@ -134,6 +159,7 @@ namespace ezDispatcherWebSite.WCFService
         public static List<CallDetails> GetCallFullInfoJson(DataTable dt)
         {
             List<CallDetails> lstCall = new List<CallDetails>();
+            //var isencryption = Convert.ToBoolean(ConfigurationManager.AppSettings["patientdetailsencryption"].ToString());
 
             foreach (DataRow dr in dt.Rows)
             {
@@ -198,6 +224,47 @@ namespace ezDispatcherWebSite.WCFService
                 obj.LevelOfTransport = dr.Table.Columns.Contains("LevelOfTransport") ? dr["LevelOfTransport"].ToString() : "";
                 obj.OutCome = dr.Table.Columns.Contains("OutCome") ? dr["OutCome"].ToString() : "";
                 obj.MedicalNParam = dr.Table.Columns.Contains("MedicalNParam") ? dr["MedicalNParam"].ToString() : "";
+
+
+                if (dr["IsEncryptionReq"].ToString() == "Allowed")
+                {
+                    obj.PLastName = obj.PLastName == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PLastName).ToString();
+                    obj.PFirstName = obj.PFirstName == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PFirstName).ToString();
+                    obj.PDOB = obj.PDOB == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PDOB).ToString();
+                    obj.PPhone = obj.PPhone == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PPhone).ToString();
+                    obj.PAlerts = obj.PAlerts == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PAlerts).ToString();
+                    obj.PStreet = obj.PStreet == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PStreet).ToString();
+                    obj.PAppartment = obj.PAppartment == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PAppartment).ToString();
+                    obj.PCity = obj.PCity == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PCity).ToString();
+                    obj.PState = obj.PState == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PState).ToString();
+                    obj.PZip = obj.PZip == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PZip).ToString();
+                    obj.PickFromFacility = obj.PickFromFacility == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PickFromFacility).ToString();
+                    obj.PickFromPhone = obj.PickFromPhone == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PickFromPhone).ToString();
+                    obj.PickFromAddress = obj.PickFromAddress == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PickFromAddress).ToString();
+                    obj.PickFromCity = obj.PickFromCity == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PickFromCity).ToString();
+                    obj.PickFromState = obj.PickFromState == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PickFromState).ToString();
+                    obj.PickFromZip = obj.PickFromZip == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PickFromZip).ToString();
+                    obj.PickFromFloor = obj.PickFromFloor == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PickFromFloor).ToString();
+                    obj.PickFromRoom = obj.PickFromRoom == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PickFromRoom).ToString();
+                    obj.PickFromStairs = obj.PickFromStairs == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PickFromStairs).ToString();
+                    obj.PickFromObstacle = obj.PickFromObstacle == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.PickFromObstacle).ToString();
+                    obj.DropToFacility = obj.DropToFacility == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.DropToFacility).ToString();
+                    obj.DropToPhone = obj.DropToPhone == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.DropToPhone).ToString();
+                    obj.DropToAddress = obj.DropToAddress == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.DropToAddress).ToString();
+                    obj.DropToCity = obj.DropToCity == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.DropToCity).ToString();
+                    obj.DropToState = obj.DropToState == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.DropToState).ToString();
+                    obj.DropToZip = obj.DropToZip == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.DropToZip).ToString();
+                    obj.DropToFloor = obj.DropToFloor == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.DropToFloor).ToString();
+                    obj.DropToRoom = obj.DropToRoom == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.DropToRoom).ToString();
+                    obj.DropToStairs = obj.DropToStairs == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.DropToStairs).ToString();
+                    obj.DropToObstacle = obj.DropToObstacle == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.DropToObstacle).ToString();
+                    obj.ReasonForTx = obj.ReasonForTx == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.ReasonForTx).ToString();
+                    obj.AttentdentInfo = obj.AttentdentInfo == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.AttentdentInfo).ToString();
+                    obj.SpecialNeeds = obj.SpecialNeeds == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.SpecialNeeds).ToString();
+                    obj.IsO2Requierd = obj.IsO2Requierd == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.IsO2Requierd).ToString();
+                    obj.IsOver200IBS = obj.IsOver200IBS == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.IsOver200IBS).ToString();
+                }
+
 
                 lstCall.Add(obj);
             }
@@ -572,6 +639,7 @@ namespace ezDispatcherWebSite.WCFService
         public static List<SupervisorCalls> GetSupvCallListJson(DataTable dt)
         {
             List<SupervisorCalls> lstSupvCallList = new List<SupervisorCalls>();
+            //var isencryption = Convert.ToBoolean(ConfigurationManager.AppSettings["patientdetailsencryption"].ToString());
 
             foreach (DataRow dr in dt.Rows)
             {
@@ -603,13 +671,180 @@ namespace ezDispatcherWebSite.WCFService
                 obj.LevelResponse = dr.Table.Columns.Contains("LevelResponse") ? dr["LevelResponse"].ToString() : "";
                 obj.ReasonForTrans = dr.Table.Columns.Contains("ReasonForTrans") ? dr["ReasonForTrans"].ToString() : "";
 
+                if (dr["IsEncryptionReq"].ToString() == "Allowed")
+                {
+                    obj.LastName = obj.LastName == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.LastName).ToString();
+                    obj.FirstName = obj.FirstName == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.FirstName).ToString();
+                    obj.ContractNumber = obj.ContractNumber == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.ContractNumber).ToString();
+                    obj.Email = obj.Email == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.Email).ToString();
+                    obj.Address = obj.Address == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.Address).ToString();
+                    obj.FullName = obj.FullName == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.FullName).ToString();
+                    obj.FromAddress = obj.FromAddress == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.FromAddress).ToString();
+                    obj.ToAddress = obj.ToAddress == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.ToAddress).ToString();
+                    obj.Scene = obj.Scene == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.Scene).ToString();
+                    obj.Destination = obj.Destination == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.Destination).ToString();
+                    obj.ReasonForTrans = obj.ReasonForTrans == "" ? "" : EncryptionDecryptionMethods.GetEncryptedString(obj.ReasonForTrans).ToString();
+                }
+
+
                 lstSupvCallList.Add(obj);
             }
             return lstSupvCallList;
+        }
+
+        public static List<DispatcherCall> GetEncryptionDetails(DataSet Ds)
+        {
+            List<DispatcherCall> lstdspcall = new List<DispatcherCall>();
+
+            foreach (DataRow dr in Ds.Tables[0].Rows)
+            {
+                DispatcherCall dspcall = new DispatcherCall();
+                dspcall.EncryptionReq = dr.Table.Columns.Contains("IsEncryptionReq") ? dr["IsEncryptionReq"].ToString() : "";
+                lstdspcall.Add(dspcall);
+            }
+            return lstdspcall;
         }
 
 
     }
 
 
+    public static class EncryptionDecryptionMethods
+    {
+        public static string DecryptStringAES(this string str)
+        {
+            var keybytes = Encoding.UTF8.GetBytes("9757135457251847");
+            var iv = Encoding.UTF8.GetBytes("9757135457251847");
+            var encrypted = Convert.FromBase64String(str);
+            return DecryptStringFromBytes(encrypted, keybytes, iv);
+            //return string.Format(
+            //    "roundtrip reuslt:{0}{1}Javascript result:{2}",
+            //    roundtrip,
+            //    Environment.NewLine,
+            //    decriptedFromJavascript);
+        }
+        public static byte[] GetBytes(this string str)
+        {
+            byte[] bytes = new byte[str.Length * sizeof(char)];
+            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+            return bytes;
+        }
+        public static string DecryptStringFromBytes(byte[] cipherText, byte[] key, byte[] iv)
+        {
+            // Check arguments.
+            if (cipherText == null || cipherText.Length <= 0)
+            {
+                throw new ArgumentNullException("cipherText");
+            }
+            if (key == null || key.Length <= 0)
+            {
+                throw new ArgumentNullException("key");
+            }
+            if (iv == null || iv.Length <= 0)
+            {
+                throw new ArgumentNullException("key");
+            }
+
+            // Declare the string used to hold
+            // the decrypted text.
+            string plaintext = null;
+
+            // Create an RijndaelManaged object
+            // with the specified key and IV.
+            using (var rijAlg = new RijndaelManaged())
+            {
+                //Settings
+                rijAlg.Mode = CipherMode.CBC;
+                rijAlg.Padding = PaddingMode.PKCS7;
+                rijAlg.FeedbackSize = 128;
+                rijAlg.Key = key;
+                rijAlg.IV = iv;
+
+                // Create a decrytor to perform the stream transform.
+                var decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);
+
+                // Create the streams used for decryption.
+                using (var msDecrypt = new MemoryStream(cipherText))
+                {
+                    using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (var srDecrypt = new StreamReader(csDecrypt))
+                        {
+                            // Read the decrypted bytes from the decrypting stream
+                            // and place them in a string.
+                            plaintext = srDecrypt.ReadToEnd();
+                        }
+                    }
+                }
+            }
+
+            return plaintext;
+        }
+
+        public static string GetEncryptedString(string plaintText)
+        {
+            var bytestr = EncryptStringToBytes(plaintText);
+            var returnstr = Convert.ToBase64String(bytestr.ToArray());
+            //returnstr = returnstr.Replace("/", "786");
+            return returnstr;
+        }
+
+        public static byte[] EncryptStringToBytes(string plainText)
+        {
+            byte[] key = Encoding.UTF8.GetBytes("9757135457251847");
+            byte[] iv = Encoding.UTF8.GetBytes("9757135457251847");
+            
+
+            // Check arguments.
+            if (plainText == null || plainText.Length <= 0)
+            {
+                throw new ArgumentNullException("plainText");
+            }
+            if (key == null || key.Length <= 0)
+            {
+                throw new ArgumentNullException("key");
+            }
+            if (iv == null || iv.Length <= 0)
+            {
+                throw new ArgumentNullException("key");
+            }
+            byte[] encrypted;
+            // Create a RijndaelManaged object
+            // with the specified key and IV.
+            using (var rijAlg = new RijndaelManaged())
+            {
+                rijAlg.Mode = CipherMode.CBC;
+                rijAlg.Padding = PaddingMode.PKCS7;
+                rijAlg.FeedbackSize = 128;
+
+                rijAlg.Key = key;
+                rijAlg.IV = iv;
+
+                // Create a decrytor to perform the stream transform.
+                var encryptor = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV);
+
+                // Create the streams used for encryption.
+                using (var msEncrypt = new MemoryStream())
+                {
+                    using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    {
+                        using (var swEncrypt = new StreamWriter(csEncrypt))
+                        {
+                            //Write all data to the stream.
+                            swEncrypt.Write(plainText);                            
+                        }
+                        encrypted = msEncrypt.ToArray();                                                
+                    }
+                    
+                }
+
+            }
+
+            // Return the encrypted bytes from the memory stream.
+            
+            return encrypted;
+        }
+
+       
+    }
 }

@@ -55,6 +55,10 @@ function Login(userName, password, DeviceId, DeviceType) {
     var time = new Date().getTimezoneOffset();
     var msg;
     var CrewDetails = new Object();
+
+    userName = $('#txtUserName').val();
+    password = $('#txtPassword').val();
+    
     CrewDetails = {
         Username: userName,
         Password: password,
@@ -63,6 +67,7 @@ function Login(userName, password, DeviceId, DeviceType) {
         Offset: time
     };
     
+    //alert(ValidateUrl);
     $.ajax({
         cache: false,
         type: "POST",
@@ -74,19 +79,18 @@ function Login(userName, password, DeviceId, DeviceType) {
         //url: 'UserService.svc/ValidateCrew',
         //data: JSON.stringify(CrewDetails),
         data: JSON.stringify({ "CrewDetails": CrewDetails }),
-        processData: false,    
+        processData: false,
         beforeSend: function () {
             new ezphonemessege().show({
                 msg: 'Processing.. Please wait..'
             });
         },
-        success: function (result) {
-            
+        success: function (result) {            
             msg = result[0];
-            
         },
         error: function (xhr) {
             // message=xhr.responseBody;
+            //alert(xhr.text);
         },
         complete: function () {
             new ezphonemessege().hide();
@@ -105,14 +109,14 @@ function SendPassword() {
         type: "POST",
         async: false,
         dataType: "json",
-        data: JSON.stringify({ 'EmailId': EmailId }),
+        data: JSON.stringify({ "EmailId": EmailId }),
         url: ValidateUrl,
         contentType: "application/json; charset=utf-8",
         beforeSend: function () {
             $.mobile.showPageLoadingMsg("a", "Loading...");
         },
         success: function (result) {
-            
+
             if (result.Data == "" && result.Message != "Failure") {
                 $("#divError").html("<span style='color: red'>The email id doesn't have any account in the application.</span>");
                 $("#divError").css("display", "block");
@@ -127,7 +131,7 @@ function SendPassword() {
                 $("#lnkPasswordSendConfirm").click();
             }
         },
-        error: function (xhr) {            
+        error: function (xhr) {
             // message=xhr.responseBody;
         },
         complete: function () {
@@ -150,7 +154,7 @@ function GetCurrentCall() {
     var CallId = "";
     var path = _SiteUrl.CallDetail;
     var DispatcherCallsList = { Id: Id };
-    
+
     $.ajax({
         cache: false,
         type: "POST",
@@ -195,12 +199,14 @@ function SendNotificationToDevice(DeviceId, Message, IsAndroid) {
     else {
         var ValidateUrl = _ServicesUrl._SecondServicePath + _WcfFunctionUrl._SendNotificationToiOS;
     }
+    var DispatcherCallsList = { deviceId: DeviceId, message: Message };
     $.ajax({
         cache: false,
-        type: "GET",
+        type: "POST",
         async: false,
         dataType: "json",
-        data: { deviceId: DeviceId, message: Message },
+        data: JSON.stringify({ "DispatcherCallsList": DispatcherCallsList }),
+        contentType: "application/json; charset=utf-8",
         url: ValidateUrl,
         beforeSend: function () {
             new ezphonemessege().show({
@@ -229,7 +235,7 @@ function GetCrewCurrentCallId() {
     var CallId = "";
     var path = _SiteUrl.CallDetail;
     var DispatcherCallsList = { Id: Id };
- 
+
     $.ajax({
         cache: false,
         type: "POST",
@@ -302,7 +308,7 @@ function saveDeviceToken(ParamedicID, DeviceId, DeviceToken, DevicePlatform) {
     var jsonData = new Object();
     jsonData.Offset = (-1) * time;
     var sendJson = JSON.stringify(jsonData);
-    var Device={ Id: ParamedicID, DeviceId: DeviceId, DeviceToken: DeviceToken, DevicePlatform: DevicePlatform, jsonData: sendJson };
+    var Device = { Id: ParamedicID, DeviceId: DeviceId, DeviceToken: DeviceToken, DevicePlatform: DevicePlatform, jsonData: sendJson };
     $.ajax({
         cache: false,
         type: "POST",
@@ -336,7 +342,7 @@ function X2JS() {
         CDATA_SECTION_NODE: 4,
         DOCUMENT_NODE: 9
     };
-    
+
     function getNodeLocalName(node) {
         var nodeLocalName = node.localName;
         if (nodeLocalName == null) // Yeah, this is IE!! 
@@ -661,7 +667,7 @@ function GetSupVPrimaryCrewlocation() {
         async: false,
         dataType: "json",
         data: { Id: Id, UnitIds: UnitID, Offset: time },
-       // contentType: "application/json; charset=utf-8",
+        // contentType: "application/json; charset=utf-8",
         url: ValidateUrl,
         beforeSend: function () {
         },

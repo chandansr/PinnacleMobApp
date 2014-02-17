@@ -74,12 +74,12 @@ function SavePatientAddressNotesDetails() {
             new ezphonemessege().show({
                 msg: 'Loading..'
             });
-            getPatientAddressFromLatLang(21.145799999999998, 79.088155);
-            //navigator.geolocation.getCurrentPosition(function (pos) {
-            //    var lat = pos.coords.latitude;
-            //    var lng = pos.coords.longitude;
-            //    getPatientAddressFromLatLang(lat, lng);
-            //});
+            //getPatientAddressFromLatLang(21.145799999999998, 79.088155);
+            navigator.geolocation.getCurrentPosition(function (pos) {
+                var lat = pos.coords.latitude;
+                var lng = pos.coords.longitude;
+                getPatientAddressFromLatLang(lat, lng);
+            });
         }
     }
 }
@@ -90,11 +90,11 @@ function ValidateDetails() {
         $('#txtFName').focus();
         return false;
     }
-    else if ($('#txtSSN').val() == '') {
-        showNoteAlert("Please enter SSN.", "Info");
-        $('#txtSSN').focus();
-        return false;
-    }
+    //else if ($('#txtSSN').val() == '') {
+    //    showNoteAlert("Please enter SSN.", "Info");
+    //    $('#txtSSN').focus();
+    //    return false;
+    //}
     else if ($('#txtCity').val() == '') {
         showNoteAlert("Please enter City Name.", "Info");
         $('#txtCity').focus();
@@ -160,7 +160,7 @@ function SaveFullPatientAddressNotesDetails(lat, lng, addr) {
     jsondata.LastName = $('#txtLName').val();
     jsondata.DOB = $('#txtDOB').val();
     jsondata.Gender = $('#flpGender').val() == 'M'? 'Male' : 'Female';
-    jsondata.SSN = $('#txtSSN').val();
+    //jsondata.SSN = $('#txtSSN').val();
     jsondata.PatientWeight = $('#txtPatientWeight').val();
     jsondata.PatientHeight = $('#txtPatientHeight').val();
     jsondata.Street = $('#txtStreet').val();
@@ -318,17 +318,17 @@ function getPatientAddressFromLatLang(lat, lng) {
     
     var geocoder = new google.maps.Geocoder();
     var latLng = new google.maps.LatLng(lat, lng);
-    SaveFullPatientAddressNotesDetails(21.145799999999998, 79.088155, '');
-    //geocoder.geocode({ 'latLng': latLng }, function (results, status) {
-    //    if (status == google.maps.GeocoderStatus.OK) {
+    //SaveFullPatientAddressNotesDetails(21.145799999999998, 79.088155, '');
+    geocoder.geocode({ 'latLng': latLng }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
             
-    //        if (results[1]) {
-    //            SaveFullPatientAddressNotesDetails(lat, lng, results[1].formatted_address);
-    //        }
-    //    } else {            
-    //        SaveFullPatientAddressNotesDetails(lat, lng, '');
-    //    }
-    //});
+            if (results[1]) {
+                SaveFullPatientAddressNotesDetails(lat, lng, results[1].formatted_address);
+            }
+        } else {            
+            SaveFullPatientAddressNotesDetails(lat, lng, '');
+        }
+    });
 }
 
 
